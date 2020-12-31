@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@section('title', __('HRD BatuBeling | Dashboard'))
+@section('title', __('pages.title').__(' | Dashboard'))
 @section('titleContent', __('Dashboard'))
 @section('breadcrumb', __('Tanggal ').date('d-M-Y'))
 
@@ -24,7 +24,7 @@
                     <h4>{{ __('Total Karyawan') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $karyawan }}
+                    {{ __('0') }}
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <h4>{{ __('Karyawan Aktif') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $aktif }}
+                    {{ __('0') }}
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                     <h4>{{ __('Karyawan Pasif') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $pasif }}
+                    {{ __('0') }}
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
                     <h4>{{ __('Jumlah Pelamar') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $pelamar }}
+                    {{ __('0') }}
                 </div>
             </div>
         </div>

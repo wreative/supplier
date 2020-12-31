@@ -8,9 +8,9 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">{{ __('Dashboard') }}</li>
-            <li class="{{ Request::route()->getName() == 'home' ? 'active' : '' }}">
-                <a href="{{ route('home') }}" class="nav-link"><i
-                        class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
+            {{-- <li class="{{ Request::route()->getName() == 'home' ? 'active' : '' }}">
+            <a href="{{ route('home') }}" class="nav-link"><i
+                    class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Master') }}</li>
             <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
@@ -53,7 +53,7 @@
             <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('employeesReport') }}"><i class="fas fa-file-invoice-dollar"></i>
                     <span>{{ __('Gaji') }}</span></a>
-            </li>
+            </li> --}}
         </ul>
     </aside>
 </div>
