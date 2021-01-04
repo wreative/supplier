@@ -15,7 +15,6 @@ class CreateTransaction extends Migration
     {
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->foreignId('items_id');
             $table->bigInteger('total');
             $table->string('code');

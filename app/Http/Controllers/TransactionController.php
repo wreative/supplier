@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Items;
 use App\Models\Units;
-use Illuminate\Support\Facades\DB;
 
-class ItemsController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -27,14 +27,15 @@ class ItemsController extends Controller
     public function index()
     {
         $items = Items::with('relationUnits')->get();
-        return view('pages.master.barang.barang', ['items' => $items]);
+        return view('pages.transaksi.transaksi', ['items' => $items]);
     }
 
     public function create()
     {
-        $code = "I" . $this->getRandom();
+        $code = "TS-" . $this->getRandom();
         $units = Units::all();
-        return view('pages.master.barang.createBarang', ['code' => $code, 'units' => $units]);
+        $items = Items::all();
+        return view('pages.transaksi.createTransaksi', ['code' => $code, 'units' => $units, 'items' => $items]);
     }
 
     public function store(Request $req)
@@ -97,7 +98,7 @@ class ItemsController extends Controller
     {
         do {
             $random = rand(00001, 99999);
-            $check = DB::table('items')
+            $check = DB::table('transaction')
                 ->select('code')
                 ->having('code', '=', $random)
                 ->first();

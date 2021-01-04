@@ -19,7 +19,6 @@ class Transaction extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name',
         'items_id',
         'total',
         'code',

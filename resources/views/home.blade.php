@@ -21,7 +21,7 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Total Items') }}</h4>
+                    <h4>{{ __('Total Barang') }}</h4>
                 </div>
                 <div class="card-body">
                     {{ $items }}
@@ -36,7 +36,7 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Total Stock') }}</h4>
+                    <h4>{{ __('Total Stok') }}</h4>
                 </div>
                 <div class="card-body">
                     {{ $stock }}
@@ -51,7 +51,7 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Stock Masuk') }}</h4>
+                    <h4>{{ __('Stok Masuk') }}</h4>
                 </div>
                 <div class="card-body">
                     {{ __('0') }}
@@ -66,7 +66,7 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Stock Keluar') }}</h4>
+                    <h4>{{ __('Stok Keluar') }}</h4>
                 </div>
                 <div class="card-body">
                     {{ __('0') }}

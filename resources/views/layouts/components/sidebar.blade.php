@@ -21,8 +21,8 @@
                 <a class="nav-link" href="{{ route('masterUnits') }}"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
-                <a class="nav-link" href="#"><i class="fas fa-exchange-alt"></i>
+            <li class="{{ Request::route()->getName() == 'masterTransaction' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterTransaction') }}"><i class="fas fa-exchange-alt"></i>
                     <span>{{ __('Transaksi') }}</span></a>
             </li>
             {{--@if (Auth::user()->previleges == "Administrator")
