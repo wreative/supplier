@@ -19,6 +19,7 @@ class CreateItems extends Migration
             $table->foreignId('unit_id');
             $table->bigInteger('stock');
             $table->string('code');
+            $table->string('info')->nullable();
         });
     }
 

@@ -16,11 +16,13 @@ class CreateTransaction extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('unit_id');
+            $table->foreignId('items_id');
             $table->bigInteger('total');
             $table->string('code');
             $table->dateTime('tgl');
             $table->enum('type', ['Keluar', 'Masuk']);
+            $table->foreignId('unit_id');
+            $table->string('info')->nullable();
         });
     }
 

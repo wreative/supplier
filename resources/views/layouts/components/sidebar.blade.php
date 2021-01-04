@@ -13,18 +13,17 @@
                         class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Master') }}</li>
-            <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
-                <a class="nav-link" href="#"><i class="fas fa-boxes"></i>
+            <li class="{{ Request::route()->getName() == 'masterItems' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterItems') }}"><i class="fas fa-boxes"></i>
                     <span>{{ __('Barang') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
                 <a class="nav-link" href="#"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
-            <li class="menu-header">{{ __('Transaksi') }}</li>
             <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
                 <a class="nav-link" href="#"><i class="fas fa-exchange-alt"></i>
-                    <span>{{ __('Tambah') }}</span></a>
+                    <span>{{ __('Transaksi') }}</span></a>
             </li>
             {{--@if (Auth::user()->previleges == "Administrator")
             <li class="{{ Request::route()->getName() == 'masterUser' ? 'active' : '' }}">
