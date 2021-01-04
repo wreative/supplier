@@ -1,10 +1,10 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Tambah Barang'))
-@section('titleContent', __('Tambah Barang'))
+@section('title', __('pages.title').__(' | Edit Barang'))
+@section('titleContent', __('Edit Barang'))
 @section('breadcrumb', __('Master'))
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Barang') }}</div>
-<div class="breadcrumb-item active">{{ __('Tambah Barang') }}</div>
+<div class="breadcrumb-item active">{{ __('Edit Barang') }}</div>
 @endsection
 
 @section('content')
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
+            <button class="btn btn-primary mr-1" type="submit">{{ __('Edit') }}</button>
         </div>
     </form>
 </div>

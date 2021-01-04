@@ -34,7 +34,7 @@ class ItemsController extends Controller
     {
         $items = DB::table('items')->count();
         //TODO:Duplicate Code
-        $code = "I" . str_pad($items, 5, '0', STR_PAD_LEFT);
+        $code = "I" . $this->getRandom();
         $units = Units::all();
         return view('pages.master.barang.createBarang', ['code' => $code, 'units' => $units]);
     }
@@ -93,5 +93,17 @@ class ItemsController extends Controller
         // Saved Datas
         $items->save();
         return redirect()->route('masterItems');
+    }
+
+    public function getRandom()
+    {
+        do {
+            $random = rand(00001, 99999);
+            $check = DB::table('items')
+                ->select('code')
+                ->having('code', '=', $random)
+                ->first();
+        } while ($check != null);
+        return $random;
     }
 }

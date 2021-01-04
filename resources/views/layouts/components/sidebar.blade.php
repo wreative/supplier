@@ -17,8 +17,8 @@
                 <a class="nav-link" href="{{ route('masterItems') }}"><i class="fas fa-boxes"></i>
                     <span>{{ __('Barang') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
-                <a class="nav-link" href="#"><i class="fas fa-tags"></i>
+            <li class="{{ Request::route()->getName() == 'masterUnits' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterUnits') }}"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">

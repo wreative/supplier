@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Items;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $items = DB::table('items')->count();
+        $stock = Items::sum('stock');
+        return view('home', ['items' => $items, 'stock' => $stock]);
     }
 }

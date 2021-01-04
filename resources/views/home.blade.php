@@ -24,7 +24,7 @@
                     <h4>{{ __('Total Items') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ __('0') }}
+                    {{ $items }}
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <h4>{{ __('Total Stock') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ __('0') }}
+                    {{ $stock }}
                 </div>
             </div>
         </div>

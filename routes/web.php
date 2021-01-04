@@ -34,15 +34,15 @@ Route::put('/items/update/{id}', [App\Http\Controllers\ItemsController::class, '
 Route::get('/items/delete/{id}', [App\Http\Controllers\ItemsController::class, 'delete']);
 
 // Units
-Route::get('/employees', [App\Http\Controllers\UnitsController::class, 'index'])
-    ->name('masterEmployees');
-Route::get('/employees/create', [App\Http\Controllers\UnitsController::class, 'create'])
-    ->name('createEmployees');
-Route::post('/employees/store', [App\Http\Controllers\UnitsController::class, 'store'])
-    ->name('storeEmployees');
-Route::get('/employees/edit/{id}', [App\Http\Controllers\UnitsController::class, 'edit']);
-Route::put('/employees/update/{id}', [App\Http\Controllers\UnitsController::class, 'update']);
-Route::get('/employees/info/{id}', [App\Http\Controllers\UnitsController::class, 'info']);
+Route::get('/units', [App\Http\Controllers\UnitsController::class, 'index'])
+    ->name('masterUnits');
+Route::get('/units/create', [App\Http\Controllers\UnitsController::class, 'create'])
+    ->name('createUnits');
+Route::post('/units/store', [App\Http\Controllers\UnitsController::class, 'store'])
+    ->name('storeUnits');
+Route::get('/units/edit/{id}', [App\Http\Controllers\UnitsController::class, 'edit']);
+Route::put('/units/update/{id}', [App\Http\Controllers\UnitsController::class, 'update']);
+Route::get('/units/delete/{id}', [App\Http\Controllers\UnitsController::class, 'delete']);
 
 // Transaction
 Route::get('/employees', [App\Http\Controllers\EmployeesController::class, 'index'])
