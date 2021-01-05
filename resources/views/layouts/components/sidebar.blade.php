@@ -21,25 +21,20 @@
                 <a class="nav-link" href="{{ route('masterUnits') }}"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'masterTransaction' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('masterTransaction') }}"><i class="fas fa-exchange-alt"></i>
-                    <span>{{ __('Transaksi') }}</span></a>
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'masterTransaction' ? 'active' : (
+                Request::route()->getName() == 'masterTransaction' ? 'active':'') }}">
+                <a class="nav-link has-dropdown" href="javascript:void(0)">
+                    <i class="fas fa-exchange-alt"></i><span>{{ __('Transaksi') }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::route()->getName() == 'masterTransaction' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('masterTransaction') }}">{{ __('Pembelian') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'masterTransaction' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('masterTransaction') }}">{{ __('Penjualan') }}</a>
+                    </li>
+                </ul>
             </li>
-            {{--@if (Auth::user()->previleges == "Administrator")
-            <li class="{{ Request::route()->getName() == 'masterUser' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('masterUser') }}"><i class="fas fa-user"></i>
-                <span>{{ __('User') }}</span></a>
-            </li>
-            @endif
-            <li class="menu-header">{{ __('Laporan') }}</li>
-            <li class="{{ Request::route()->getName() == 'employeesReport' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('employeesReport') }}"><i class="fas fa-file-alt"></i>
-                    <span>{{ __('Karyawan') }}</span></a>
-            </li>
-            <li class="{{ Request::route()->getName() == 'masterEmployees' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('employeesReport') }}"><i class="fas fa-file-invoice-dollar"></i>
-                    <span>{{ __('Gaji') }}</span></a>
-            </li> --}}
         </ul>
     </aside>
 </div>
