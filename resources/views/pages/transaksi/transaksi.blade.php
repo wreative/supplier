@@ -13,7 +13,7 @@
             <i class="far fa-edit"></i>{{ __(' Tambah Transaksi') }}</a>
     </div>
     <div class="card-body">
-        <table class="table-striped table" id="karyawan" width="100%">
+        <table class="table-striped table" id="transaction" width="100%">
             <thead>
                 <tr>
                     <th class="text-center">
@@ -65,5 +65,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/karyawan/karyawan.js') }}"></script>
+<script src="{{ asset('pages/transaction/transaction.js') }}"></script>
 @endsection
