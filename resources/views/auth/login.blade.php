@@ -1,5 +1,5 @@
 @extends('layouts.auth')
-@section('title', __('HRD BatuBeling | Masuk'))
+@section('title', __('pages.title').__(' | Masuk'))
 @section('titleContent', __('Masuk'))
 
 @section('content')
@@ -34,8 +34,5 @@
             {{ __('Masuk') }}
         </button>
     </div>
-    {{-- <div class="mt-5 text-muted text-center">
-        {{ __('Tidak punya akun?') }} <a href="{{ url('/register') }}">{{ __('Buat Akun') }}</a>
-    </div> --}}
 </form>
 @endsection

@@ -26,26 +26,35 @@
                     <th>{{ __('Tipe Transaksi') }}</th>
                     <th>{{ __('Satuan') }}</th>
                     <th>{{ __('Keterangan') }}</th>
+                    <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($items as $number => $u)
+                @foreach($transaction as $number => $t)
                 <tr>
                     <td class="text-center">
                         {{ $number+1 }}
                     </td>
-                    <td>{{ $u->name }}</td>
-                    <td>{{ $u->name }}</td>
-                    <td>{{ $u->name }}</td>
-                    <td>{{ $u->name }}</td>
-                    <td>{{ $u->name }}</td>
+                    <td>{{ $t->code }}</td>
+                    <td>{{ $t->relationItems->name }}</td>
+                    <td>{{ $t->total }}</td>
+                    <td>{{ date("d-M-Y", strtotime($t->tgl)) }}</td>
+                    <td>{{ $t->type }}</td>
+                    <td>{{ $t->relationUnits->name }}</td>
                     <td>
-                        <a href="/transaction/edit/{{ $u->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
+                        @if ($t->info != null)
+                        {{ $t->info }}
+                        @else
+                        {{ __('Kosong') }}
+                        @endif
+                    </td>
+                    <td>
+                        <a href="/transaction/edit/{{ $t->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                         <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
                             title="Delete"
                             data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/transaction/delete/{{ $u->id }}','_self')"><i
+                            data-confirm-yes="window.open('/transaction/delete/{{ $t->id }}','_self')"><i
                                 class="fas fa-trash"></i></a>
                     </td>
                 </tr>

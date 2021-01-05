@@ -24,17 +24,17 @@ class Transaction extends Model
         'code',
         'tgl',
         'type',
-        'items_id',
+        'unit_id',
         'info'
     ];
 
     public function relationItems()
     {
-        return $this->belongsTo('App\Models\Items', 'id', 'items_id');
+        return $this->belongsTo('App\Models\Items', 'items_id', 'id');
     }
 
     public function relationUnits()
     {
-        return $this->belongsTo('App\Models\Units', 'id', 'unit_id');
+        return $this->belongsTo('App\Models\Units', 'unit_id', 'id');
     }
 }

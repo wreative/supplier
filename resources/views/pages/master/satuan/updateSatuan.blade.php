@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="card">
-    <form method="POST" action="/units/update/{{ $units->id }}">
+    <form method="POST" action="/transaction/update/{{ $units->id }}">
         @csrf
         @method('PUT')
         <div class="card-body">

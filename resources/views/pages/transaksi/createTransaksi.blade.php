@@ -18,10 +18,23 @@
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
             <div class="form-group">
-                <label>{{ __('Stok') }}<code>*</code></label>
-                <input type="text" class="form-control @error('stock') is-invalid @enderror" name="stock" required
+                <label>{{ __('Total') }}<code>*</code></label>
+                <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" required
                     autofocus>
-                @error('stock')
+                @error('total')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>{{ __('Units') }}<code>*</code></label>
+                <select class="custom-select @error('units') is-invalid @enderror" name="units" required>
+                    @foreach ($units as $u)
+                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                    @endforeach
+                </select>
+                @error('units')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
@@ -55,17 +68,21 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Units') }}<code>*</code></label>
-                <select class="custom-select @error('units') is-invalid @enderror" name="units" required>
-                    @foreach ($units as $u)
-                    <option value="{{ $u->id }}">{{ $u->name }}</option>
-                    @endforeach
-                </select>
-                @error('units')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
+                <label>{{ __('Tanggal') }}<code>*</code></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="far fa-calendar"></i>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control datepicker @error('tgl') is-invalid @enderror" name="tgl"
+                        required>
+                    @error('tgl')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
+                </div>
             </div>
             <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>

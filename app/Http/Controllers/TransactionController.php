@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Items;
 use App\Models\Units;
+use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
@@ -26,8 +27,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $items = Items::with('relationUnits')->get();
-        return view('pages.transaksi.transaksi', ['items' => $items]);
+        $transaction = Transaction::with('relationItems', 'relationUnits')->get();
+        return view('pages.transaksi.transaksi', ['transaction' => $transaction]);
     }
 
     public function create()
@@ -42,56 +43,71 @@ class TransactionController extends Controller
     {
         $this->validate($req, [
             'code' => 'required',
-            'name' => 'required',
-            'stock' => 'required|numeric|integer|min:1',
+            'total' => 'required|numeric|integer|min:1',
             'units' => 'required',
+            'items' => 'required',
+            'type' => 'required',
+            'tgl' => 'required|date'
         ]);
 
-        Items::create([
-            'name' => $req->name,
-            'unit_id' => $req->units,
-            'stock' => $req->stock,
+        $this->calculateStock($req->items, $req->units, $req->type, $req->total);
+
+        $items = Items::find($req->items);
+        $units = Items::find($req->units);
+
+        Transaction::create([
+            'items_id' => $items->id,
+            'total' => $req->total,
             'code' => $req->code,
+            'tgl' => $req->tgl,
+            'type' => $req->type,
+            'unit_id' => $units->id,
             'info' => $req->info
         ]);
 
-        return redirect()->route('masterItems');
+        return redirect()->route('masterTransaction');
     }
 
     public function delete($id)
     {
-        $items = Items::find($id);
-        $items->delete();
-        return redirect()->route('masterItems');
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+        return redirect()->route('masterTransaction');
     }
 
     public function edit($id)
     {
-        $items = Items::with('relationUnits')->find($id);
+        $transaction = Transaction::find($id);
         $units = Units::all();
-        return view('pages.master.barang.updateBarang', ['items' => $items, 'units' => $units]);
+        $items = Items::all();
+        return view('pages.transaksi.updateTransaksi', ['items' => $items, 'units' => $units, 'transaction' => $transaction]);
     }
 
     public function update($id, Request $req)
     {
         $this->validate($req, [
             'code' => 'required',
-            'name' => 'required',
-            'stock' => 'required|numeric|integer|min:1',
+            'total' => 'required|numeric|integer|min:1',
             'units' => 'required',
+            'items' => 'required',
+            'type' => 'required',
+            'tgl' => 'required|date'
         ]);
 
-        $items = Items::find($id);
+        $transaction = Transaction::find($id);
 
         // Stored Items
-        $items->name = $req->name;
-        $items->stock = $req->stock;
-        $items->unit_id = $req->units;
-        $items->info = $req->info;
+        $transaction->code = $req->code;
+        $transaction->total = $req->total;
+        $transaction->unit_id = $req->units;
+        $transaction->items_id = $req->items;
+        $transaction->tgl = $req->tgl;
+        $transaction->type = $req->type;
+        $transaction->info = $req->info;
 
         // Saved Datas
-        $items->save();
-        return redirect()->route('masterItems');
+        $transaction->save();
+        return redirect()->route('masterTransaction');
     }
 
     public function getRandom()
@@ -104,5 +120,18 @@ class TransactionController extends Controller
                 ->first();
         } while ($check != null);
         return $random;
+    }
+
+    public function calculateStock($items, $units, $type, $total)
+    {
+        $items = Items::find($items);
+        $units = Items::find($units);
+
+        $totalItems = $type == 'Keluar' ?
+            $items->stock - $total :
+            $items->stock + $total;
+
+        $items->stock = $totalItems;
+        $items->save();
     }
 }
