@@ -26,6 +26,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    //TODO:PR Sale
     public function indexPurchase()
     {
         $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
@@ -68,13 +69,15 @@ class TransactionController extends Controller
             'tgl' => 'required|date'
         ]);
 
-        $a = 100000;
-        $b = $a * 1.1;
-        $c = $a + $req->price * 100;
-        $d = $a | $b + $req->profit;
-        dd($b);
+        //TODO:PR RUMUS
+        $exclude = $req->price_inc / 1.2;
+        $include = $req->price_exc + 10 / 100;
+        $profit = $include + $req->price * 100;
+        $price = $exclude | $include + $req->profit;
 
-        $this->calculateStock($req->items, $req->units, $req->type, $req->total);
+        $count = DB::table('transaction')->select('id')->orderByDesc('id')->limit('1')->first()->id + 1;
+
+        $this->calculateStock($req->items, $req->units, 'Pembelian', $req->total);
 
         $items = Items::find($req->items);
         $units = Items::find($req->units);
@@ -84,9 +87,17 @@ class TransactionController extends Controller
             'total' => $req->total,
             'code' => $req->code,
             'tgl' => $req->tgl,
-            'type' => $req->type,
             'unit_id' => $units->id,
-            'info' => $req->info
+            'info' => $req->info,
+            'p_id' => $count,
+        ]);
+
+        Purchase::create([
+            'id' => $count,
+            'price_inc' => 'sadas',
+            'price_exc' => 'asd',
+            'profit' => 'asd',
+            'price' => 'asd'
         ]);
 
         return redirect()->route('masterTransaction');
@@ -124,9 +135,9 @@ class TransactionController extends Controller
     public function deletePurchase($id)
     {
         $transaction = Transaction::find($id);
-        $purchase = Purchase::find($id);
-        $transaction->delete();
+        $purchase = Purchase::find($transaction->p_id);
         $purchase->delete();
+        $transaction->delete();
         return redirect()->route('masterPurchase');
     }
 
@@ -160,23 +171,33 @@ class TransactionController extends Controller
             'total' => 'required|numeric|integer|min:1',
             'units' => 'required',
             'items' => 'required',
-            'type' => 'required',
+            'price_inc' => 'numeric',
+            'price_exc' => 'numeric',
+            'profit' => 'numeric|max:100',
+            'price' => 'numeric',
             'tgl' => 'required|date'
         ]);
 
         $transaction = Transaction::find($id);
+        $purchase = Purchase::find($transaction->p_id);
 
-        // Stored Items
-        $transaction->code = $req->code;
-        $transaction->total = $req->total;
-        $transaction->unit_id = $req->units;
+        // Stored Items Transaction   
         $transaction->items_id = $req->items;
+        $transaction->total = $req->total;
+        $transaction->code = $req->code;
         $transaction->tgl = $req->tgl;
-        $transaction->type = $req->type;
+        $transaction->unit_id = $req->units;
         $transaction->info = $req->info;
+
+        // Stored Items Purchase
+        $purchase->price_inc = 'dsa';
+        $purchase->price_exc = 'sad';
+        $purchase->profit = 'ads';
+        $purchase->price = 'asd';
 
         // Saved Datas
         $transaction->save();
+        $purchase->save();
         return redirect()->route('masterTransaction');
     }
 
@@ -224,11 +245,32 @@ class TransactionController extends Controller
         $items = Items::find($items);
         $units = Items::find($units);
 
-        $totalItems = $type == 'Keluar' ?
+        $totalItems = $type == 'Penjualan' ?
             $items->stock - $total :
             $items->stock + $total;
 
         $items->stock = $totalItems;
         $items->save();
+    }
+
+    public function removeComma($number)
+    {
+        return str_replace(',', '', $number);
+    }
+
+    public function checkInclude()
+    {
+    }
+
+    public function checkExclude()
+    {
+    }
+
+    public function checkProfit()
+    {
+    }
+
+    public function checkPrice()
+    {
     }
 }

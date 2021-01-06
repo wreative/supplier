@@ -19,6 +19,7 @@ class Purchase extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'price_inc',
         'price_exc',
         'profit',

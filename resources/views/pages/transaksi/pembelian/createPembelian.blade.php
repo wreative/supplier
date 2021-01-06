@@ -66,6 +66,10 @@
                     </div>
                     <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
                         type="text" name="price_inc">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkInclude()">{{ __('Ambil Data') }}</button>
+                    </div>
                 </div>
                 @error('price_inc')
                 <span class="text-danger" role="alert">
@@ -83,6 +87,10 @@
                     </div>
                     <input class="form-control currency @error('price_exc') is-invalid @enderror" type="text"
                         name="price_exc" id="price_exc">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkExclude()">{{ __('Ambil Data') }}</button>
+                    </div>
                 </div>
                 @error('price_exc')
                 <span class="text-danger" role="alert">
@@ -99,6 +107,10 @@
                         <div class="input-group-text">
                             {{ __('%') }}
                         </div>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkProfit()">{{ __('Ambil Data') }}</button>
                     </div>
                 </div>
                 @error('profit')
@@ -117,6 +129,10 @@
                     </div>
                     <input class="form-control currency @error('price') is-invalid @enderror" type="text" name="price"
                         id="price">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkPrice(lpppp)">{{ __('Ambil Data') }}</button>
+                    </div>
                 </div>
                 @error('price')
                 <span class="text-danger" role="alert">
