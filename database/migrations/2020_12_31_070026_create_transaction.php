@@ -19,9 +19,9 @@ class CreateTransaction extends Migration
             $table->bigInteger('total');
             $table->string('code');
             $table->dateTime('tgl');
-            $table->enum('type', ['Keluar', 'Masuk']);
             $table->foreignId('unit_id');
             $table->string('info')->nullable();
+            $table->foreignId('p_id');
         });
     }
 

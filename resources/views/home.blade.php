@@ -39,7 +39,7 @@
                     <h4>{{ __('Total Stok') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ $stock }}
+                    {{ number_format($stock) }}
                 </div>
             </div>
         </div>

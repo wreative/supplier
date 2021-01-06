@@ -23,9 +23,9 @@ class Transaction extends Model
         'total',
         'code',
         'tgl',
-        'type',
         'unit_id',
-        'info'
+        'info',
+        'p_id'
     ];
 
     public function relationItems()
@@ -36,5 +36,10 @@ class Transaction extends Model
     public function relationUnits()
     {
         return $this->belongsTo('App\Models\Units', 'unit_id', 'id');
+    }
+
+    public function relationPurchase()
+    {
+        return $this->belongsTo('App\Models\Purchase', 'p_id', 'id');
     }
 }

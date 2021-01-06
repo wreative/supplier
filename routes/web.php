@@ -45,12 +45,15 @@ Route::put('/units/update/{id}', [App\Http\Controllers\UnitsController::class, '
 Route::get('/units/delete/{id}', [App\Http\Controllers\UnitsController::class, 'delete']);
 
 // Transaction
-Route::get('/transaction', [App\Http\Controllers\TransactionController::class, 'index'])
-    ->name('masterTransaction');
-Route::get('/transaction/create', [App\Http\Controllers\TransactionController::class, 'create'])
-    ->name('createTransaction');
-Route::post('/transaction/store', [App\Http\Controllers\TransactionController::class, 'store'])
-    ->name('storeTransaction');
-Route::get('/transaction/edit/{id}', [App\Http\Controllers\TransactionController::class, 'edit']);
-Route::put('/transaction/update/{id}', [App\Http\Controllers\TransactionController::class, 'update']);
-Route::get('/transaction/delete/{id}', [App\Http\Controllers\TransactionController::class, 'delete']);
+
+// Purchase
+Route::get('/purchase', [App\Http\Controllers\TransactionController::class, 'indexPurchase'])
+    ->name('masterPurchase');
+Route::get('/purchase/create', [App\Http\Controllers\TransactionController::class, 'createPurchase'])
+    ->name('createPurchase');
+Route::post('/purchase/store', [App\Http\Controllers\TransactionController::class, 'storePurchase'])
+    ->name('storePurchase');
+Route::get('/purchase/edit/{id}', [App\Http\Controllers\TransactionController::class, 'editPurchase']);
+Route::put('/purchase/update/{id}', [App\Http\Controllers\TransactionController::class, 'updatePurchase']);
+Route::get('/purchase/delete/{id}', [App\Http\Controllers\TransactionController::class, 'deletePurchase']);
+//Sales

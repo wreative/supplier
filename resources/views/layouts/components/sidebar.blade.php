@@ -21,17 +21,17 @@
                 <a class="nav-link" href="{{ route('masterUnits') }}"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
-            <li class="nav-item dropdown {{ Request::route()->getName() == 'masterTransaction' ? 'active' : (
-                Request::route()->getName() == 'masterTransaction' ? 'active':'') }}">
+            <li class="nav-item dropdown {{ Request::route()->getName() == 'masterPurchase' ? 'active' : (
+                Request::route()->getName() == 'masterPurchase' ? 'active':'') }}">
                 <a class="nav-link has-dropdown" href="javascript:void(0)">
                     <i class="fas fa-exchange-alt"></i><span>{{ __('Transaksi') }}</span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::route()->getName() == 'masterTransaction' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('masterTransaction') }}">{{ __('Pembelian') }}</a>
+                    <li class="{{ Request::route()->getName() == 'masterPurchase' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('masterPurchase') }}">{{ __('Pembelian') }}</a>
                     </li>
-                    <li class="{{ Request::route()->getName() == 'masterTransaction' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('masterTransaction') }}">{{ __('Penjualan') }}</a>
+                    <li class="{{ Request::route()->getName() == 'masterPurchase' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('masterPurchase') }}">{{ __('Penjualan') }}</a>
                     </li>
                 </ul>
             </li>
