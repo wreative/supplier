@@ -101,16 +101,12 @@
             <div class="form-group">
                 <label>{{ __('Keuntungan') }}</label>
                 <div class="input-group">
-                    <input class="form-control @error('profit') is-invalid @enderror" type="text" name="profit"
+                    <input class="form-control currency @error('profit') is-invalid @enderror" type="text" name="profit"
                         id="profit" max="100">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('%') }}
                         </div>
-                    </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"
-                            onclick="checkProfit()">{{ __('Ambil Data') }}</button>
                     </div>
                 </div>
                 @error('profit')
@@ -120,7 +116,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Harga') }}</label>
+                <label>{{ __('Harga Jual') }}</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -131,7 +127,7 @@
                         id="price">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button"
-                            onclick="checkPrice(lpppp)">{{ __('Ambil Data') }}</button>
+                            onclick="checkPrice()">{{ __('Ambil Data') }}</button>
                     </div>
                 </div>
                 @error('price')

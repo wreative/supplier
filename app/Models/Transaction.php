@@ -25,7 +25,8 @@ class Transaction extends Model
         'tgl',
         'unit_id',
         'info',
-        'p_id'
+        'p_id',
+        's_id'
     ];
 
     public function relationItems()

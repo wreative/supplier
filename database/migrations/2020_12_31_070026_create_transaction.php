@@ -21,7 +21,8 @@ class CreateTransaction extends Migration
             $table->dateTime('tgl');
             $table->foreignId('unit_id');
             $table->string('info')->nullable();
-            $table->foreignId('p_id');
+            $table->foreignId('p_id')->nullable();
+            $table->foreignId('s_id')->nullable();
         });
     }
 

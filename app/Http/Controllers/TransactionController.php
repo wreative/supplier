@@ -27,13 +27,8 @@ class TransactionController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     //TODO:PR Sale
+    // TODO: Purchase
     public function indexPurchase()
-    {
-        $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
-        return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
-    }
-
-    public function indexSales()
     {
         $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
         return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
@@ -42,14 +37,6 @@ class TransactionController extends Controller
     public function createPurchase()
     {
         $code = "TSP-" . $this->getRandom();
-        $units = Units::all();
-        $items = Items::all();
-        return view('pages.transaksi.pembelian.createPembelian', ['code' => $code, 'units' => $units, 'items' => $items]);
-    }
-
-    public function createSales()
-    {
-        $code = "TSS-" . $this->getRandom();
         $units = Units::all();
         $items = Items::all();
         return view('pages.transaksi.pembelian.createPembelian', ['code' => $code, 'units' => $units, 'items' => $items]);
@@ -103,35 +90,6 @@ class TransactionController extends Controller
         return redirect()->route('masterTransaction');
     }
 
-    public function storeSales(Request $req)
-    {
-        $this->validate($req, [
-            'code' => 'required',
-            'total' => 'required|numeric|integer|min:1',
-            'units' => 'required',
-            'items' => 'required',
-            'type' => 'required',
-            'tgl' => 'required|date'
-        ]);
-
-        $this->calculateStock($req->items, $req->units, $req->type, $req->total);
-
-        $items = Items::find($req->items);
-        $units = Items::find($req->units);
-
-        Transaction::create([
-            'items_id' => $items->id,
-            'total' => $req->total,
-            'code' => $req->code,
-            'tgl' => $req->tgl,
-            'type' => $req->type,
-            'unit_id' => $units->id,
-            'info' => $req->info
-        ]);
-
-        return redirect()->route('masterTransaction');
-    }
-
     public function deletePurchase($id)
     {
         $transaction = Transaction::find($id);
@@ -141,27 +99,12 @@ class TransactionController extends Controller
         return redirect()->route('masterPurchase');
     }
 
-    public function deleteSales($id)
-    {
-        $transaction = Transaction::find($id);
-        $transaction->delete();
-        return redirect()->route('masterTransaction');
-    }
-
     public function editPurchase($id)
     {
         $transaction = Transaction::find($id);
         $units = Units::all();
         $items = Items::all();
         return view('pages.transaksi.pembelian.updatePembelian', ['items' => $items, 'units' => $units, 'transaction' => $transaction]);
-    }
-
-    public function editSales($id)
-    {
-        $transaction = Transaction::find($id);
-        $units = Units::all();
-        $items = Items::all();
-        return view('pages.transaksi.updateTransaksi', ['items' => $items, 'units' => $units, 'transaction' => $transaction]);
     }
 
     public function updatePurchase($id, Request $req)
@@ -199,6 +142,65 @@ class TransactionController extends Controller
         $transaction->save();
         $purchase->save();
         return redirect()->route('masterTransaction');
+    }
+
+    //TODO: Sale
+    public function indexSales()
+    {
+        $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
+        return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
+    }
+
+    public function createSales()
+    {
+        $code = "TSS-" . $this->getRandom();
+        $units = Units::all();
+        $items = Items::all();
+        return view('pages.transaksi.pembelian.createPembelian', ['code' => $code, 'units' => $units, 'items' => $items]);
+    }
+
+    public function storeSales(Request $req)
+    {
+        $this->validate($req, [
+            'code' => 'required',
+            'total' => 'required|numeric|integer|min:1',
+            'units' => 'required',
+            'items' => 'required',
+            'type' => 'required',
+            'tgl' => 'required|date'
+        ]);
+
+        $this->calculateStock($req->items, $req->units, $req->type, $req->total);
+
+        $items = Items::find($req->items);
+        $units = Items::find($req->units);
+
+        Transaction::create([
+            'items_id' => $items->id,
+            'total' => $req->total,
+            'code' => $req->code,
+            'tgl' => $req->tgl,
+            'type' => $req->type,
+            'unit_id' => $units->id,
+            'info' => $req->info
+        ]);
+
+        return redirect()->route('masterTransaction');
+    }
+
+    public function deleteSales($id)
+    {
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+        return redirect()->route('masterTransaction');
+    }
+
+    public function editSales($id)
+    {
+        $transaction = Transaction::find($id);
+        $units = Units::all();
+        $items = Items::all();
+        return view('pages.transaksi.updateTransaksi', ['items' => $items, 'units' => $units, 'transaction' => $transaction]);
     }
 
     public function updateSales($id, Request $req)
