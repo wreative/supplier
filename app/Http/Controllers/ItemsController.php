@@ -32,7 +32,7 @@ class ItemsController extends Controller
 
     public function create()
     {
-        $code = "I" . $this->getRandom();
+        $code = "I" . str_pad($this->getRandom(), 5, '0', STR_PAD_LEFT);
         $units = Units::all();
         return view('pages.master.barang.createBarang', ['code' => $code, 'units' => $units]);
     }
