@@ -44,6 +44,28 @@ Route::get('/units/edit/{id}', [App\Http\Controllers\UnitsController::class, 'ed
 Route::put('/units/update/{id}', [App\Http\Controllers\UnitsController::class, 'update']);
 Route::get('/units/delete/{id}', [App\Http\Controllers\UnitsController::class, 'delete']);
 
+// Customer
+Route::get('/customer', [App\Http\Controllers\CustomerController::class, 'index'])
+    ->name('masterCustomer');
+Route::get('/customer/create', [App\Http\Controllers\CustomerController::class, 'create'])
+    ->name('createCustomer');
+Route::post('/customer/store', [App\Http\Controllers\CustomerController::class, 'store'])
+    ->name('storeCustomer');
+Route::get('/customer/edit/{id}', [App\Http\Controllers\CustomerController::class, 'edit']);
+Route::put('/customer/update/{id}', [App\Http\Controllers\CustomerController::class, 'update']);
+Route::get('/customer/delete/{id}', [App\Http\Controllers\CustomerController::class, 'delete']);
+
+// Supplier
+Route::get('/supplier', [App\Http\Controllers\SupplierController::class, 'index'])
+    ->name('masterSupplier');
+Route::get('/supplier/create', [App\Http\Controllers\SupplierController::class, 'create'])
+    ->name('createSupplier');
+Route::post('/supplier/store', [App\Http\Controllers\SupplierController::class, 'store'])
+    ->name('storeSupplier');
+Route::get('/supplier/edit/{id}', [App\Http\Controllers\SupplierController::class, 'edit']);
+Route::put('/supplier/update/{id}', [App\Http\Controllers\SupplierController::class, 'update']);
+Route::get('/supplier/delete/{id}', [App\Http\Controllers\SupplierController::class, 'delete']);
+
 // Transaction
 
 // Purchase
