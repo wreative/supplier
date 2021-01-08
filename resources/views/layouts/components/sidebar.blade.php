@@ -21,6 +21,14 @@
                 <a class="nav-link" href="{{ route('masterUnits') }}"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
+            <li class="{{ Request::route()->getName() == 'masterCustomer' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterCustomer') }}"><i class="fas fa-users"></i>
+                    <span>{{ __('Customers') }}</span></a>
+            </li>
+            <li class="{{ Request::route()->getName() == 'masterSupplier' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterSupplier') }}"><i class="fas fa-people-carry"></i>
+                    <span>{{ __('Supplier') }}</span></a>
+            </li>
             <li class="nav-item dropdown {{ Request::route()->getName() == 'masterPurchase' ? 'active' : (
                 Request::route()->getName() == 'masterPurchase' ? 'active':'') }}">
                 <a class="nav-link has-dropdown" href="javascript:void(0)">

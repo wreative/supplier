@@ -19,6 +19,7 @@ class CustomerDetail extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'email',
         'fax',
         'no_rek',
