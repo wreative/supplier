@@ -1,27 +1,27 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Edit Customer'))
-@section('titleContent', __('Edit Customer'))
+@section('title', __('pages.title').__(' | Edit Supplier'))
+@section('titleContent', __('Edit Supplier'))
 @section('breadcrumb', __('Master'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Customer') }}</div>
-<div class="breadcrumb-item active">{{ __('Edit Customer') }}</div>
+<div class="breadcrumb-item active">{{ __('Supplier') }}</div>
+<div class="breadcrumb-item active">{{ __('Edit Supplier') }}</div>
 @endsection
 
 @section('content')
-<h2 class="section-title">{{ $customer->code }}</h2>
+<h2 class="section-title">{{ $supplier->code }}</h2>
 <p class="section-lead">
     {{ __('ID yang digunakan untuk mengidentifikasi setiap customer.') }}
 </p>
 <div class="card">
-    <form method="POST" action="/customer/update/{{ $customer->id }}">
+    <form method="POST" action="/supplier/update/{{ $supplier->id }}">
         @csrf
         @method('PUT')
-        <input type="hidden" name="code" value="{{ $customer->code }}">
+        <input type="hidden" name="code" value="{{ $supplier->code }}">
         <div class="card-body">
             <div class="form-group">
                 <label>{{ __('Nama') }}<code>*</code></label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror"
-                    value="{{ $customer->name }}" name="name" required autofocus>
+                    value="{{ $supplier->name }}" name="name" required autofocus>
                 @error('name')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -31,7 +31,7 @@
             <div class="form-group">
                 <label>{{ __('No Telepon') }}<code>*</code></label>
                 <input type="text" class="form-control tlp @error('tlp') is-invalid @enderror" name="tlp"
-                    value="{{ $customer->tlp }}" required>
+                    value="{{ $supplier->tlp }}" required>
                 @error('tlp')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label>{{ __('Email') }}</label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                    value="{{ $customer->email }}">
+                    value="{{ $supplier->relationDetail->email }}">
                 @error('email')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -51,7 +51,7 @@
             <div class="form-group">
                 <label>{{ __('Fax') }}</label>
                 <input type="text" class="form-control @error('fax') is-invalid @enderror" name="fax"
-                    value="{{ $customer->fax }}">
+                    value="{{ $supplier->relationDetail->fax }}">
                 @error('fax')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -61,7 +61,7 @@
             <div class="form-group">
                 <label>{{ __('NPWP') }}</label>
                 <input type="text" class="form-control @error('npwp') is-invalid @enderror" name="npwp"
-                    value="{{ $customer->npwp }}">
+                    value="{{ $supplier->relationDetail->npwp }}">
                 @error('npwp')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                    rows="10" style="height: 77px;">{{ $customer->info }}</textarea>
+                    rows="10" style="height: 77px;">{{ $supplier->relationDetail->info }}</textarea>
                 @error('info')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -82,7 +82,7 @@
             <div class="form-group">
                 <label>{{ __('Kota') }}<code>*</code></label>
                 <input type="text" class="form-control @error('city') is-invalid @enderror" name="city"
-                    value="{{ json_decode($customer->address)[0]}}" required>
+                    value="{{ json_decode($supplier->address)[0]}}" required>
                 @error('city')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -92,7 +92,7 @@
             <div class="form-group">
                 <label>{{ __('Provinsi') }}<code>*</code></label>
                 <input type="text" class="form-control @error('province') is-invalid @enderror" name="province"
-                    value="{{ json_decode($customer->address)[1] }}" required>
+                    value="{{ json_decode($supplier->address)[1] }}" required>
                 @error('province')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -102,7 +102,7 @@
             <div class="form-group">
                 <label>{{ __('Kode POS') }}<code>*</code></label>
                 <input type="text" class="form-control @error('pos') is-invalid @enderror" name="pos"
-                    value="{{ json_decode($customer->address)[2] }}" required>
+                    value="{{ json_decode($supplier->address)[2] }}" required>
                 @error('pos')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -113,7 +113,7 @@
             <div class="form-group">
                 <label>{{ __('No Rekening') }}</label>
                 <input type="text" class="form-control @error('no_rek') is-invalid @enderror" name="no_rek"
-                    value="{{ $customer->no_rek }}">
+                    value="{{ $supplier->relationDetail->no_rek }}">
                 @error('no_rek')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -123,7 +123,7 @@
             <div class="form-group">
                 <label>{{ __('Nama Rekening') }}</label>
                 <input type="text" class="form-control @error('name_rek') is-invalid @enderror" name="name_rek"
-                    value="{{ $customer->name_rek }}">
+                    value="{{ $supplier->relationDetail->name_rek }}">
                 @error('name_rek')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -133,8 +133,30 @@
             <div class="form-group">
                 <label>{{ __('Bank') }}</label>
                 <input type="text" class="form-control @error('bank') is-invalid @enderror" name="bank"
-                    value="{{ $customer->bank }}">
+                    value="{{ $supplier->relationDetail->bank }}">
                 @error('bank')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <h2 class="section-title">{{ __('Sales') }}</h2>
+            <div class="form-group">
+                <label>{{ __('Nama Sales') }}</label>
+                <input type="text" class="form-control @error('sales_name') is-invalid @enderror" name="sales_name"
+                    value="@isset($supplier->relationDetail->sales){{ json_decode($supplier->relationDetail->sales)[0] }}@endisset">
+                @error('sales_name')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            {{ $supplier->sales }}
+            <div class="form-group">
+                <label>{{ __('Telepon Sales') }}</label>
+                <input type="text" class="form-control tlp @error('sales_tlp') is-invalid @enderror" name="sales_tlp"
+                    value="@isset($supplier->relationDetail->sales){{ json_decode($supplier->relationDetail->sales)[1] }}@endisset">
+                @error('sales_tlp')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
@@ -148,5 +170,5 @@
 </div>
 @endsection
 @section('script')
-@include('pages.master.customer.components.script')
+@include('pages.master.supplier.components.script')
 @endsection

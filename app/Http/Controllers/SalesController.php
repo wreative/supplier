@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\PublicController;
-use App\Models\Supplier;
-use App\Models\SupplierDetail;
+use App\Models\Sales;
 
-class SupplierController extends Controller
+class SalesController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -27,8 +25,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $supplier = Supplier::with('relationDetail')->get();
-        return view('pages.master.supplier.supplier', ['supplier' => $supplier]);
+        $sales = Sales::all();
+        return view('pages.master.sales.sales', ['sales' => $sales]);
     }
 
     public function create()

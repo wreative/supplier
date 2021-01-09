@@ -66,6 +66,17 @@ Route::get('/supplier/edit/{id}', [App\Http\Controllers\SupplierController::clas
 Route::put('/supplier/update/{id}', [App\Http\Controllers\SupplierController::class, 'update']);
 Route::get('/supplier/delete/{id}', [App\Http\Controllers\SupplierController::class, 'delete']);
 
+// Sales
+Route::get('/sales', [App\Http\Controllers\SalesController::class, 'index'])
+    ->name('masterSales');
+Route::get('/sales/create', [App\Http\Controllers\SalesController::class, 'create'])
+    ->name('createSales');
+Route::post('/sales/store', [App\Http\Controllers\SalesController::class, 'store'])
+    ->name('storeSales');
+Route::get('/sales/edit/{id}', [App\Http\Controllers\SalesController::class, 'edit']);
+Route::put('/sales/update/{id}', [App\Http\Controllers\SalesController::class, 'update']);
+Route::get('/sales/delete/{id}', [App\Http\Controllers\SalesController::class, 'delete']);
+
 // Transaction
 
 // Purchase

@@ -29,6 +29,10 @@
                 <a class="nav-link" href="{{ route('masterSupplier') }}"><i class="fas fa-people-carry"></i>
                     <span>{{ __('Supplier') }}</span></a>
             </li>
+            <li class="{{ Request::route()->getName() == 'masterSales' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterSales') }}"><i class="fas fa-hands-helping"></i>
+                    <span>{{ __('Sales') }}</span></a>
+            </li>
             <li class="nav-item dropdown {{ Request::route()->getName() == 'masterPurchase' ? 'active' : (
                 Request::route()->getName() == 'masterPurchase' ? 'active':'') }}">
                 <a class="nav-link has-dropdown" href="javascript:void(0)">

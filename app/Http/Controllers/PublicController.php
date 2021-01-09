@@ -39,6 +39,12 @@ class PublicController extends Controller
         return json_encode($array);
     }
 
+    public function createJSON2($name, $tlp)
+    {
+        $array = array($name, $tlp);
+        return json_encode($array);
+    }
+
     public function countID($table)
     {
         return DB::table($table)->count() == 0 ?

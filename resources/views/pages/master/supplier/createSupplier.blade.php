@@ -130,6 +130,25 @@
                 </span>
                 @enderror
             </div>
+            <h2 class="section-title">{{ __('Sales') }}</h2>
+            <div class="form-group">
+                <label>{{ __('Nama Sales') }}</label>
+                <input type="text" class="form-control @error('sales_name') is-invalid @enderror" name="sales_name">
+                @error('sales_name')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>{{ __('Telepon Sales') }}</label>
+                <input type="text" class="form-control tlp @error('sales_tlp') is-invalid @enderror" name="sales_tlp">
+                @error('sales_tlp')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
         </div>
         <div class="card-footer text-right">
             <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
@@ -138,5 +157,5 @@
 </div>
 @endsection
 @section('script')
-@include('pages.master.customer.components.script')
+@include('pages.master.supplier.components.script')
 @endsection
