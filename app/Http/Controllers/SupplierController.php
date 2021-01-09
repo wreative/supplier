@@ -33,7 +33,7 @@ class SupplierController extends Controller
 
     public function create()
     {
-        $code = "SU-" . str_pad($this->PublicController->getRandom('customer'), 5, '0', STR_PAD_LEFT);
+        $code = "SU-" . str_pad($this->PublicController->getRandom('supplier'), 5, '0', STR_PAD_LEFT);
         $supplier = Supplier::all();
         return view('pages.master.supplier.createSupplier', ['code' => $code, 'supplier' => $supplier]);
     }
@@ -93,6 +93,7 @@ class SupplierController extends Controller
     public function update($id, Request $req)
     {
         $this->validate($req, [
+            'code' => 'required',
             'name' => 'required',
             'tlp' => 'required',
             'city' => 'required',
@@ -103,14 +104,13 @@ class SupplierController extends Controller
         $supplier = Supplier::find($id);
         $supplierDetail = SupplierDetail::find($supplier->detail_id);
 
-        // Stored Customer
+        // Stored Supplier
         $supplier->code = $req->code;
         $supplier->name = $req->name;
-        $supplier->code = $req->code;
         $supplier->address = $this->PublicController->createJSON($req->city, $req->province, $req->pos);
         $supplier->tlp = $req->tlp;
 
-        // Stored Customer Detail
+        // Stored Supplier Detail
         $supplierDetail->email = $req->email;
         $supplierDetail->fax = $req->fax;
         $supplierDetail->sales = $this->PublicController->createJSON2($req->sales_name, $req->sales_tlp);

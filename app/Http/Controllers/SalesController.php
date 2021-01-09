@@ -31,9 +31,9 @@ class SalesController extends Controller
 
     public function create()
     {
-        $code = "SU-" . str_pad($this->PublicController->getRandom('customer'), 5, '0', STR_PAD_LEFT);
-        $supplier = Supplier::all();
-        return view('pages.master.supplier.createSupplier', ['code' => $code, 'supplier' => $supplier]);
+        $code = "SA-" . str_pad($this->PublicController->getRandom('sales'), 5, '0', STR_PAD_LEFT);
+        $sales = Sales::all();
+        return view('pages.master.sales.createSales', ['code' => $code, 'sales' => $sales]);
     }
 
     public function store(Request $req)
@@ -42,85 +42,48 @@ class SalesController extends Controller
             'code' => 'required',
             'name' => 'required',
             'tlp' => 'required',
-            'city' => 'required',
-            'province' => 'required',
-            'pos' => 'required'
         ]);
 
-        $count = $this->PublicController->countID('supplier');
-
-        Supplier::create([
+        Sales::create([
             'name' => $req->name,
             'code' => $req->code,
-            'address' => $this->PublicController->createJSON($req->city, $req->province, $req->pos),
             'tlp' => $req->tlp,
-            'detail_id' => $count
         ]);
 
-        SupplierDetail::create([
-            'id' => $count,
-            'email' => $req->email,
-            'fax' => $req->fax,
-            'sales' => $this->PublicController->createJSON2($req->sales_name, $req->sales_tlp),
-            'no_rek' => $req->no_rek,
-            'name_rek' => $req->name_rek,
-            'bank' => $req->bank,
-            'npwp' => $req->npwp,
-            'info' => $req->info
-        ]);
-
-        return redirect()->route('masterSupplier');
+        return redirect()->route('masterSales');
     }
 
     public function delete($id)
     {
-        $supplier = Supplier::find($id);
-        $supplierDetail = SupplierDetail::find($supplier->detail_id);
+        $sales = Sales::find($id);
 
-        $supplier->delete();
-        $supplierDetail->delete();
-        return redirect()->route('masterSupplier');
+        $sales->delete();
+        return redirect()->route('masterSales');
     }
 
     public function edit($id)
     {
-        $supplier = Supplier::with('relationDetail')->find($id);
-        return view('pages.master.supplier.updateSupplier', ['supplier' => $supplier]);
+        $sales = Sales::find($id);
+        return view('pages.master.sales.updateSales', ['sales' => $sales]);
     }
 
     public function update($id, Request $req)
     {
         $this->validate($req, [
+            'code' => 'required',
             'name' => 'required',
             'tlp' => 'required',
-            'city' => 'required',
-            'province' => 'required',
-            'pos' => 'required'
         ]);
 
-        $supplier = Supplier::find($id);
-        $supplierDetail = SupplierDetail::find($supplier->detail_id);
+        $sales = Sales::find($id);
 
-        // Stored Customer
-        $supplier->code = $req->code;
-        $supplier->name = $req->name;
-        $supplier->code = $req->code;
-        $supplier->address = $this->PublicController->createJSON($req->city, $req->province, $req->pos);
-        $supplier->tlp = $req->tlp;
-
-        // Stored Customer Detail
-        $supplierDetail->email = $req->email;
-        $supplierDetail->fax = $req->fax;
-        $supplierDetail->sales = $this->PublicController->createJSON2($req->sales_name, $req->sales_tlp);
-        $supplierDetail->no_rek = $req->no_rek;
-        $supplierDetail->name_rek = $req->name_rek;
-        $supplierDetail->bank = $req->bank;
-        $supplierDetail->npwp = $req->npwp;
-        $supplierDetail->info = $req->info;
+        // Stored Sales
+        $sales->code = $req->code;
+        $sales->name = $req->name;
+        $sales->tlp = $req->tlp;
 
         // Saved Datas
-        $supplier->save();
-        $supplierDetail->save();
+        $sales->save();
         return redirect()->route('masterSupplier');
     }
 }

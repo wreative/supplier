@@ -44,5 +44,5 @@
 </div>
 @endsection
 @section('script')
-@include('pages.master.supplier.components.script')
+<script src="{{ asset('pages/sales/changes.js') }}"></script>
 @endsection

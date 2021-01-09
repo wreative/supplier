@@ -10,7 +10,7 @@
 @section('content')
 <h2 class="section-title">{{ $supplier->code }}</h2>
 <p class="section-lead">
-    {{ __('ID yang digunakan untuk mengidentifikasi setiap customer.') }}
+    {{ __('ID yang digunakan untuk mengidentifikasi setiap supplier.') }}
 </p>
 <div class="card">
     <form method="POST" action="/supplier/update/{{ $supplier->id }}">
