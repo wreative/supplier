@@ -17,7 +17,7 @@ class CreateDSupplier extends Migration
             $table->id();
             $table->string('email')->nullable();
             $table->string('fax')->nullable();
-            $table->json('sales');
+            $table->json('sales')->nullable();
             $table->string('no_rek')->nullable();
             $table->string('name_rek')->nullable();
             $table->string('bank')->nullable();

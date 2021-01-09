@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
 use App\Models\CustomerDetail;
 use App\Http\Controllers\PublicController;
@@ -50,10 +49,6 @@ class CustomerController extends Controller
             'pos' => 'required'
         ]);
 
-        // $array = json_encode(array($req->city, $req->province, $req->pos));
-        // $test = json_decode($array);
-        // dd($test[4]);
-
         $count = $this->PublicController->countID('customer');
 
         Customer::create([
@@ -97,22 +92,35 @@ class CustomerController extends Controller
     public function update($id, Request $req)
     {
         $this->validate($req, [
-            'code' => 'required',
             'name' => 'required',
-            'stock' => 'required|numeric|integer|min:1',
-            'units' => 'required',
+            'tlp' => 'required',
+            'city' => 'required',
+            'province' => 'required',
+            'pos' => 'required'
         ]);
 
-        $items = Items::find($id);
+        $customer = Customer::find($id);
+        $customerDetail = CustomerDetail::find($customer->detail_id);
 
-        // Stored Items
-        $items->name = $req->name;
-        $items->stock = $req->stock;
-        $items->unit_id = $req->units;
-        $items->info = $req->info;
+        // Stored Customer
+        $customer->code = $req->code;
+        $customer->name = $req->name;
+        $customer->code = $req->code;
+        $customer->address = $this->PublicController->createJSON($req->city, $req->province, $req->pos);
+        $customer->tlp = $req->tlp;
+
+        // Stored Customer Detail
+        $customerDetail->email = $req->email;
+        $customerDetail->fax = $req->fax;
+        $customerDetail->no_rek = $req->no_rek;
+        $customerDetail->name_rek = $req->name_rek;
+        $customerDetail->bank = $req->bank;
+        $customerDetail->npwp = $req->npwp;
+        $customerDetail->info = $req->info;
 
         // Saved Datas
-        $items->save();
-        return redirect()->route('masterItems');
+        $customer->save();
+        $customerDetail->save();
+        return redirect()->route('masterCustomer');
     }
 }

@@ -19,6 +19,7 @@ class SupplierDetail extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'email',
         'fax',
         'sales',

@@ -138,5 +138,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/karyawan/createKaryawan.js') }}"></script>
+@include('pages.master.customer.components.script')
 @endsection

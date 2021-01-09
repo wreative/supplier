@@ -74,7 +74,6 @@ class ItemsController extends Controller
     public function update($id, Request $req)
     {
         $this->validate($req, [
-            'code' => 'required',
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
