@@ -23,11 +23,17 @@ class Customer extends Model
         'code',
         'address',
         'tlp',
-        'detail_id'
+        'detail_id',
+        'sales_id'
     ];
 
     public function relationDetail()
     {
         return $this->belongsTo('App\Models\CustomerDetail', 'detail_id', 'id');
+    }
+
+    public function relationSales()
+    {
+        return $this->belongsTo('App\Models\Sales', 'sales_id', 'id');
     }
 }

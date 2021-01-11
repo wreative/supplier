@@ -17,7 +17,6 @@ class CreateDCustomer extends Migration
             $table->id();
             $table->string('email')->nullable();
             $table->string('fax')->nullable();
-            $table->foreignId('sales');
             $table->string('no_rek')->nullable();
             $table->string('name_rek')->nullable();
             $table->string('bank')->nullable();

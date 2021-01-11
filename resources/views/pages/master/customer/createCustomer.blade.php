@@ -73,6 +73,21 @@
                 </span>
                 @enderror
             </div>
+            <div class="form-group">
+                <label>{{ __('Sales') }}<code>*</code></label>
+                <select class="form-control select2 @error('sales') is-invalid @enderror" name="sales">
+                    @foreach ($sales as $s)
+                    <option value="{{ $s->id }}">
+                        {{ $s->name." - ".$s->code }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('sales')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
             <h2 class="section-title">{{ __('Alamat') }}</h2>
             <div class="form-group">
                 <label>{{ __('Kota') }}<code>*</code></label>
@@ -138,5 +153,5 @@
 </div>
 @endsection
 @section('script')
-@include('pages.master.customer.components.script')
+<script src="{{ asset('pages/customer/changes.js') }}"></script>
 @endsection

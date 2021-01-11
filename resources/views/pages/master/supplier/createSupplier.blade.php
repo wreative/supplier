@@ -157,5 +157,5 @@
 </div>
 @endsection
 @section('script')
-@include('pages.master.supplier.components.script')
+<script src="{{ asset('pages/supplier/changes.js') }}"></script>
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\CustomerDetail;
 use App\Http\Controllers\PublicController;
+use App\Models\Sales;
 
 class CustomerController extends Controller
 {
@@ -27,7 +28,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = Customer::with('relationDetail')->get();
+        $customer = Customer::with('relationDetail', 'relationSales')->get();
         return view('pages.master.customer.customer', ['customer' => $customer]);
     }
 
@@ -35,7 +36,8 @@ class CustomerController extends Controller
     {
         $code = "C-" . str_pad($this->PublicController->getRandom('customer'), 5, '0', STR_PAD_LEFT);
         $customer = Customer::all();
-        return view('pages.master.customer.createCustomer', ['code' => $code, 'customer' => $customer]);
+        $sales = Sales::all();
+        return view('pages.master.customer.createCustomer', ['code' => $code, 'customer' => $customer, 'sales' => $sales]);
     }
 
     public function store(Request $req)
@@ -56,7 +58,8 @@ class CustomerController extends Controller
             'code' => $req->code,
             'address' => $this->PublicController->createJSON($req->city, $req->province, $req->pos),
             'tlp' => $req->tlp,
-            'detail_id' => $count
+            'detail_id' => $count,
+            'sales_id' => $req->sales
         ]);
 
         CustomerDetail::create([
@@ -108,6 +111,7 @@ class CustomerController extends Controller
         $customer->code = $req->code;
         $customer->address = $this->PublicController->createJSON($req->city, $req->province, $req->pos);
         $customer->tlp = $req->tlp;
+        $customer->sales_id = $req->sales;
 
         // Stored Customer Detail
         $customerDetail->email = $req->email;

@@ -1,1 +1,0 @@
-<script src="{{ asset('pages/customer/changes.js') }}"></script>

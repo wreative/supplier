@@ -29,6 +29,7 @@
                     <th>{{ __('Bank') }}</th>
                     <th>{{ __('NPWP') }}</th>
                     <th>{{ __('Info') }}</th>
+                    <th>{{ __('Kode Sales') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
@@ -58,6 +59,7 @@
                         {{ __('Kosong') }}
                         @endif
                     </td>
+                    <td>{{ $c->relationSales->code }}</td>
                     <td>
                         <a href="/customer/edit/{{ $c->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>

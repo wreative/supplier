@@ -23,4 +23,9 @@ class Sales extends Model
         'code',
         'tlp'
     ];
+
+    public function relationCustomer()
+    {
+        return $this->hasMany('App\Models\Customer', 'id', 'sales_id');
+    }
 }

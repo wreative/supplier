@@ -22,7 +22,6 @@ class CustomerDetail extends Model
         'id',
         'email',
         'fax',
-        'sales',
         'no_rek',
         'name_rek',
         'bank',
