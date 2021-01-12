@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Items;
-use Illuminate\Http\Request;
+use App\Models\ItemsAlmaas;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -25,8 +26,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $items = DB::table('items')->count();
-        $stock = Items::sum('stock');
-        return view('home', ['items' => $items, 'stock' => $stock]);
+        if (Auth::user()->role_id == 1) {
+            $items = DB::table('items')->count();
+            $stock = Items::sum('stock');
+            return view('home', ['items' => $items, 'stock' => $stock]);
+        } else {
+            $items = DB::table('al_items')->count();
+            $stock = ItemsAlmaas::sum('stock');
+            return view('home', ['items' => $items, 'stock' => $stock]);
+        }
     }
 }

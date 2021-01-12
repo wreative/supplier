@@ -13,6 +13,7 @@
     </div>
 </div>
 @endif
+@if (Auth::user()->role_id == 1)
 <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
         <div class="card card-statistic-1">
@@ -75,6 +76,40 @@
         </div>
     </div>
 </div>
+@else
+<div class="row">
+    <div class="col">
+        <div class="card card-statistic-1">
+            <div class="card-icon bg-primary">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="card-wrap">
+                <div class="card-header">
+                    <h4>{{ __('Total Barang') }}</h4>
+                </div>
+                <div class="card-body">
+                    {{ $items }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card card-statistic-1">
+            <div class="card-icon bg-warning">
+                <i class="fas fa-chart-area"></i>
+            </div>
+            <div class="card-wrap">
+                <div class="card-header">
+                    <h4>{{ __('Total Stok') }}</h4>
+                </div>
+                <div class="card-body">
+                    {{ number_format($stock) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 {{-- <div class="card">
     <div class="card-header">
         <h4>{{ __('Absensi Karyawan Bulanan') }}</h4>
