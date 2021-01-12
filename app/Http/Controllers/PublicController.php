@@ -55,4 +55,9 @@ class PublicController extends Controller
             ->limit('1')
             ->first()->id + 1;
     }
+
+    public function removeComma($number)
+    {
+        return str_replace(',', '', $number);
+    }
 }

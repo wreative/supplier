@@ -43,22 +43,22 @@
                     <td>{{ $i->name }}</td>
                     <td>{{ $i->stock }}</td>
                     <td>{{ $i->relationUnits->name }}</td>
-                    <td>{{ $i->stock }}</td>
-                    <td>{{ $i->stock }}</td>
+                    <td>{{ __('Rp.').number_format($i->relationDetail->price_buy) }}</td>
+                    <td>{{ __('Rp.').number_format($i->relationDetail->price_sell) }}</td>
                     <td>
-                        @if ($i->info != null)
-                        {{ $i->info }}
+                        @if ($i->relationDetail->info != null)
+                        {{ $i->relationDetail->info }}
                         @else
                         {{ __('Kosong') }}
                         @endif
                     </td>
                     <td>
-                        <a href="/items/edit/{{ $i->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
+                        <a href="/items-almaas/edit/{{ $i->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                         <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
                             title="Delete"
                             data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/items/delete/{{ $i->id }}','_self')"><i
+                            data-confirm-yes="window.open('/items-almaas/delete/{{ $i->id }}','_self')"><i
                                 class="fas fa-trash"></i></a>
                     </td>
                 </tr>

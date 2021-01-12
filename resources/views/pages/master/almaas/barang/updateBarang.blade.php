@@ -13,9 +13,10 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap barang.') }}
 </p>
 <div class="card">
-    <form method="POST" action="/items/update/{{ $items->id }}">
+    <form method="POST" action="/items-almaas/update/{{ $items->id }}">
         @csrf
         @method('PUT')
+        <input type="hidden" value="{{ $items->code }}">
         <div class="card-body">
             <div class="form-group">
                 <label>{{ __('Nama') }}<code>*</code></label>
@@ -58,8 +59,8 @@
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('price_buy') is-invalid @enderror" type="text"
-                        name="price_buy" required>
+                    <input class="form-control currency @error('price_buy') is-invalid @enderror"
+                        value="{{ $items->relationDetail->price_buy }}" type="text" name="price_buy" required>
                 </div>
                 @error('price_buy')
                 <span class="text-danger" role="alert">
@@ -75,8 +76,8 @@
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('price_sell') is-invalid @enderror" type="text"
-                        name="price_sell" required>
+                    <input class="form-control currency @error('price_sell') is-invalid @enderror"
+                        value="{{ $items->relationDetail->price_sell }}" type="text" name="price_sell" required>
                 </div>
                 @error('price_sell')
                 <span class="text-danger" role="alert">
@@ -87,7 +88,7 @@
             <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                    rows="10" style="height: 77px;">{{ $items->info }}</textarea>
+                    rows="10" style="height: 77px;">{{ $items->relationDetail->info }}</textarea>
                 @error('info')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -102,5 +103,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/karyawan/createKaryawan.js') }}"></script>
+<script src="{{ asset('pages/items/changesAlmaas.js') }}"></script>
 @endsection

@@ -13,7 +13,7 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap barang.') }}
 </p>
 <div class="card">
-    <form method="POST" action="{{ route('storeItems') }}">
+    <form method="POST" action="{{ route('storeItemsAlmaas') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
@@ -102,5 +102,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/karyawan/createKaryawan.js') }}"></script>
+<script src="{{ asset('pages/items/changesAlmaas.js') }}"></script>
 @endsection
