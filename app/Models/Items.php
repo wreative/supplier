@@ -23,7 +23,8 @@ class Items extends Model
         'unit_id',
         'stock',
         'code',
-        'info'
+        'info',
+        'detail_id'
     ];
 
     public function relationUnits()
@@ -34,5 +35,10 @@ class Items extends Model
     public function relationTransaction()
     {
         return $this->hasOne('App\Models\Transaction', 'id', 'items_id');
+    }
+
+    public function relationDetail()
+    {
+        return $this->belongsTo('App\Models\ItemsDetail', 'detail_id', 'id');
     }
 }
