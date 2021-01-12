@@ -48,6 +48,11 @@
                     </li>
                 </ul>
             </li>
+            @elseif(Auth::user()->role_id == '2')
+            <li class="{{ Request::route()->getName() == 'masterItemsAlmaas' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterItemsAlmaas') }}"><i class="fas fa-boxes"></i>
+                    <span>{{ __('Barang') }}</span></a>
+            </li>
             @endif
         </ul>
     </aside>

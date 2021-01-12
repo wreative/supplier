@@ -14,8 +14,9 @@ class ItemsController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PublicController $PublicController)
     {
+        $this->PublicController = $PublicController;
         $this->middleware('auth');
     }
 
@@ -32,7 +33,7 @@ class ItemsController extends Controller
 
     public function create()
     {
-        $code = "I" . str_pad($this->getRandom(), 5, '0', STR_PAD_LEFT);
+        $code = "I" . str_pad($this->PublicController->getRandom('items'), 5, '0', STR_PAD_LEFT);
         $units = Units::all();
         return view('pages.master.barang.createBarang', ['code' => $code, 'units' => $units]);
     }
@@ -92,15 +93,73 @@ class ItemsController extends Controller
         return redirect()->route('masterItems');
     }
 
-    public function getRandom()
+    public function indexAlmaas()
     {
-        do {
-            $random = rand(00001, 99999);
-            $check = DB::table('items')
-                ->select('code')
-                ->having('code', '=', $random)
-                ->first();
-        } while ($check != null);
-        return $random;
+        $items = Items::with('relationUnits')->get();
+        return view('pages.master.almaas.barang.barang', ['items' => $items]);
+    }
+
+    public function createAlmaas()
+    {
+        $code = "I" . str_pad($this->PublicController->getRandom('items'), 5, '0', STR_PAD_LEFT);
+        $units = Units::all();
+        return view('pages.master.almaas.barang.createBarang', ['code' => $code, 'units' => $units]);
+    }
+
+    public function storeAlmaas(Request $req)
+    {
+        $this->validate($req, [
+            'code' => 'required',
+            'name' => 'required',
+            'stock' => 'required|numeric|integer|min:1',
+            'units' => 'required',
+            'price_sell' => 'required',
+            'price_buy' => 'required'
+        ]);
+
+        Items::create([
+            'name' => $req->name,
+            'unit_id' => $req->units,
+            'stock' => $req->stock,
+            'code' => $req->code,
+            'info' => $req->info
+        ]);
+
+        return redirect()->route('masterItems');
+    }
+
+    public function deleteAlmaas($id)
+    {
+        $items = Items::find($id);
+        $items->delete();
+        return redirect()->route('masterItems');
+    }
+
+    public function editAlmaas($id)
+    {
+        $items = Items::with('relationUnits')->find($id);
+        $units = Units::all();
+        return view('pages.master.barang.updateBarang', ['items' => $items, 'units' => $units]);
+    }
+
+    public function updateAlmaas($id, Request $req)
+    {
+        $this->validate($req, [
+            'name' => 'required',
+            'stock' => 'required|numeric|integer|min:1',
+            'units' => 'required',
+        ]);
+
+        $items = Items::find($id);
+
+        // Stored Items
+        $items->name = $req->name;
+        $items->stock = $req->stock;
+        $items->unit_id = $req->units;
+        $items->info = $req->info;
+
+        // Saved Datas
+        $items->save();
+        return redirect()->route('masterItems');
     }
 }

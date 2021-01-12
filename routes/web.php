@@ -93,6 +93,16 @@ Route::group(['middleware' => 'supplier'], function () {
 });
 
 Route::group(['middleware' => 'almaas'], function () {
+    //Items
+    Route::get('/items-almaas', [App\Http\Controllers\ItemsController::class, 'indexAlmaas'])
+        ->name('masterItemsAlmaas');
+    Route::get('/items-almaas/create', [App\Http\Controllers\ItemsController::class, 'createAlmaas'])
+        ->name('createItemsAlmaas');
+    Route::post('/items-almaas/store', [App\Http\Controllers\ItemsController::class, 'storeAlmaas'])
+        ->name('storeItemsAlmaas');
+    Route::get('/items-almaas/edit/{id}', [App\Http\Controllers\ItemsController::class, 'editAlmaas']);
+    Route::put('/items-almaas/update/{id}', [App\Http\Controllers\ItemsController::class, 'updateAlmaas']);
+    Route::get('/items-almaas/delete/{id}', [App\Http\Controllers\ItemsController::class, 'deleteAlmaas']);
 });
 
 
