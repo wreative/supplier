@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RolesSeeder extends Seeder
 {
@@ -13,6 +14,15 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('roles')->insert([
+            [
+                'id' => '1',
+                'name' => 'Supplier',
+            ],
+            [
+                'id' => '2',
+                'name' => 'Almaas'
+            ]
+        ]);
     }
 }
