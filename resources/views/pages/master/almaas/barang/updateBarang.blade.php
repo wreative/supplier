@@ -16,7 +16,7 @@
     <form method="POST" action="/items-almaas/update/{{ $items->id }}">
         @csrf
         @method('PUT')
-        <input type="hidden" value="{{ $items->code }}">
+        <input type="hidden" value="{{ $items->code }}" name="code">
         <div class="card-body">
             <div class="form-group">
                 <label>{{ __('Nama') }}<code>*</code></label>

@@ -177,8 +177,8 @@ class ItemsController extends Controller
         $items->unit_id = $req->units;
 
         // Stored Items Detail
-        $itemsDetail->price_sell = $req->price_sell;
-        $itemsDetail->price_buy = $req->price_buy;
+        $itemsDetail->price_sell = $this->PublicController->removeComma($req->price_sell);
+        $itemsDetail->price_buy = $this->PublicController->removeComma($req->price_buy);
         $itemsDetail->info = $req->info;
 
         // Saved Datas
