@@ -8,19 +8,23 @@
 @endsection
 
 @section('content')
-<h2 class="section-title">{{ $code }}</h2>
-<p class="section-lead">
-    {{ __('ID yang digunakan untuk mengidentifikasi setiap barang.') }}
-</p>
 <div class="card">
     <form method="POST" action="{{ route('storeItemsAlmaas') }}">
         @csrf
-        <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
             <div class="form-group">
+                <label>{{ __('Kode Barang') }}<code>*</code></label>
+                <input type="text" class="form-control @error('code') is-invalid @enderror" name="code"
+                    style="text-transform:uppercase" required autofocus>
+                @error('code')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label>{{ __('Nama') }}<code>*</code></label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required
-                    autofocus>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required>
                 @error('name')
                 <span class="text-danger" role="alert">
                     {{ $message }}

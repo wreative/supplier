@@ -8,6 +8,7 @@ use App\Models\ItemsAlmaas;
 use App\Models\ItemsDetailAlmaas;
 use App\Models\Units;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ItemsController extends Controller
 {
@@ -103,9 +104,8 @@ class ItemsController extends Controller
 
     public function createAlmaas()
     {
-        $code = "I" . str_pad($this->PublicController->getRandom('items'), 5, '0', STR_PAD_LEFT);
         $units = Units::all();
-        return view('pages.master.almaas.barang.createBarang', ['code' => $code, 'units' => $units]);
+        return view('pages.master.almaas.barang.createBarang', ['units' => $units]);
     }
 
     public function storeAlmaas(Request $req)
@@ -125,7 +125,7 @@ class ItemsController extends Controller
             'name' => $req->name,
             'unit_id' => $req->units,
             'stock' => $req->stock,
-            'code' => $req->code,
+            'code' => Str::upper($req->code),
             'detail_id' => $count
         ]);
 
@@ -159,7 +159,6 @@ class ItemsController extends Controller
     public function updateAlmaas($id, Request $req)
     {
         $this->validate($req, [
-            'code' => 'required',
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
@@ -171,7 +170,6 @@ class ItemsController extends Controller
         $itemsDetail = ItemsDetailAlmaas::find($items->detail_id);
 
         // Stored Items
-        $items->code = $req->code;
         $items->name = $req->name;
         $items->stock = $req->stock;
         $items->unit_id = $req->units;
