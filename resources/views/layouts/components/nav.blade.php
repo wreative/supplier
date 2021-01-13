@@ -12,12 +12,9 @@
                 <div class="d-sm-none d-lg-inline-block">{{ __('Hai, ') . Auth::user()->name }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a id="name" class="dropdown-item has-icon" style="cursor: pointer">
-                    <i class="fas fa-user"></i> {{ __('Ganti Nama') }}
+                <a href="javascript:void(0)" class="dropdown-item has-icon">
+                    <i class="fas fa-key"></i> {{ __('Ganti Password') }}
                 </a>
-                {{-- <a href="{{ route('changePassword') }}" class="dropdown-item has-icon">
-                <i class="fas fa-key"></i> {{ __('Ganti Password') }}
-                </a> --}}
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault();
                               document.getElementById('logout-form').submit();"

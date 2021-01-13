@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Items;
 use App\Models\ItemsAlmaas;
+use App\Models\ItemsDetail;
 use App\Models\ItemsDetailAlmaas;
 use App\Models\Units;
 use Illuminate\Support\Facades\DB;
@@ -48,15 +49,44 @@ class ItemsController extends Controller
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
+            'profit' => 'numeric|max:100',
+            'price_inc' => 'required',
+            // 'price_exc' => 'numeric',
+            'price' => 'required',
         ]);
+
+        // Initial
+        $include = $this->PublicController->removeComma($req->price_inc);
+        $exclude = $this->PublicController->removeComma($req->price_exc);
+        $profit = $this->PublicController->removeComma($req->profit);
+
+        // Calculate
+        // $includeCalculate = $exclude + ($exclude * 10 / 100);
+        // $excludeCalculate = $include / 1.1;
+        if ($include != '' && $exclude != '') {
+            $final = $include;
+        } elseif ($include != '') {
+            $final = $include;
+        } else {
+            $final = $include;
+        }
+
+        $price = $final + $profit;
+        dd($price);
+
+
+        $count = $this->PublicController->countID('al_items');
 
         Items::create([
             'name' => $req->name,
             'unit_id' => $req->units,
             'stock' => $req->stock,
             'code' => $req->code,
-            'info' => $req->info
+            'info' => $req->info,
+            'detail_id' => $count
         ]);
+
+        // ItemsDetail::create([]);
 
         return redirect()->route('masterItems');
     }

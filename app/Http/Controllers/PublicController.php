@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PublicController extends Controller
@@ -59,5 +60,27 @@ class PublicController extends Controller
     public function removeComma($number)
     {
         return str_replace(',', '', $number);
+    }
+
+    public function checkInclude(Request $req)
+    {
+        $exclude = (int)$req->exclude;
+        $include = $exclude + ($exclude * 10 / 100);
+        return Response()->json(['include' => $include]);
+    }
+
+    public function checkExclude(Request $req)
+    {
+        $include = (int)$req->include;
+        $exclude = $include / 110 * 100;
+        return Response()->json(['exclude' => $exclude]);
+    }
+
+    public function checkPrice(Request $req)
+    {
+        $include = (int)$req->include;
+        $profit = (int)$req->profit;
+        $price = $include + ($profit / 100);
+        return Response()->json(['price' => $price]);
     }
 }
