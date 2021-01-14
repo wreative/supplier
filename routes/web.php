@@ -87,18 +87,6 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::get('/purchase/edit/{id}', [App\Http\Controllers\TransactionController::class, 'editPurchase']);
     Route::put('/purchase/update/{id}', [App\Http\Controllers\TransactionController::class, 'updatePurchase']);
     Route::get('/purchase/delete/{id}', [App\Http\Controllers\TransactionController::class, 'deletePurchase']);
-    // //Include PPN
-    // Route::get('/purchase/check/include', [App\Http\Controllers\TransactionController::class, 'checkInclude'])
-    //     ->name('checkInclude');
-    // //Exclude PPN
-    // Route::get('/purchase/check/exclude', [App\Http\Controllers\TransactionController::class, 'checkExclude'])
-    //     ->name('checkExclude');
-    // //Profit
-    // Route::get('/purchase/check/profit', [App\Http\Controllers\TransactionController::class, 'checkProfit'])
-    //     ->name('checkProfit');
-    // //Price
-    // Route::get('/purchase/check/price', [App\Http\Controllers\TransactionController::class, 'checkPrice'])
-    //     ->name('checkPrice');
 });
 
 Route::group(['middleware' => 'almaas'], function () {
