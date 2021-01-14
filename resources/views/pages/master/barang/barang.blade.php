@@ -45,10 +45,34 @@
                     <td>{{ $i->name }}</td>
                     <td>{{ number_format($i->stock) }}</td>
                     <td>{{ $i->relationUnits->name }}</td>
-                    <td>{{ __('Rp.').number_format($i->relationDetail->price_inc) }}</td>
-                    <td>{{ __('Rp.').number_format($i->relationDetail->price_exc) }}</td>
-                    <td>{{ $i->relationDetail->profit.__('%') }}</td>
-                    <td>{{ __('Rp.').number_format($i->relationDetail->price) }}</td>
+                    <td>
+                        @if($i->relationDetail != null)
+                        {{ __('Rp.').number_format($i->relationDetail->price_inc) }}
+                        @else
+                        {{ __('Rp.0') }}
+                        @endif
+                    </td>
+                    <td>
+                        @if($i->relationDetail != null)
+                        {{ __('Rp.').number_format($i->relationDetail->price_exc) }}
+                        @else
+                        {{ __('Rp.0') }}
+                        @endif
+                    </td>
+                    <td>
+                        @if($i->relationDetail != null)
+                        {{ $i->relationDetail->profit.__('%') }}
+                        @else
+                        {{ __('0%') }}
+                        @endif
+                    </td>
+                    <td>
+                        @if($i->relationDetail != null)
+                        {{ __('Rp.').number_format($i->relationDetail->price) }}
+                        @else
+                        {{ __('Rp.0') }}
+                        @endif
+                    </td>
                     <td>
                         @if ($i->info != null)
                         {{ $i->info }}
