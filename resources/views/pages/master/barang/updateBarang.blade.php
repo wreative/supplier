@@ -119,7 +119,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Harga Jual') }}</label>
+                <label>{{ __('Harga Jual') }}<code>*</code></label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -157,5 +157,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/items/changesBarang.js.js') }}"></script>
+<script src="{{ asset('pages/items/changesBarang.js') }}"></script>
 @endsection

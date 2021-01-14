@@ -43,7 +43,7 @@
                         {{ $i->code }}
                     </td>
                     <td>{{ $i->name }}</td>
-                    <td>{{ $i->stock }}</td>
+                    <td>{{ number_format($i->stock) }}</td>
                     <td>{{ $i->relationUnits->name }}</td>
                     <td>{{ __('Rp.').number_format($i->relationDetail->price_inc) }}</td>
                     <td>{{ __('Rp.').number_format($i->relationDetail->price_exc) }}</td>

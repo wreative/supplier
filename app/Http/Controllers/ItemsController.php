@@ -79,7 +79,7 @@ class ItemsController extends Controller
         Items::create([
             'name' => $req->name,
             'unit_id' => $req->units,
-            'stock' => $req->stock,
+            'stock' => $this->PublicController->removeComma($req->stock),
             'code' => $req->code,
             'info' => $req->info,
             'detail_id' => $count
@@ -129,16 +129,10 @@ class ItemsController extends Controller
         // Stored Items
         $items->name = $req->name;
         $items->unit_id = $req->units;
-        $items->stock = $req->stock;
+        $items->stock = $this->PublicController->removeComma($req->stock);
         $items->info = $req->info;
 
         if ($items->detail_id == null) {
-            $count = DB::table('d_items')
-                ->select('id')
-                ->orderByDesc('id')
-                ->limit('1')
-                ->first()->id;
-
             // Stored Items
             ItemsDetail::create([
                 'price_inc' => $this->PublicController->removeComma($req->price_inc),
@@ -147,6 +141,11 @@ class ItemsController extends Controller
                 'price' => $this->PublicController->removeComma($req->price)
             ]);
 
+            $count = DB::table('d_items')
+                ->select('id')
+                ->orderByDesc('id')
+                ->limit('1')
+                ->first()->id;
             $items->detail_id = $count;
         } else {
             $itemsDetail = ItemsDetail::find($items->detail_id);
