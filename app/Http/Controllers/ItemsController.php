@@ -31,7 +31,7 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        $items = Items::with('relationUnits')->get();
+        $items = Items::with('relationUnits', 'relationDetail')->get();
         return view('pages.master.barang.barang', ['items' => $items]);
     }
 
@@ -51,31 +51,30 @@ class ItemsController extends Controller
             'units' => 'required',
             'profit' => 'numeric|max:100',
             'price_inc' => 'required',
-            // 'price_exc' => 'numeric',
             'price' => 'required',
         ]);
 
         // Initial
-        $include = $this->PublicController->removeComma($req->price_inc);
-        $exclude = $this->PublicController->removeComma($req->price_exc);
-        $profit = $this->PublicController->removeComma($req->profit);
+        // $include = $this->PublicController->removeComma($req->price_inc);
+        // $exclude = $this->PublicController->removeComma($req->price_exc);
+        // $profit = $this->PublicController->removeComma($req->profit);
 
         // Calculate
         // $includeCalculate = $exclude + ($exclude * 10 / 100);
         // $excludeCalculate = $include / 1.1;
-        if ($include != '' && $exclude != '') {
-            $final = $include;
-        } elseif ($include != '') {
-            $final = $include;
-        } else {
-            $final = $include;
-        }
+        // if ($include != '' && $exclude != '') {
+        //     $final = $include;
+        // } elseif ($include != '') {
+        //     $final = $include;
+        // } else {
+        //     $final = $include;
+        // }
 
-        $price = $final + $profit;
-        dd($price);
+        // $price = $final + $profit;
+        // dd($price);
 
 
-        $count = $this->PublicController->countID('al_items');
+        $count = $this->PublicController->countID('items');
 
         Items::create([
             'name' => $req->name,
@@ -86,7 +85,13 @@ class ItemsController extends Controller
             'detail_id' => $count
         ]);
 
-        // ItemsDetail::create([]);
+        ItemsDetail::create([
+            'id' => $count,
+            'price_inc' => $this->PublicController->removeComma($req->price_inc),
+            'price_exc' => $this->PublicController->removeComma($req->price_exc),
+            'profit' => $req->profit,
+            'price' => $this->PublicController->removeComma($req->price)
+        ]);
 
         return redirect()->route('masterItems');
     }
@@ -94,13 +99,16 @@ class ItemsController extends Controller
     public function delete($id)
     {
         $items = Items::find($id);
+        $itemsDetail = ItemsDetail::find($items->detail_id);
+
         $items->delete();
+        $itemsDetail->delete();
         return redirect()->route('masterItems');
     }
 
     public function edit($id)
     {
-        $items = Items::with('relationUnits')->find($id);
+        $items = Items::with('relationUnits', 'relationDetail')->find($id);
         $units = Units::all();
         return view('pages.master.barang.updateBarang', ['items' => $items, 'units' => $units]);
     }
@@ -111,15 +119,46 @@ class ItemsController extends Controller
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
+            'profit' => 'numeric|max:100',
+            'price_inc' => 'required',
+            'price' => 'required',
         ]);
 
         $items = Items::find($id);
 
         // Stored Items
         $items->name = $req->name;
-        $items->stock = $req->stock;
         $items->unit_id = $req->units;
+        $items->stock = $req->stock;
         $items->info = $req->info;
+
+        if ($items->detail_id == null) {
+            $count = DB::table('d_items')
+                ->select('id')
+                ->orderByDesc('id')
+                ->limit('1')
+                ->first()->id;
+
+            // Stored Items
+            ItemsDetail::create([
+                'price_inc' => $this->PublicController->removeComma($req->price_inc),
+                'price_exc' => $this->PublicController->removeComma($req->price_exc),
+                'profit' => $req->profit,
+                'price' => $this->PublicController->removeComma($req->price)
+            ]);
+
+            $items->detail_id = $count;
+        } else {
+            $itemsDetail = ItemsDetail::find($items->detail_id);
+
+            // Stored Items
+            $itemsDetail->price_inc = $this->PublicController->removeComma($req->price_inc);
+            $itemsDetail->price_exc = $this->PublicController->removeComma($req->price_exc);
+            $itemsDetail->profit = $req->profit;
+            $itemsDetail->price = $this->PublicController->removeComma($req->price);
+
+            $itemsDetail->save();
+        }
 
         // Saved Datas
         $items->save();

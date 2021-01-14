@@ -25,6 +25,10 @@
                     <th>{{ __('Nama') }}</th>
                     <th>{{ __('Stock') }}</th>
                     <th>{{ __('Units') }}</th>
+                    <th>{{ __('Harga Include PPN') }}</th>
+                    <th>{{ __('Harga Exclude PPN') }}</th>
+                    <th>{{ __('Keuntungan') }}</th>
+                    <th>{{ __('Harga Jual') }}</th>
                     <th>{{ __('Keterangan') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
@@ -41,6 +45,10 @@
                     <td>{{ $i->name }}</td>
                     <td>{{ $i->stock }}</td>
                     <td>{{ $i->relationUnits->name }}</td>
+                    <td>{{ __('Rp.').number_format($i->relationDetail->price_inc) }}</td>
+                    <td>{{ __('Rp.').number_format($i->relationDetail->price_exc) }}</td>
+                    <td>{{ $i->relationDetail->profit.__('%') }}</td>
+                    <td>{{ __('Rp.').number_format($i->relationDetail->price) }}</td>
                     <td>
                         @if ($i->info != null)
                         {{ $i->info }}

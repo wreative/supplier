@@ -51,6 +51,95 @@
                 @enderror
             </div>
             <div class="form-group">
+                <label>{{ __('Harga Pokok (Include PPN)') }}<code>*</code></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
+                        type="text" name="price_inc" value="{{ $items->relationDetail->price_inc }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkInclude()">{{ __('Ambil Data') }}</button>
+                    </div>
+                </div>
+                <span class="text-primary" role="alert">
+                    {{ __('Harga Pokok (Exclude PPN) harus terisi untuk mengambil data') }}
+                </span>
+                @error('price_inc')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>{{ __('Harga Pokok (Exclude PPN)') }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency @error('price_exc') is-invalid @enderror" type="text"
+                        name="price_exc" id="price_exc" value="{{ $items->relationDetail->price_exc }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkExclude()">{{ __('Ambil Data') }}</button>
+                    </div>
+                </div>
+                <span class="text-primary" role="alert">
+                    {{ __('Harga Pokok (Include PPN) harus terisi untuk mengambil data') }}
+                </span>
+                @error('price_exc')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>{{ __('Keuntungan') }}</label>
+                <div class="input-group">
+                    <input class="form-control @error('profit') is-invalid @enderror" type="text" name="profit"
+                        id="profit" max="100" value="{{ $items->relationDetail->profit }}">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('%') }}
+                        </div>
+                    </div>
+                </div>
+                <span class="text-primary" role="alert">
+                    {{ __('Maksimal 100%') }}
+                </span>
+                @error('profit')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>{{ __('Harga Jual') }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency @error('price') is-invalid @enderror" type="text" name="price"
+                        id="price" value="{{ $items->relationDetail->price }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkPrice()">{{ __('Ambil Data') }}</button>
+                    </div>
+                </div>
+                @error('price')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
                     rows="10" style="height: 77px;">{{ $items->info }}</textarea>
@@ -68,5 +157,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/karyawan/createKaryawan.js') }}"></script>
+<script src="{{ asset('pages/items/changesBarang.js.js') }}"></script>
 @endsection

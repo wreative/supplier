@@ -9,17 +9,6 @@ $(".currency")
         });
     });
 
-// function checkPrice() {
-//     let exclude = parseInt(numberWithoutCommas($("#price_exc").val())) || 0;
-//     let include = parseInt(numberWithoutCommas($("#price_inc").val())) || 0;
-//     let profit = parseInt(numberWithoutCommas($("#profit").val())) || 0;
-//     if (include != "" && profit >= 100) {
-//         $("#price").val(numberWithCommas(include + profit));
-//     } else {
-//         $("#profit").val("Tidak Boleh Lebih Dari 100");
-//     }
-// }
-
 function checkInclude() {
     let exclude = numberWithoutCommas($("#price_exc").val());
     $.ajax({
@@ -53,7 +42,17 @@ function checkPrice() {
         data: { include: include, profit: profit },
         type: "GET",
         success: function(data) {
-            $("#price").val(numberWithCommas(data.price));
+            if (data.status == "error") {
+                swal({
+                    title: "Error",
+                    text: "Keuntungan yang dimasukkan melebihi 100%",
+                    icon: "error",
+                    button: "Ok"
+                });
+                $("#price").val(0);
+            } else {
+                $("#price").val(numberWithCommas(data.price));
+            }
         }
     });
 }

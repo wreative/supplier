@@ -72,7 +72,7 @@ class PublicController extends Controller
     public function checkExclude(Request $req)
     {
         $include = (int)$req->include;
-        $exclude = $include / 110 * 100;
+        $exclude = round($include / 110 * 100);
         return Response()->json(['exclude' => $exclude]);
     }
 
@@ -80,7 +80,11 @@ class PublicController extends Controller
     {
         $include = (int)$req->include;
         $profit = (int)$req->profit;
-        $price = $include + ($profit / 100);
-        return Response()->json(['price' => $price]);
+        if ($profit >= 100) {
+            return Response()->json(['status' => 'error']);
+        } else {
+            $price = round($include + ($include * $profit / 100));
+            return Response()->json(['price' => $price]);
+        }
     }
 }
