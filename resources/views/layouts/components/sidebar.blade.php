@@ -34,19 +34,14 @@
                 <a class="nav-link" href="{{ route('masterSales') }}"><i class="fas fa-hands-helping"></i>
                     <span>{{ __('Sales') }}</span></a>
             </li>
-            <li class="nav-item dropdown {{ Request::route()->getName() == 'masterPurchase' ? 'active' : (
-                Request::route()->getName() == 'masterPurchase' ? 'active':'') }}">
-                <a class="nav-link has-dropdown" href="javascript:void(0)">
-                    <i class="fas fa-exchange-alt"></i><span>{{ __('Transaksi') }}</span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li class="{{ Request::route()->getName() == 'masterPurchase' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('masterPurchase') }}">{{ __('Pembelian') }}</a>
-                    </li>
-                    <li class="{{ Request::route()->getName() == 'masterPurchase' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('masterPurchase') }}">{{ __('Penjualan') }}</a>
-                    </li>
-                </ul>
+            <li class="menu-header">{{ __('Transaksi') }}</li>
+            <li class="{{ Request::route()->getName() == 'masterPurchase' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterPurchase') }}"><i class="fas fa-exchange-alt"></i>
+                    <span>{{ __('Pembelian') }}</span></a>
+            </li>
+            <li class="{{ Request::route()->getName() == 'masterSales' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('masterSales') }}"><i class="fas fa-exchange-alt"></i>
+                    <span>{{ __('Penjualan') }}</span></a>
             </li>
             @elseif(Auth::user()->role_id == '2')
             <li class="{{ Request::route()->getName() == 'masterItemsAlmaas' ? 'active' : '' }}">

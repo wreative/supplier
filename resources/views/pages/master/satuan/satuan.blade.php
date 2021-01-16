@@ -20,7 +20,6 @@
                         {{ __('NO') }}
                     </th>
                     <th>{{ __('Nama') }}</th>
-                    <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,15 +29,6 @@
                         {{ $number+1 }}
                     </td>
                     <td>{{ $u->name }}</td>
-                    <td>
-                        <a href="/units/edit/{{ $u->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
-                            data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                        <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
-                            title="Delete"
-                            data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/units/delete/{{ $u->id }}','_self')"><i
-                                class="fas fa-trash"></i></a>
-                    </td>
                 </tr>
                 @endforeach
             </tbody>

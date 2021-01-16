@@ -110,6 +110,9 @@ Route::get('/units/create', [App\Http\Controllers\UnitsController::class, 'creat
     ->name('createUnits');
 Route::post('/units/store', [App\Http\Controllers\UnitsController::class, 'store'])
     ->name('storeUnits');
-Route::get('/units/edit/{id}', [App\Http\Controllers\UnitsController::class, 'edit']);
-Route::put('/units/update/{id}', [App\Http\Controllers\UnitsController::class, 'update']);
-Route::get('/units/delete/{id}', [App\Http\Controllers\UnitsController::class, 'delete']);
+
+// Users
+Route::get('/change-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'index'])
+    ->name('changePassword');
+Route::post('/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'changePass'])
+    ->name('changePass');
