@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Items;
 use App\Models\Purchase;
+use App\Models\Supplier;
 use App\Models\Units;
 use App\Models\Transaction;
 
@@ -36,10 +37,11 @@ class TransactionController extends Controller
 
     public function createPurchase()
     {
-        $code = "TSP-" . $this->getRandom();
+        $code = "TSP/" . $this->getRandom() . "/" . date("dmY") . "/SUP";
         $units = Units::all();
         $items = Items::all();
-        return view('pages.transaksi.pembelian.createPembelian', ['code' => $code, 'units' => $units, 'items' => $items]);
+        $supplier = Supplier::all();
+        return view('pages.transaksi.pembelian.createPembelian', ['code' => $code, 'units' => $units, 'items' => $items, 'supplier' => $supplier]);
     }
 
     public function storePurchase(Request $req)

@@ -1,9 +1,8 @@
 @extends('layouts.default')
 @section('title', __('pages.title').__(' | Tambah Pembelian'))
 @section('titleContent', __('Tambah Pembelian'))
-@section('breadcrumb', __('Master'))
+@section('breadcrumb', __('Transaksi'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Transaksi') }}</div>
 <div class="breadcrumb-item active">{{ __('Pembelian') }}</div>
 <div class="breadcrumb-item active">{{ __('Tambah') }}</div>
 @endsection
@@ -11,13 +10,28 @@
 @section('content')
 <h2 class="section-title">{{ $code }}</h2>
 <p class="section-lead">
-    {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi yang dilakukan.') }}
+    {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan.') }}
 </p>
 <div class="card">
     <form method="POST" action="{{ route('storePurchase') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
+            <div class="form-group">
+                <label>{{ __('Nama Barang') }}<code>*</code></label>
+                <select class="form-control select2 @error('items') is-invalid @enderror" name="items">
+                    @foreach ($items as $i)
+                    <option value="{{ $i->id }}">
+                        {{ $i->name." - ".$i->stock." Stok" }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('items')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
             <div class="form-group">
                 <label>{{ __('Total') }}<code>*</code></label>
                 <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" required
@@ -41,68 +55,37 @@
                 </span>
                 @enderror
             </div>
-            <div class="form-group">
-                <label>{{ __('Nama Barang') }}<code>*</code></label>
-                <select class="form-control select2 @error('items') is-invalid @enderror" name="items">
-                    @foreach ($items as $i)
-                    <option value="{{ $i->id }}">
-                        {{ $i->name." - ".$i->stock." Stok" }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('items')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Harga Pokok (Include PPN)') }}<code>*</code></label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">{{ __('Discount Per Item (Nominal)') }}</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                {{ __('Rp.') }}
+                            </div>
                         </div>
-                    </div>
-                    <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
-                        type="text" name="price_inc">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"
-                            onclick="checkInclude()">{{ __('Ambil Data') }}</button>
+                        <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
+                            type="text" name="price_inc">
                     </div>
                 </div>
-                @error('price_inc')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Harga Pokok (Exclude PPN)') }}<code>*</code></label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">{{ __('Discount Per Item (Persen)') }}</label>
+                    <div class="input-group">
+                        <input class="form-control currency @error('profit') is-invalid @enderror" type="text"
+                            name="profit" id="profit" max="100">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                {{ __('%') }}
+                            </div>
                         </div>
                     </div>
-                    <input class="form-control currency @error('price_exc') is-invalid @enderror" type="text"
-                        name="price_exc" id="price_exc">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"
-                            onclick="checkExclude()">{{ __('Ambil Data') }}</button>
-                    </div>
                 </div>
-                @error('price_exc')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Keuntungan') }}</label>
+                <label>{{ __('Pajak') }}</label>
                 <div class="input-group">
                     <input class="form-control currency @error('profit') is-invalid @enderror" type="text" name="profit"
-                        id="profit" max="100">
+                        id="profit" max="100" value="10" disabled>
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('%') }}
@@ -116,21 +99,17 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Harga Jual') }}</label>
+                <label>{{ __('Uang Muka (DP)') }}<code>*</code></label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('price') is-invalid @enderror" type="text" name="price"
-                        id="price">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"
-                            onclick="checkPrice()">{{ __('Ambil Data') }}</button>
-                    </div>
+                    <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
+                        type="text" name="price_inc">
                 </div>
-                @error('price')
+                @error('price_inc')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
@@ -152,6 +131,21 @@
                     </span>
                     @enderror
                 </div>
+            </div>
+            <div class="form-group">
+                <label>{{ __('Supplier') }}<code>*</code></label>
+                <select class="form-control select2 @error('supplier') is-invalid @enderror" name="supplier">
+                    @foreach ($supplier as $s)
+                    <option value="{{ $s->id }}">
+                        {{ $s->name." - ".$s->code }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('items')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
             </div>
             <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
