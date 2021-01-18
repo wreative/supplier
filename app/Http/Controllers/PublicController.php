@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Items;
+use App\Models\ItemsDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -86,5 +88,18 @@ class PublicController extends Controller
             $price = round($include + ($include * $profit / 100));
             return Response()->json(['price' => $price]);
         }
+    }
+
+    public function checkPurchase(Request $req)
+    {
+        $total = (int)$req->total;
+        $itemPrice = ItemsDetail::find(Items::find($req->items)->detail_id)->price;
+        $dsc_nom = (int)$req->dsc_nom;
+        $dsc_per = (int)$req->dsc_per;
+        $tax = 10;
+        $dp = (int)$req->dp;
+
+        $array = array($total, $dsc_nom, $dsc_per, $tax, $dp, $item);
+        return Response()->json(['hasil' => $array]);
     }
 }

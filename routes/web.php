@@ -74,6 +74,8 @@ Route::group(['middleware' => 'supplier'], function () {
         ->name('checkExclude');
     Route::get('/check-price', [App\Http\Controllers\PublicController::class, 'checkPrice'])
         ->name('checkPrice');
+    Route::get('/check-purchase', [App\Http\Controllers\PublicController::class, 'checkPurchase'])
+        ->name('checkPurchase');
 
     // Transaction
 

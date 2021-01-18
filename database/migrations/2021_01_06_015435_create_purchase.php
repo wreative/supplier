@@ -15,9 +15,11 @@ class CreatePurchase extends Migration
     {
         Schema::create('purchase', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('price_inc');
-            $table->bigInteger('price_exc');
-            $table->bigInteger('profit');
+            $table->json('dsc');
+            $table->string('info');
+            $table->bigInteger('dp');
+            $table->date('tgl');
+            $table->bigInteger('tax');
             $table->bigInteger('price');
         });
     }

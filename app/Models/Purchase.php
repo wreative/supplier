@@ -14,15 +14,17 @@ class Purchase extends Model
      * @var array
      */
 
-    protected $table = 'transaction';
+    protected $table = 'purchase';
     public $remember_token = false;
     public $timestamps = false;
 
     protected $fillable = [
         'id',
-        'price_inc',
-        'price_exc',
-        'profit',
+        'dsc',
+        'info',
+        'dp',
+        'tgl',
+        'tax',
         'price'
     ];
 

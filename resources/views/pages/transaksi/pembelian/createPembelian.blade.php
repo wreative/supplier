@@ -19,10 +19,10 @@
         <div class="card-body">
             <div class="form-group">
                 <label>{{ __('Nama Barang') }}<code>*</code></label>
-                <select class="form-control select2 @error('items') is-invalid @enderror" name="items">
+                <select class="form-control select2 @error('items') is-invalid @enderror" name="items" id="items">
                     @foreach ($items as $i)
                     <option value="{{ $i->id }}">
-                        {{ $i->name." - ".$i->stock." Stok" }}
+                        {{ $i->name." - ".$i->stock." Stok - Rp.".number_format($i->relationDetail->price) }}
                     </option>
                     @endforeach
                 </select>
@@ -33,9 +33,9 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Total') }}<code>*</code></label>
-                <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" required
-                    autofocus>
+                <label>{{ __('Total Barang') }}<code>*</code></label>
+                <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" id="total"
+                    required autofocus>
                 @error('total')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -57,59 +57,69 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="inputEmail4">{{ __('Discount Per Item (Nominal)') }}</label>
+                    <label>{{ __('Discount Per Item (Nominal)') }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
                                 {{ __('Rp.') }}
                             </div>
                         </div>
-                        <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
-                            type="text" name="price_inc">
+                        <input class="form-control currency @error('dsc_nom') is-invalid @enderror" id="dsc_nom"
+                            type="text" name="dsc_nom">
                     </div>
+                    @error('dsc_nom')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">{{ __('Discount Per Item (Persen)') }}</label>
+                    <label>{{ __('Discount Per Item (Persen)') }}</label>
                     <div class="input-group">
-                        <input class="form-control currency @error('profit') is-invalid @enderror" type="text"
-                            name="profit" id="profit" max="100">
+                        <input class="form-control @error('dsc_per') is-invalid @enderror" type="text" name="dsc_per"
+                            id="dsc_per" max="100">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
                                 {{ __('%') }}
                             </div>
                         </div>
+                        @error('dsc_per')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label>{{ __('Pajak') }}</label>
                 <div class="input-group">
-                    <input class="form-control currency @error('profit') is-invalid @enderror" type="text" name="profit"
-                        id="profit" max="100" value="10" disabled>
+                    <input class="form-control currency @error('tax') is-invalid @enderror" type="text" name="tax"
+                        id="tax" max="100" value="10" disabled>
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('%') }}
                         </div>
                     </div>
                 </div>
-                @error('profit')
+                @error('tax')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Uang Muka (DP)') }}<code>*</code></label>
+                <label>{{ __('Uang Muka (DP)') }}</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
-                        type="text" name="price_inc">
+                    <input class="form-control currency @error('dp') is-invalid @enderror" id="dp" type="text"
+                        name="dp">
                 </div>
-                @error('price_inc')
+                @error('dp')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
@@ -159,6 +169,7 @@
             </div>
         </div>
         <div class="card-footer text-right">
+            <button class="btn btn-primary mr-1" type="button" onclick="getPrice()">{{ __('Cek Harga') }}</button>
             <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
         </div>
     </form>

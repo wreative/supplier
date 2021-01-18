@@ -9,32 +9,37 @@ $(".currency")
         });
     });
 
-function checkInclude() {
-    let exclude = parseInt(numberWithoutCommas($("#price_exc").val())) || 0;
-    $("#price_inc").val(
-        numberWithCommas(Math.round(exclude + (exclude * 10) / 100))
-    );
-}
-
-function checkExclude() {
-    let include = parseInt(numberWithoutCommas($("#price_inc").val())) || 0;
-    $("#price_exc").val(numberWithCommas(Math.ceil(include / 1.1)));
-}
-
-// function checkProfit() {
-//     var exclude = parseInt($("#price_exc").val()) || 0;
-// }
-
-function checkPrice() {
-    let exclude = parseInt(numberWithoutCommas($("#price_exc").val())) || 0;
-    let include = parseInt(numberWithoutCommas($("#price_inc").val())) || 0;
-    let profit = parseInt(numberWithoutCommas($("#profit").val())) || 0;
-    if (include != null || include != "" || include != " ") {
-        var final = include;
-    } else {
-        var final = exclude;
-    }
-    $("#price").val(numberWithCommas(final + profit));
+function getPrice() {
+    let total = $("#total").val();
+    let items = $("#items").val();
+    let dsc_nom = numberWithoutCommas($("#dsc_nom").val());
+    let dsc_per = $("#dsc_per").val();
+    let dp = numberWithoutCommas($("#dp").val());
+    $.ajax({
+        url: "/check-purchase",
+        data: {
+            total: total,
+            items: items,
+            dsc_nom: dsc_nom,
+            dsc_per: dsc_per,
+            dp: dp
+        },
+        type: "GET",
+        success: function(data) {
+            if (data.status == "error") {
+                swal({
+                    title: "Error",
+                    text: "Keuntungan yang dimasukkan melebihi 100%",
+                    icon: "error",
+                    button: "Ok"
+                });
+                $("#price").val(0);
+            } else {
+                // $("#price").val(numberWithCommas(data.price));
+                console.log(data.hasil);
+            }
+        }
+    });
 }
 
 function numberWithCommas(x) {

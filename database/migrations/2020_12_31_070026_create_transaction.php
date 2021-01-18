@@ -18,11 +18,10 @@ class CreateTransaction extends Migration
             $table->foreignId('items_id');
             $table->bigInteger('total');
             $table->string('code');
-            $table->dateTime('tgl');
             $table->foreignId('unit_id');
-            $table->string('info')->nullable();
             $table->foreignId('p_id')->nullable();
             $table->foreignId('s_id')->nullable();
+            $table->foreignId('sup_id')->nullable();
         });
     }
 

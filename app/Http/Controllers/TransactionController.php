@@ -48,14 +48,13 @@ class TransactionController extends Controller
     {
         $this->validate($req, [
             'code' => 'required',
+            'items' => 'required',
             'total' => 'required|numeric|integer|min:1',
             'units' => 'required',
-            'items' => 'required',
-            'price_inc' => 'numeric',
-            'price_exc' => 'numeric',
-            'profit' => 'numeric|max:100',
-            'price' => 'numeric',
-            'tgl' => 'required|date'
+            'dsc_per' => 'numeric|max:100',
+            'tax' => 'numeric',
+            'tgl' => 'required|date',
+            'supplier' => 'required',
         ]);
 
         //TODO:PR RUMUS

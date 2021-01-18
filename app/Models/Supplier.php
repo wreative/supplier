@@ -30,4 +30,9 @@ class Supplier extends Model
     {
         return $this->belongsTo('App\Models\SupplierDetail', 'detail_id', 'id');
     }
+
+    public function relationTransaction()
+    {
+        return $this->hasMany('App\Models\Transaction', 'id', 'sup_id');
+    }
 }
