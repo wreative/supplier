@@ -41,7 +41,9 @@ class TransactionController extends Controller
         $units = Units::all();
         $items = Items::all();
         $supplier = Supplier::all();
-        return view('pages.transaksi.pembelian.createPembelian', ['code' => $code, 'units' => $units, 'items' => $items, 'supplier' => $supplier]);
+        return view('pages.transaksi.pembelian.createPembelian', [
+            'code' => $code, 'units' => $units, 'items' => $items, 'supplier' => $supplier
+        ]);
     }
 
     public function storePurchase(Request $req)
@@ -57,7 +59,6 @@ class TransactionController extends Controller
             'supplier' => 'required',
         ]);
 
-        //TODO:PR RUMUS
         $exclude = $req->price_inc / 1.2;
         $include = $req->price_exc + 10 / 100;
         $profit = $include + $req->price * 100;
@@ -88,7 +89,7 @@ class TransactionController extends Controller
             'price' => 'asd'
         ]);
 
-        return redirect()->route('masterTransaction');
+        return redirect()->route('masterPurchase');
     }
 
     public function deletePurchase($id)

@@ -92,14 +92,44 @@ class PublicController extends Controller
 
     public function checkPurchase(Request $req)
     {
-        $total = (int)$req->total;
-        $itemPrice = ItemsDetail::find(Items::find($req->items)->detail_id)->price;
-        $dsc_nom = (int)$req->dsc_nom;
+        // Initial
         $dsc_per = (int)$req->dsc_per;
-        $tax = 10;
-        $dp = (int)$req->dp;
 
-        $array = array($total, $dsc_nom, $dsc_per, $tax, $dp, $item);
-        return Response()->json(['hasil' => $array]);
+        // Validation
+        if ($dsc_per >= 100) {
+            return Response()->json(['status' => 'error']);
+        }
+
+        $datas = $this->purchase($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp);
+        return Response()->json(['hasil' => $datas]);
+    }
+
+    public function purchase($total, $items, $discountNom, $discountPer, $dp)
+    {
+        // Initial
+        $totalItems = (int)$total;
+        $itemsName = Items::find($items)->name;
+        $items = Items::find($items)->detail_id;
+        $itemsDetail = ItemsDetail::find($items);
+        $itemsPrice = $itemsDetail->price;
+        $dsc_nom = (int)$discountNom;
+        $dsc_per = (int)$discountPer;
+        $tax = $itemsDetail->price_inc * $totalItems;
+        $downPayment = (int)$dp;
+
+        // Initial New Price
+        $newPrice = $totalItems * $itemsPrice;
+
+        // Discount
+        $discount = $dsc_nom != 0 ? $discount = $dsc_nom : ($dsc_per != 0 ? round($newPrice * $dsc_per / 100) : 0);
+
+        // Calculate Total Price
+        $totalPrice = round($newPrice - $discount - $downPayment);
+
+        // Passing Data
+        $datas = array(
+            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice
+        );
+        return $datas;
     }
 }
