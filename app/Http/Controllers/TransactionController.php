@@ -38,11 +38,10 @@ class TransactionController extends Controller
     public function createPurchase()
     {
         $code = "TSP/" . $this->getRandom() . "/" . date("dmY") . "/SUP";
-        $units = Units::all();
         $items = Items::all();
         $supplier = Supplier::all();
         return view('pages.transaksi.pembelian.createPembelian', [
-            'code' => $code, 'units' => $units, 'items' => $items, 'supplier' => $supplier
+            'code' => $code, 'items' => $items, 'supplier' => $supplier
         ]);
     }
 

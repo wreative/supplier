@@ -27,8 +27,7 @@ class Units extends Model
         return $this->hasOne('App\Models\Items', 'id', 'unit_id');
     }
 
-    public function relationTransaction()
+    public function relationItemsAlmaas()
     {
-        return $this->hasOne('App\Models\Transaction', 'id', 'unit_id');
+        return $this->hasOne('App\Models\ItemsAlmaas', 'id', 'unit_id');
     }
-}

@@ -43,19 +43,6 @@
                 </span>
                 @enderror
             </div>
-            <div class="form-group">
-                <label>{{ __('Units') }}<code>*</code></label>
-                <select class="custom-select @error('units') is-invalid @enderror" name="units" required>
-                    @foreach ($units as $u)
-                    <option value="{{ $u->id }}">{{ $u->name }}</option>
-                    @endforeach
-                </select>
-                @error('units')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>{{ __('Discount Per Item (Nominal)') }}</label>
