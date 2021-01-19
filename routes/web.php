@@ -45,6 +45,17 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::put('/customer/update/{id}', [App\Http\Controllers\CustomerController::class, 'update']);
     Route::get('/customer/delete/{id}', [App\Http\Controllers\CustomerController::class, 'delete']);
 
+    // Supplier
+    Route::get('/supplier', [App\Http\Controllers\SupplierController::class, 'index'])
+        ->name('masterSupplier');
+    Route::get('/supplier/create', [App\Http\Controllers\SupplierController::class, 'create'])
+        ->name('createSupplier');
+    Route::post('/supplier/store', [App\Http\Controllers\SupplierController::class, 'store'])
+        ->name('storeSupplier');
+    Route::get('/supplier/edit/{id}', [App\Http\Controllers\SupplierController::class, 'edit']);
+    Route::put('/supplier/update/{id}', [App\Http\Controllers\SupplierController::class, 'update']);
+    Route::get('/supplier/delete/{id}', [App\Http\Controllers\SupplierController::class, 'delete']);
+
     // Marketer
     Route::get('/marketer', [App\Http\Controllers\MarketerController::class, 'index'])
         ->name('masterMarketer');
@@ -55,17 +66,6 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::get('/marketer/edit/{id}', [App\Http\Controllers\MarketerController::class, 'edit']);
     Route::put('/marketer/update/{id}', [App\Http\Controllers\MarketerController::class, 'update']);
     Route::get('/marketer/delete/{id}', [App\Http\Controllers\MarketerController::class, 'delete']);
-
-    // Sales
-    Route::get('/sales', [App\Http\Controllers\SalesController::class, 'index'])
-        ->name('masterSales');
-    Route::get('/sales/create', [App\Http\Controllers\SalesController::class, 'create'])
-        ->name('createSales');
-    Route::post('/sales/store', [App\Http\Controllers\SalesController::class, 'store'])
-        ->name('storeSales');
-    Route::get('/sales/edit/{id}', [App\Http\Controllers\SalesController::class, 'edit']);
-    Route::put('/sales/update/{id}', [App\Http\Controllers\SalesController::class, 'update']);
-    Route::get('/sales/delete/{id}', [App\Http\Controllers\SalesController::class, 'delete']);
 
     // Check Data
     Route::get('/check-include', [App\Http\Controllers\PublicController::class, 'checkInclude'])

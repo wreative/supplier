@@ -13,7 +13,7 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap sales.') }}
 </p>
 <div class="card">
-    <form method="POST" action="{{ route('storeSales') }}">
+    <form method="POST" action="{{ route('storeMarketer') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">

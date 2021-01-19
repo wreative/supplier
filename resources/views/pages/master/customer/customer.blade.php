@@ -59,7 +59,7 @@
                         {{ __('Kosong') }}
                         @endif
                     </td>
-                    <td>{{ $c->relationSales->code }}</td>
+                    <td>{{ $c->relationMarketer->code }}</td>
                     <td>
                         <a href="/customer/edit/{{ $c->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>

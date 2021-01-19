@@ -12,9 +12,8 @@ class MarketerController extends Controller
      *
      * @return void
      */
-    public function __construct(PublicController $PublicController)
+    public function __construct()
     {
-        $this->PublicController = $PublicController;
         $this->middleware('auth');
     }
 
