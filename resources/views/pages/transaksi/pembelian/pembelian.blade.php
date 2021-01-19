@@ -59,7 +59,7 @@
                     </td>
                     <td>
                         <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
-                            title="Delete" data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikann dan 
+                            title="Delete" data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan dan 
                             mengembalikan perubahan yang sebelumnya. Apakah ingin melanjutkan?"
                             data-confirm-yes="window.open('/purchase/delete/{{ $p->id }}','_self')"><i
                                 class="fas fa-trash"></i></a>
