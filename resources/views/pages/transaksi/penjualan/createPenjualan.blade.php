@@ -1,19 +1,19 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Tambah Pembelian'))
-@section('titleContent', __('Tambah Pembelian'))
+@section('title', __('pages.title').__(' | Tambah Penjualan'))
+@section('titleContent', __('Tambah Penjualan'))
 @section('breadcrumb', __('Transaksi'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Pembelian') }}</div>
+<div class="breadcrumb-item active">{{ __('Penjualan') }}</div>
 <div class="breadcrumb-item active">{{ __('Tambah') }}</div>
 @endsection
 
 @section('content')
 <h2 class="section-title">{{ $code }}</h2>
 <p class="section-lead">
-    {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan.') }}
+    {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi penjualan yang dilakukan.') }}
 </p>
 <div class="card">
-    <form method="POST" action="{{ route('storePurchase') }}">
+    <form method="POST" action="{{ route('storeSales') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">

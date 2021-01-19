@@ -104,6 +104,20 @@ class PublicController extends Controller
         return Response()->json(['hasil' => $datas]);
     }
 
+    public function checkSales(Request $req)
+    {
+        // Initial
+        $dsc_per = (int)$req->dsc_per;
+
+        // Validation
+        if ($dsc_per >= 100) {
+            return Response()->json(['status' => 'error']);
+        }
+
+        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp);
+        return Response()->json(['hasil' => $datas]);
+    }
+
     public function calculate($total, $items, $discountNom, $discountPer, $dp)
     {
         // Initial

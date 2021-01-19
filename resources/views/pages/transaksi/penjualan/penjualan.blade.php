@@ -1,17 +1,17 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Master Pembelian'))
-@section('titleContent', __('Pembelian'))
+@section('title', __('pages.title').__(' | Master Penjualan'))
+@section('titleContent', __('Penjualan'))
 @section('breadcrumb', __('Master'))
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Transaksi') }}</div>
-<div class="breadcrumb-item active">{{ __('Pembelian') }}</div>
+<div class="breadcrumb-item active">{{ __('Penjualan') }}</div>
 @endsection
 
 @section('content')
 <div class="card">
     <div class="card-header">
         <a href="{{ route('createPurchase') }}" class="btn btn-icon icon-left btn-primary">
-            <i class="far fa-edit"></i>{{ __(' Tambah Transaksi Pembelian') }}</a>
+            <i class="far fa-edit"></i>{{ __(' Tambah Transaksi Penjualan') }}</a>
     </div>
     <div class="card-body">
         <table class="table-striped table" id="transaction" width="100%">

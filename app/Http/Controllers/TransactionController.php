@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Items;
+use App\Models\Marketer;
+use App\Models\Customer;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Units;
@@ -112,11 +114,11 @@ class TransactionController extends Controller
         return redirect()->route('masterPurchase');
     }
 
-    //TODO: Sale
+    //TODO: Sales
     public function indexSales()
     {
         $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
-        return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
+        return view('pages.transaksi.penjualan.penjualan', ['purchase' => $purchase]);
     }
 
     public function createSales()
@@ -124,7 +126,12 @@ class TransactionController extends Controller
         $code = "TSS-" . $this->getRandom();
         $units = Units::all();
         $items = Items::all();
-        return view('pages.transaksi.pembelian.createPembelian', ['code' => $code, 'units' => $units, 'items' => $items]);
+        $customer = Customer::all();
+        $marketer = Marketer::all();
+        return view('pages.transaksi.pembelian.createPembelian', [
+            'code' => $code, 'units' => $units, 'items' => $items,
+            'customer' => $customer, 'marketer' => $marketer
+        ]);
     }
 
     public function storeSales(Request $req)
