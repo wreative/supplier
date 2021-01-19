@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sales extends Model
+class Marketer extends Model
 {
     use HasFactory;
     /**
@@ -14,7 +14,7 @@ class Sales extends Model
      * @var array
      */
 
-    protected $table = 'sales';
+    protected $table = 'marketer';
     public $remember_token = false;
     public $timestamps = false;
 

@@ -13,7 +13,7 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap sales.') }}
 </p>
 <div class="card">
-    <form method="POST" action="/supplier/update/{{ $sales->id }}">
+    <form method="POST" action="/marketer/update/{{ $sales->id }}">
         @csrf
         @method('PUT')
         <input type="hidden" name="code" value="{{ $sales->code }}">

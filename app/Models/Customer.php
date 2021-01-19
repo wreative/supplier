@@ -32,8 +32,8 @@ class Customer extends Model
         return $this->belongsTo('App\Models\CustomerDetail', 'detail_id', 'id');
     }
 
-    public function relationSales()
+    public function relationMarketer()
     {
-        return $this->belongsTo('App\Models\Sales', 'sales_id', 'id');
+        return $this->belongsTo('App\Models\Marketer', 'sales_id', 'id');
     }
 }

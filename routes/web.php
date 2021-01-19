@@ -45,16 +45,16 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::put('/customer/update/{id}', [App\Http\Controllers\CustomerController::class, 'update']);
     Route::get('/customer/delete/{id}', [App\Http\Controllers\CustomerController::class, 'delete']);
 
-    // Supplier
-    Route::get('/supplier', [App\Http\Controllers\SupplierController::class, 'index'])
-        ->name('masterSupplier');
-    Route::get('/supplier/create', [App\Http\Controllers\SupplierController::class, 'create'])
-        ->name('createSupplier');
-    Route::post('/supplier/store', [App\Http\Controllers\SupplierController::class, 'store'])
-        ->name('storeSupplier');
-    Route::get('/supplier/edit/{id}', [App\Http\Controllers\SupplierController::class, 'edit']);
-    Route::put('/supplier/update/{id}', [App\Http\Controllers\SupplierController::class, 'update']);
-    Route::get('/supplier/delete/{id}', [App\Http\Controllers\SupplierController::class, 'delete']);
+    // Marketer
+    Route::get('/marketer', [App\Http\Controllers\MarketerController::class, 'index'])
+        ->name('masterMarketer');
+    Route::get('/marketer/create', [App\Http\Controllers\MarketerController::class, 'create'])
+        ->name('createMarketer');
+    Route::post('/marketer/store', [App\Http\Controllers\MarketerController::class, 'store'])
+        ->name('storeMarketer');
+    Route::get('/marketer/edit/{id}', [App\Http\Controllers\MarketerController::class, 'edit']);
+    Route::put('/marketer/update/{id}', [App\Http\Controllers\MarketerController::class, 'update']);
+    Route::get('/marketer/delete/{id}', [App\Http\Controllers\MarketerController::class, 'delete']);
 
     // Sales
     Route::get('/sales', [App\Http\Controllers\SalesController::class, 'index'])

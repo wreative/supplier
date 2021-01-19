@@ -33,12 +33,12 @@
                     <td>{{ $s->name }}</td>
                     <td>{{ $s->tlp }}</td>
                     <td>
-                        <a href="/sales/edit/{{ $s->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
+                        <a href="/marketer/edit/{{ $s->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                         <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
                             title="Delete"
                             data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/sales/delete/{{ $s->id }}','_self')"><i
+                            data-confirm-yes="window.open('/marketer/delete/{{ $s->id }}','_self')"><i
                                 class="fas fa-trash"></i></a>
                     </td>
                 </tr>

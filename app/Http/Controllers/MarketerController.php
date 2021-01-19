@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Sales;
+use App\Models\Marketer;
 
-class SalesController extends Controller
+class MarketerController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,14 +25,14 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sales::all();
+        $sales = Marketer::all();
         return view('pages.master.sales.sales', ['sales' => $sales]);
     }
 
     public function create()
     {
         $code = "SA-" . str_pad($this->PublicController->getRandom('sales'), 5, '0', STR_PAD_LEFT);
-        $sales = Sales::all();
+        $sales = Marketer::all();
         return view('pages.master.sales.createSales', ['code' => $code, 'sales' => $sales]);
     }
 
@@ -44,7 +44,7 @@ class SalesController extends Controller
             'tlp' => 'required',
         ]);
 
-        Sales::create([
+        Marketer::create([
             'name' => $req->name,
             'code' => $req->code,
             'tlp' => $req->tlp,
@@ -55,7 +55,7 @@ class SalesController extends Controller
 
     public function delete($id)
     {
-        $sales = Sales::find($id);
+        $sales = Marketer::find($id);
 
         $sales->delete();
         return redirect()->route('masterSales');
@@ -63,7 +63,7 @@ class SalesController extends Controller
 
     public function edit($id)
     {
-        $sales = Sales::find($id);
+        $sales = Marketer::find($id);
         return view('pages.master.sales.updateSales', ['sales' => $sales]);
     }
 
@@ -75,7 +75,7 @@ class SalesController extends Controller
             'tlp' => 'required',
         ]);
 
-        $sales = Sales::find($id);
+        $sales = Marketer::find($id);
 
         // Stored Sales
         $sales->code = $req->code;
