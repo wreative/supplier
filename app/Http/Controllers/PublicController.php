@@ -128,7 +128,7 @@ class PublicController extends Controller
 
         // Passing Data
         $datas = array(
-            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice
+            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per
         );
         return $datas;
     }

@@ -4,7 +4,7 @@
             <a href="{{ url('/') }}">{{ __('pages.title') }}</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ url('/') }}">{{ __('PBB') }}</a>
+            <a href="{{ url('/') }}">{{ __('pages.brand') }}</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">{{ __('Menu Utama') }}</li>

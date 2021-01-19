@@ -9,6 +9,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Units;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
@@ -17,8 +18,9 @@ class TransactionController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PublicController $PublicController)
     {
+        $this->PublicController = $PublicController;
         $this->middleware('auth');
     }
 
@@ -27,8 +29,6 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    //TODO:PR Sale
-    // TODO: Purchase
     public function indexPurchase()
     {
         $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
@@ -54,40 +54,43 @@ class TransactionController extends Controller
             'total' => 'required|numeric|integer|min:1',
             'units' => 'required',
             'dsc_per' => 'numeric|max:100',
-            'tax' => 'numeric',
+            'tax' => 'numeric|max:100',
             'tgl' => 'required|date',
             'supplier' => 'required',
         ]);
 
-        $exclude = $req->price_inc / 1.2;
-        $include = $req->price_exc + 10 / 100;
-        $profit = $include + $req->price * 100;
-        $price = $exclude | $include + $req->profit;
-
-        $count = DB::table('transaction')->select('id')->orderByDesc('id')->limit('1')->first()->id + 1;
-
-        $this->calculateStock($req->items, $req->units, 'Pembelian', $req->total);
-
-        $items = Items::find($req->items);
-        $units = Items::find($req->units);
+        $datas = $this->PublicController->purchase($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->tax);
+        $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
+        $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
+        $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
+        $count = $this->PublicController->countID('transaction');
 
         Transaction::create([
-            'items_id' => $items->id,
+            'items_id' => $req->items,
             'total' => $req->total,
-            'code' => $req->code,
-            'tgl' => $req->tgl,
-            'unit_id' => $units->id,
-            'info' => $req->info,
+            'code' => $code,
+            'unit_id' => $req->units,
             'p_id' => $count,
+            'sup_id' => $req->supplier
         ]);
 
         Purchase::create([
             'id' => $count,
-            'price_inc' => 'sadas',
-            'price_exc' => 'asd',
-            'profit' => 'asd',
-            'price' => 'asd'
+            'dsc' => $discount,
+            'info' => $req->info,
+            'dp' => $datas[5],
+            'tgl' => $req->tgl,
+            'tax' => $datas[4],
+            'price' => $datas[1]
         ]);
+
+        // Subtraction Items
+        $items = Items::find($req->items);
+        // $stock = $items->stock > $datas[3] ? $items->stock - $datas[3] : $datas[3] - $items->stock;
+        $items->stock = $items->stock + $datas[3];
+
+        // Saved Datas
+        $items->save();
 
         return redirect()->route('masterPurchase');
     }
@@ -257,24 +260,9 @@ class TransactionController extends Controller
         $items->save();
     }
 
-    public function removeComma($number)
+    function createJSON($dsc, $dscNom, $dscPer)
     {
-        return str_replace(',', '', $number);
-    }
-
-    public function checkInclude()
-    {
-    }
-
-    public function checkExclude()
-    {
-    }
-
-    public function checkProfit()
-    {
-    }
-
-    public function checkPrice()
-    {
+        $array = array($dsc, $dscNom, $dscPer);
+        return json_encode($array);
     }
 }

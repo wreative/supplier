@@ -13,6 +13,6 @@ return [
     |
     */
 
-    'title' => 'POS BatuBeling',
-
+    'title' => 'Stok BatuBeling',
+    'brand' => 'SBB'
 ];

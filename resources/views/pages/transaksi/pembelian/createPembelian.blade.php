@@ -19,7 +19,8 @@
         <div class="card-body">
             <div class="form-group">
                 <label>{{ __('Nama Barang') }}<code>*</code></label>
-                <select class="form-control select2 @error('items') is-invalid @enderror" name="items" id="items">
+                <select class="form-control select2 @error('items') is-invalid @enderror" name="items" id="items"
+                    required>
                     @foreach ($items as $i)
                     <option value="{{ $i->id }}">
                         {{ $i->name." - ".$i->stock." Stok - Rp.".number_format($i->relationDetail->price) }}
@@ -83,12 +84,12 @@
                                 {{ __('%') }}
                             </div>
                         </div>
-                        @error('dsc_per')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
                     </div>
+                    @error('dsc_per')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
                 </div>
             </div>
             <div class="form-group">
@@ -144,7 +145,7 @@
             </div>
             <div class="form-group">
                 <label>{{ __('Supplier') }}<code>*</code></label>
-                <select class="form-control select2 @error('supplier') is-invalid @enderror" name="supplier">
+                <select class="form-control select2 @error('supplier') is-invalid @enderror" name="supplier" required>
                     @foreach ($supplier as $s)
                     <option value="{{ $s->id }}">
                         {{ $s->name." - ".$s->code }}
