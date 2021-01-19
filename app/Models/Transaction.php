@@ -20,8 +20,6 @@ class Transaction extends Model
 
     protected $fillable = [
         'items_id',
-        'total',
-        'code',
         'p_id',
         's_id',
         'sup_id'

@@ -21,11 +21,15 @@
                         {{ __('NO') }}
                     </th>
                     <th>{{ __('No Transaksi') }}</th>
-                    <th>{{ __('Barang') }}</th>
+                    <th>{{ __('Kode Barang') }}</th>
                     <th>{{ __('Total') }}</th>
-                    <th>{{ __('Satuan') }}</th>
+                    <th>{{ __('Diskon') }}</th>
+                    <th>{{ __('Diskon Nominal') }}</th>
+                    <th>{{ __('Diskon Persen') }}</th>
+                    <th>{{ __('Pajak') }}</th>
+                    <th>{{ __('Uang Muka') }}</th>
+                    <th>{{ __('Kode Supplier') }}</th>
                     <th>{{ __('Tanggal') }}</th>
-                    <th>{{ __('Tipe Transaksi') }}</th>
                     <th>{{ __('Keterangan') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
@@ -36,26 +40,28 @@
                     <td class="text-center">
                         {{ $number+1 }}
                     </td>
-                    <td>{{ $p->code }}</td>
-                    <td>{{ $p->relationItems->name }}</td>
-                    <td>{{ $p->total }}</td>
-                    <td>{{ $p->relationUnits->name }}</td>
-                    <td>{{ date("d-M-Y", strtotime($p->tgl)) }}</td>
-                    <td>{{ $p->type }}</td>
+                    <td>{{ $p->relationPurchase->code }}</td>
+                    <td>{{ $p->relationItems->code }}</td>
+                    <td>{{ $p->relationPurchase->total.__(" Items") }}</td>
+                    <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[0]) }}</td>
+                    <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1]) }}</td>
+                    <td>{{ json_decode($p->relationPurchase->dsc)[2].__('%') }}</td>
+                    <td>{{ __('Rp.').number_format($p->relationPurchase->tax) }}</td>
+                    <td>{{ __('Rp.').number_format($p->relationPurchase->dp) }}</td>
+                    <td>{{ $p->relationSupplier->code }}</td>
+                    <td>{{ date("d-M-Y", strtotime($p->relationPurchase->tgl)) }}</td>
                     <td>
-                        @if ($p->info != null)
-                        {{ $p->info }}
+                        @if ($p->relationPurchase->info != null)
+                        {{ $p->relationPurchase->info }}
                         @else
                         {{ __('Kosong') }}
                         @endif
                     </td>
                     <td>
-                        <a href="/transaction/edit/{{ $p->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
-                            data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                         <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
-                            title="Delete"
-                            data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/transaction/delete/{{ $p->id }}','_self')"><i
+                            title="Delete" data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikann dan 
+                            mengembalikan perubahan yang sebelumnya. Apakah ingin melanjutkan?"
+                            data-confirm-yes="window.open('/purchase/delete/{{ $p->id }}','_self')"><i
                                 class="fas fa-trash"></i></a>
                     </td>
                 </tr>

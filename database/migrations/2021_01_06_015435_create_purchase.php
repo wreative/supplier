@@ -15,6 +15,8 @@ class CreatePurchase extends Migration
     {
         Schema::create('purchase', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('total');
+            $table->string('code');
             $table->json('dsc');
             $table->string('info')->nullable();
             $table->bigInteger('dp');

@@ -31,13 +31,13 @@ class TransactionController extends Controller
      */
     public function indexPurchase()
     {
-        $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
+        $purchase = Transaction::with('relationItems', 'relationPurchase')->get();
         return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
     }
 
     public function createPurchase()
     {
-        $code = "TSP/" . $this->getRandom() . "/" . date("dmY") . "/SUP";
+        $code = "TSP/" . $this->PublicController->getRandom('transaction') . "/" . date("dmY") . "/SUP";
         $items = Items::all();
         $supplier = Supplier::all();
         return view('pages.transaksi.pembelian.createPembelian', [
@@ -51,7 +51,6 @@ class TransactionController extends Controller
             'code' => 'required',
             'items' => 'required',
             'total' => 'required|numeric|integer|min:1',
-            'units' => 'required',
             'dsc_per' => 'numeric|max:100',
             'tax' => 'numeric|max:100',
             'tgl' => 'required|date',
@@ -62,12 +61,10 @@ class TransactionController extends Controller
         $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
         $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
         $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
-        $count = $this->PublicController->countID('transaction');
+        $count = $this->PublicController->countID('purchase');
 
         Transaction::create([
             'items_id' => $req->items,
-            'total' => $req->total,
-            'code' => $code,
             'unit_id' => $req->units,
             'p_id' => $count,
             'sup_id' => $req->supplier
@@ -75,6 +72,8 @@ class TransactionController extends Controller
 
         Purchase::create([
             'id' => $count,
+            'code' => $code,
+            'total' => $req->total,
             'dsc' => $discount,
             'info' => $req->info,
             'dp' => $datas[5],
@@ -83,7 +82,7 @@ class TransactionController extends Controller
             'price' => $datas[1]
         ]);
 
-        // Subtraction Items
+        // Modify Stock Items
         $items = Items::find($req->items);
         // $stock = $items->stock > $datas[3] ? $items->stock - $datas[3] : $datas[3] - $items->stock;
         $items->stock = $items->stock + $datas[3];
@@ -96,56 +95,21 @@ class TransactionController extends Controller
 
     public function deletePurchase($id)
     {
+
         $transaction = Transaction::find($id);
         $purchase = Purchase::find($transaction->p_id);
+        $items = Items::find($transaction->items_id);
+        $stock = $items->stock > $transaction->total ?
+            $items->stock - $transaction->total :
+            $transaction->total - $items->stock;
+        // Modification Data
+        $items->stock = $stock;
+        $items->save();
+        // Deleted Data
         $purchase->delete();
         $transaction->delete();
+
         return redirect()->route('masterPurchase');
-    }
-
-    public function editPurchase($id)
-    {
-        $transaction = Transaction::find($id);
-        $units = Units::all();
-        $items = Items::all();
-        return view('pages.transaksi.pembelian.updatePembelian', ['items' => $items, 'units' => $units, 'transaction' => $transaction]);
-    }
-
-    public function updatePurchase($id, Request $req)
-    {
-        $this->validate($req, [
-            'code' => 'required',
-            'total' => 'required|numeric|integer|min:1',
-            'units' => 'required',
-            'items' => 'required',
-            'price_inc' => 'numeric',
-            'price_exc' => 'numeric',
-            'profit' => 'numeric|max:100',
-            'price' => 'numeric',
-            'tgl' => 'required|date'
-        ]);
-
-        $transaction = Transaction::find($id);
-        $purchase = Purchase::find($transaction->p_id);
-
-        // Stored Items Transaction   
-        $transaction->items_id = $req->items;
-        $transaction->total = $req->total;
-        $transaction->code = $req->code;
-        $transaction->tgl = $req->tgl;
-        $transaction->unit_id = $req->units;
-        $transaction->info = $req->info;
-
-        // Stored Items Purchase
-        $purchase->price_inc = 'dsa';
-        $purchase->price_exc = 'sad';
-        $purchase->profit = 'ads';
-        $purchase->price = 'asd';
-
-        // Saved Datas
-        $transaction->save();
-        $purchase->save();
-        return redirect()->route('masterTransaction');
     }
 
     //TODO: Sale
