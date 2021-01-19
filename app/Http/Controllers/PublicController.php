@@ -100,11 +100,11 @@ class PublicController extends Controller
             return Response()->json(['status' => 'error']);
         }
 
-        $datas = $this->purchase($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp);
+        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp);
         return Response()->json(['hasil' => $datas]);
     }
 
-    public function purchase($total, $items, $discountNom, $discountPer, $dp)
+    public function calculate($total, $items, $discountNom, $discountPer, $dp)
     {
         // Initial
         $totalItems = (int)$total;

@@ -86,9 +86,16 @@ Route::group(['middleware' => 'supplier'], function () {
         ->name('createPurchase');
     Route::post('/purchase/store', [App\Http\Controllers\TransactionController::class, 'storePurchase'])
         ->name('storePurchase');
-    Route::get('/purchase/edit/{id}', [App\Http\Controllers\TransactionController::class, 'editPurchase']);
-    Route::put('/purchase/update/{id}', [App\Http\Controllers\TransactionController::class, 'updatePurchase']);
     Route::get('/purchase/delete/{id}', [App\Http\Controllers\TransactionController::class, 'deletePurchase']);
+
+    // Sales
+    Route::get('/sales', [App\Http\Controllers\TransactionController::class, 'indexSales'])
+        ->name('masterSales');
+    Route::get('/sales/create', [App\Http\Controllers\TransactionController::class, 'createSales'])
+        ->name('createSales');
+    Route::post('/sales/store', [App\Http\Controllers\TransactionController::class, 'storeSales'])
+        ->name('storeSales');
+    Route::get('/sales/delete/{id}', [App\Http\Controllers\TransactionController::class, 'deleteSales']);
 });
 
 Route::group(['middleware' => 'almaas'], function () {

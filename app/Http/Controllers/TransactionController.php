@@ -57,7 +57,7 @@ class TransactionController extends Controller
             'supplier' => 'required',
         ]);
 
-        $datas = $this->PublicController->purchase($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->tax);
+        $datas = $this->PublicController->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->tax);
         $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
         $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
         $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
