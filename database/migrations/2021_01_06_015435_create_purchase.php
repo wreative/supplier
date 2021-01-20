@@ -15,14 +15,12 @@ class CreatePurchase extends Migration
     {
         Schema::create('purchase', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('total');
             $table->string('code');
             $table->json('dsc');
             $table->string('info')->nullable();
             $table->bigInteger('dp');
-            $table->date('tgl');
             $table->bigInteger('tax');
-            $table->bigInteger('price');
+            $table->foreignId('sup_id')->nullable();
         });
     }
 

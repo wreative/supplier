@@ -21,13 +21,11 @@ class Purchase extends Model
     protected $fillable = [
         'id',
         'code',
-        'total',
         'dsc',
         'info',
         'dp',
-        'tgl',
         'tax',
-        'price'
+        'sup_id'
     ];
 
     public function relationTransaction()

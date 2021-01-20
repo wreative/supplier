@@ -69,19 +69,19 @@ class TransactionController extends Controller
             'items_id' => $req->items,
             'unit_id' => $req->units,
             'p_id' => $count,
-            'sup_id' => $req->supplier
+            'total' => $req->total,
+            'tgl' => $req->tgl,
+            'price' => $datas[1]
         ]);
 
         Purchase::create([
             'id' => $count,
             'code' => $code,
-            'total' => $req->total,
             'dsc' => $discount,
             'info' => $req->info,
             'dp' => $datas[5],
-            'tgl' => $req->tgl,
             'tax' => $datas[4],
-            'price' => $datas[1]
+            'sup_id' => $req->supplier
         ]);
 
         // Modify Stock Items

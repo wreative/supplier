@@ -22,7 +22,9 @@ class Transaction extends Model
         'items_id',
         'p_id',
         's_id',
-        'sup_id'
+        'tgl',
+        'price',
+        'total',
     ];
 
     public function relationItems()
