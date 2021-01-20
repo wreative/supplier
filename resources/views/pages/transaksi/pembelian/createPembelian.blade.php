@@ -139,7 +139,7 @@
                     </option>
                     @endforeach
                 </select>
-                @error('items')
+                @error('supplier')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>

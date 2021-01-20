@@ -117,18 +117,18 @@ class TransactionController extends Controller
     //TODO: Sales
     public function indexSales()
     {
-        $purchase = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
-        return view('pages.transaksi.penjualan.penjualan', ['purchase' => $purchase]);
+        $sales = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
+        return view('pages.transaksi.penjualan.penjualan', ['purchase' => $sales]);
     }
 
     public function createSales()
     {
-        $code = "TSS-" . $this->getRandom();
+        $code = "TSS/" . $this->PublicController->getRandom('sales') . "/" . date("dmY") . "/CUS";
         $units = Units::all();
         $items = Items::all();
         $customer = Customer::all();
         $marketer = Marketer::all();
-        return view('pages.transaksi.pembelian.createPembelian', [
+        return view('pages.transaksi.penjualan.createPenjualan', [
             'code' => $code, 'units' => $units, 'items' => $items,
             'customer' => $customer, 'marketer' => $marketer
         ]);

@@ -23,6 +23,8 @@ class Transaction extends Model
         'p_id',
         's_id',
         'sup_id',
+        'cus_id',
+        'mar_id',
         'tgl',
         'price',
         'total',
@@ -36,6 +38,16 @@ class Transaction extends Model
     public function relationPurchase()
     {
         return $this->belongsTo('App\Models\Purchase', 'p_id', 'id');
+    }
+
+    public function relationMarketer()
+    {
+        return $this->belongsTo('App\Models\Marketer', 'mar_id', 'id');
+    }
+
+    public function relationCustomer()
+    {
+        return $this->belongsTo('App\Models\Customer', 'cus_id', 'id');
     }
 
     public function relationSupplier()

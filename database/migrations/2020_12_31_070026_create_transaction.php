@@ -19,6 +19,8 @@ class CreateTransaction extends Migration
             $table->foreignId('p_id')->nullable();
             $table->foreignId('s_id')->nullable();
             $table->foreignId('sup_id')->nullable();
+            $table->foreignId('cus_id')->nullable();
+            $table->foreignId('mar_id')->nullable();
             $table->date('tgl');
             $table->bigInteger('price');
             $table->bigInteger('total');

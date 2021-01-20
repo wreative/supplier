@@ -36,4 +36,9 @@ class Customer extends Model
     {
         return $this->belongsTo('App\Models\Marketer', 'sales_id', 'id');
     }
+
+    public function relationTransaction()
+    {
+        return $this->hasMany('App\Models\Transaction', 'id', 'cus_id');
+    }
 }

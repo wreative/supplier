@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Marketer extends Model
+class Sales extends Model
 {
     use HasFactory;
     /**
@@ -14,23 +14,21 @@ class Marketer extends Model
      * @var array
      */
 
-    protected $table = 'marketer';
+    protected $table = 'sales';
     public $remember_token = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'name',
+        'id',
         'code',
-        'tlp'
+        'dsc',
+        'info',
+        'dp',
+        'tax',
     ];
-
-    public function relationCustomer()
-    {
-        return $this->hasMany('App\Models\Customer', 'id', 'sales_id');
-    }
 
     public function relationTransaction()
     {
-        return $this->hasMany('App\Models\Transaction', 'id', 'mar_id');
+        return $this->hasOne('App\Models\Transaction', 'id', 's_id');
     }
 }
