@@ -59,7 +59,12 @@
                         {{ __('Kosong') }}
                         @endif
                     </td>
-                    <td>{{ $c->relationMarketer->code }}</td>
+                    <td>
+                        @if ($c->relationMarketer != null)
+                        {{ $c->relationMarketer->code }}
+                        @else
+                        {{ __('Tidak ada') }}
+                        @endif
                     <td>
                         <a href="/customer/edit/{{ $c->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>

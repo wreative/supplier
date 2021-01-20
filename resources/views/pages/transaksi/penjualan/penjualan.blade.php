@@ -42,14 +42,14 @@
                     </td>
                     <td>{{ $p->relationPurchase->code }}</td>
                     <td>{{ $p->relationItems->code }}</td>
-                    <td>{{ $p->relationPurchase->total.__(" Items") }}</td>
+                    <td>{{ $p->total.__(" Items") }}</td>
                     <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[0]) }}</td>
                     <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1]) }}</td>
                     <td>{{ json_decode($p->relationPurchase->dsc)[2].__('%') }}</td>
                     <td>{{ __('Rp.').number_format($p->relationPurchase->tax) }}</td>
                     <td>{{ __('Rp.').number_format($p->relationPurchase->dp) }}</td>
                     <td>{{ $p->relationSupplier->code }}</td>
-                    <td>{{ date("d-M-Y", strtotime($p->relationPurchase->tgl)) }}</td>
+                    <td>{{ date("d-M-Y", strtotime($p->tgl)) }}</td>
                     <td>
                         @if ($p->relationPurchase->info != null)
                         {{ $p->relationPurchase->info }}

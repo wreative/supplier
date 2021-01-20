@@ -49,7 +49,7 @@ class ItemsController extends Controller
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
-            'profit' => 'numeric|max:100',
+            'profit' => 'nullable|numeric|max:100',
             'price_inc' => 'required',
             'price' => 'required',
         ]);
@@ -72,8 +72,8 @@ class ItemsController extends Controller
 
         // $price = $final + $profit;
         // dd($price);
-
-
+        $price_exc = $req->price_exc == null ? $price_exc = 0
+            : $this->PublicController->removeComma($req->price_exc);
         $count = $this->PublicController->countID('items');
 
         Items::create([
@@ -88,7 +88,7 @@ class ItemsController extends Controller
         ItemsDetail::create([
             'id' => $count,
             'price_inc' => $this->PublicController->removeComma($req->price_inc),
-            'price_exc' => $this->PublicController->removeComma($req->price_exc),
+            'price_exc' => $price_exc,
             'profit' => $req->profit,
             'price' => $this->PublicController->removeComma($req->price)
         ]);

@@ -33,7 +33,7 @@ class TransactionController extends Controller
      */
     public function indexPurchase()
     {
-        $purchase = Transaction::with('relationItems', 'relationPurchase')->get();
+        $purchase = Transaction::with('relationItems', 'relationSupplier')->get();
         return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
     }
 
@@ -53,7 +53,7 @@ class TransactionController extends Controller
             'code' => 'required',
             'items' => 'required',
             'total' => 'required|numeric|integer|min:1',
-            'dsc_per' => 'numeric|max:100',
+            'dsc_per' => 'nullable|numeric|max:100',
             'tax' => 'numeric|max:100',
             'tgl' => 'required|date',
             'supplier' => 'required',
@@ -69,6 +69,7 @@ class TransactionController extends Controller
             'items_id' => $req->items,
             'unit_id' => $req->units,
             'p_id' => $count,
+            'sup_id' => $req->supplier,
             'total' => $req->total,
             'tgl' => $req->tgl,
             'price' => $datas[1]
@@ -81,7 +82,6 @@ class TransactionController extends Controller
             'info' => $req->info,
             'dp' => $datas[5],
             'tax' => $datas[4],
-            'sup_id' => $req->supplier
         ]);
 
         // Modify Stock Items

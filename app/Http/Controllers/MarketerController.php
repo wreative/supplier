@@ -12,8 +12,9 @@ class MarketerController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PublicController $PublicController)
     {
+        $this->PublicController = $PublicController;
         $this->middleware('auth');
     }
 
@@ -30,7 +31,7 @@ class MarketerController extends Controller
 
     public function create()
     {
-        $code = "SA-" . str_pad($this->PublicController->getRandom('sales'), 5, '0', STR_PAD_LEFT);
+        $code = "SA-" . str_pad($this->PublicController->getRandom('marketer'), 5, '0', STR_PAD_LEFT);
         $sales = Marketer::all();
         return view('pages.master.sales.createSales', ['code' => $code, 'sales' => $sales]);
     }

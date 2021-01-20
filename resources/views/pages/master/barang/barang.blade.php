@@ -60,10 +60,10 @@
                         @endif
                     </td>
                     <td>
-                        @if($i->relationDetail != null)
-                        {{ $i->relationDetail->profit.__('%') }}
-                        @else
+                        @if($i->relationDetail == null || $i->relationDetail->profit == null)
                         {{ __('0%') }}
+                        @else
+                        {{ $i->relationDetail->profit.__('%') }}
                         @endif
                     </td>
                     <td>

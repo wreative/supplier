@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\CustomerDetail;
 use App\Http\Controllers\PublicController;
-use App\Models\Sales;
+use App\Models\Marketer;
 
 class CustomerController extends Controller
 {
@@ -28,7 +28,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = Customer::with('relationDetail', 'relationSales')->get();
+        $customer = Customer::with('relationDetail', 'relationMarketer')->get();
         return view('pages.master.customer.customer', ['customer' => $customer]);
     }
 
@@ -36,7 +36,7 @@ class CustomerController extends Controller
     {
         $code = "C-" . str_pad($this->PublicController->getRandom('customer'), 5, '0', STR_PAD_LEFT);
         $customer = Customer::all();
-        $sales = Sales::all();
+        $sales = Marketer::all();
         return view('pages.master.customer.createCustomer', ['code' => $code, 'customer' => $customer, 'sales' => $sales]);
     }
 

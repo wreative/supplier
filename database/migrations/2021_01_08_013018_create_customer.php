@@ -20,7 +20,7 @@ class CreateCustomer extends Migration
             $table->json('address');
             $table->string('tlp');
             $table->foreignId('detail_id');
-            $table->foreignId('sales_id');
+            $table->foreignId('sales_id')->nullable();
         });
     }
 

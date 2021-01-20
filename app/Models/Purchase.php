@@ -25,7 +25,6 @@ class Purchase extends Model
         'info',
         'dp',
         'tax',
-        'sup_id'
     ];
 
     public function relationTransaction()

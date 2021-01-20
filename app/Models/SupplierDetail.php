@@ -30,8 +30,8 @@ class SupplierDetail extends Model
         'info'
     ];
 
-    public function relationSupplier()
+    public function relationTransaction()
     {
-        return $this->hasOne('App\Models\Supplier', 'id', 'detail_id');
+        return $this->hasOne('App\Models\Transaction', 'sup_id', 'id');
     }
 }

@@ -20,7 +20,6 @@ class CreatePurchase extends Migration
             $table->string('info')->nullable();
             $table->bigInteger('dp');
             $table->bigInteger('tax');
-            $table->foreignId('sup_id')->nullable();
         });
     }
 
