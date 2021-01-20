@@ -50,7 +50,7 @@ class MarketerController extends Controller
             'tlp' => $req->tlp,
         ]);
 
-        return redirect()->route('masterSales');
+        return redirect()->route('masterMarketer');
     }
 
     public function delete($id)
@@ -58,7 +58,7 @@ class MarketerController extends Controller
         $sales = Marketer::find($id);
 
         $sales->delete();
-        return redirect()->route('masterSales');
+        return redirect()->route('masterMarketer');
     }
 
     public function edit($id)

@@ -29,7 +29,9 @@ class HomeController extends Controller
         if (Auth::user()->role_id == 1) {
             $items = DB::table('items')->count();
             $stock = Items::sum('stock');
-            return view('home', ['items' => $items, 'stock' => $stock]);
+            $purchase = DB::table('purchase')->count();
+            $sales = DB::table('sales')->count();
+            return view('home', ['items' => $items, 'stock' => $stock, 'purchase' => $purchase, 'sales' => $sales]);
         } else {
             $items = DB::table('al_items')->count();
             $stock = ItemsAlmaas::sum('stock');

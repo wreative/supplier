@@ -40,6 +40,11 @@ class Transaction extends Model
         return $this->belongsTo('App\Models\Purchase', 'p_id', 'id');
     }
 
+    public function relationSales()
+    {
+        return $this->belongsTo('App\Models\Sales', 's_id', 'id');
+    }
+
     public function relationMarketer()
     {
         return $this->belongsTo('App\Models\Marketer', 'mar_id', 'id');

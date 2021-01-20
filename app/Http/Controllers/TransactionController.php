@@ -8,6 +8,7 @@ use App\Models\Items;
 use App\Models\Marketer;
 use App\Models\Customer;
 use App\Models\Purchase;
+use App\Models\Sales;
 use App\Models\Supplier;
 use App\Models\Units;
 use App\Models\Transaction;
@@ -67,7 +68,7 @@ class TransactionController extends Controller
 
         Transaction::create([
             'items_id' => $req->items,
-            'unit_id' => $req->units,
+            // 'unit_id' => $req->units,
             'p_id' => $count,
             'sup_id' => $req->supplier,
             'total' => $req->total,
@@ -86,7 +87,6 @@ class TransactionController extends Controller
 
         // Modify Stock Items
         $items = Items::find($req->items);
-        // $stock = $items->stock > $datas[3] ? $items->stock - $datas[3] : $datas[3] - $items->stock;
         $items->stock = $items->stock + $datas[3];
 
         // Saved Datas
@@ -117,7 +117,7 @@ class TransactionController extends Controller
     //TODO: Sales
     public function indexSales()
     {
-        $sales = Transaction::with('relationItems', 'relationUnits', 'relationPurchase')->get();
+        $sales = Transaction::with('relationItems', 'relationSales')->get();
         return view('pages.transaksi.penjualan.penjualan', ['purchase' => $sales]);
     }
 
@@ -138,83 +138,68 @@ class TransactionController extends Controller
     {
         $this->validate($req, [
             'code' => 'required',
-            'total' => 'required|numeric|integer|min:1',
-            'units' => 'required',
             'items' => 'required',
-            'type' => 'required',
-            'tgl' => 'required|date'
+            'total' => 'required|numeric|integer|min:1',
+            'dsc_per' => 'nullable|numeric|max:100',
+            'tax' => 'numeric|max:100',
+            'tgl' => 'required|date',
+            'customer' => 'required',
+            'marketer' => 'required'
         ]);
 
-        $this->calculateStock($req->items, $req->units, $req->type, $req->total);
-
-        $items = Items::find($req->items);
-        $units = Items::find($req->units);
+        $datas = $this->PublicController->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->tax);
+        $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
+        $codeCustomer = Str::substr(Customer::find($req->customer)->code, 3, 5);
+        $code = Str::replaceLast('CUS', $codeCustomer, $req->code);
+        $count = $this->PublicController->countID('sales');
 
         Transaction::create([
-            'items_id' => $items->id,
+            'items_id' => $req->items,
+            // 'unit_id' => $req->units,
+            's_id' => $count,
+            'cus_id' => $req->customer,
+            'mar_id' => $req->marketer,
             'total' => $req->total,
-            'code' => $req->code,
             'tgl' => $req->tgl,
-            'type' => $req->type,
-            'unit_id' => $units->id,
-            'info' => $req->info
+            'price' => $datas[1]
         ]);
 
-        return redirect()->route('masterTransaction');
+        Sales::create([
+            'id' => $count,
+            'code' => $code,
+            'dsc' => $discount,
+            'info' => $req->info,
+            'dp' => $datas[5],
+            'tax' => $datas[4],
+        ]);
+
+        // Modify Stock Items
+        $items = Items::find($req->items);
+        $stock = $items->stock > $datas[3] ? $items->stock - $datas[3] : $datas[3] - $items->stock;
+        $items->stock = $stock;
+
+        // Saved Datas
+        $items->save();
+
+        return redirect()->route('masterSales');
     }
 
     public function deleteSales($id)
     {
         $transaction = Transaction::find($id);
+        $purchase = Purchase::find($transaction->p_id);
+        $items = Items::find($transaction->items_id);
+        $stock = $items->stock > $transaction->total ?
+            $items->stock - $transaction->total :
+            $transaction->total - $items->stock;
+        // Modification Data
+        $items->stock = $stock;
+        $items->save();
+        // Deleted Data
+        $purchase->delete();
         $transaction->delete();
-        return redirect()->route('masterTransaction');
-    }
 
-    public function editSales($id)
-    {
-        $transaction = Transaction::find($id);
-        $units = Units::all();
-        $items = Items::all();
-        return view('pages.transaksi.updateTransaksi', ['items' => $items, 'units' => $units, 'transaction' => $transaction]);
-    }
-
-    public function updateSales($id, Request $req)
-    {
-        $this->validate($req, [
-            'code' => 'required',
-            'total' => 'required|numeric|integer|min:1',
-            'units' => 'required',
-            'items' => 'required',
-            'type' => 'required',
-            'tgl' => 'required|date'
-        ]);
-
-        $transaction = Transaction::find($id);
-
-        // Stored Items
-        $transaction->code = $req->code;
-        $transaction->total = $req->total;
-        $transaction->unit_id = $req->units;
-        $transaction->items_id = $req->items;
-        $transaction->tgl = $req->tgl;
-        $transaction->type = $req->type;
-        $transaction->info = $req->info;
-
-        // Saved Datas
-        $transaction->save();
-        return redirect()->route('masterTransaction');
-    }
-
-    public function getRandom()
-    {
-        do {
-            $random = rand(00001, 99999);
-            $check = DB::table('transaction')
-                ->select('code')
-                ->having('code', '=', $random)
-                ->first();
-        } while ($check != null);
-        return $random;
+        return redirect()->route('masterPurchase');
     }
 
     public function calculateStock($items, $units, $type, $total)

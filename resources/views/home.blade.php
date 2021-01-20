@@ -52,10 +52,10 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Stok Masuk') }}</h4>
+                    <h4>{{ __('Transaksi Masuk') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ __('0') }}
+                    {{ $purchase }}
                 </div>
             </div>
         </div>
@@ -67,10 +67,10 @@
             </div>
             <div class="card-wrap">
                 <div class="card-header">
-                    <h4>{{ __('Stok Keluar') }}</h4>
+                    <h4>{{ __('Transaksi Keluar') }}</h4>
                 </div>
                 <div class="card-body">
-                    {{ __('0') }}
+                    {{ $sales }}
                 </div>
             </div>
         </div>
