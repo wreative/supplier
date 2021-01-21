@@ -15,10 +15,10 @@ class CreateDItems extends Migration
     {
         Schema::create('d_items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('price_inc');
-            $table->bigInteger('price_exc')->nullable();
-            $table->bigInteger('profit')->nullable();
             $table->bigInteger('price');
+            $table->bigInteger('profit')->nullable();
+            $table->bigInteger('sell_price');
+            $table->boolean('ppn');
         });
     }
 

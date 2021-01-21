@@ -28,31 +28,33 @@
                     <th>{{ __('Diskon Persen') }}</th>
                     <th>{{ __('Pajak') }}</th>
                     <th>{{ __('Uang Muka') }}</th>
-                    <th>{{ __('Kode Supplier') }}</th>
+                    <th>{{ __('Kode Customer') }}</th>
+                    <th>{{ __('Kode Sales') }}</th>
                     <th>{{ __('Tanggal') }}</th>
                     <th>{{ __('Keterangan') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($purchase as $number => $p)
+                @foreach($sales as $number => $s)
                 <tr>
                     <td class="text-center">
                         {{ $number+1 }}
                     </td>
-                    <td>{{ $p->relationPurchase->code }}</td>
-                    <td>{{ $p->relationItems->code }}</td>
-                    <td>{{ $p->total.__(" Items") }}</td>
-                    <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[0]) }}</td>
-                    <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1]) }}</td>
-                    <td>{{ json_decode($p->relationPurchase->dsc)[2].__('%') }}</td>
-                    <td>{{ __('Rp.').number_format($p->relationPurchase->tax) }}</td>
-                    <td>{{ __('Rp.').number_format($p->relationPurchase->dp) }}</td>
-                    <td>{{ $p->relationSupplier->code }}</td>
-                    <td>{{ date("d-M-Y", strtotime($p->tgl)) }}</td>
+                    <td>{{ $s->relationSales->code }}</td>
+                    <td>{{ $s->relationItems->code }}</td>
+                    <td>{{ $s->total.__(" Items") }}</td>
+                    <td>{{ __('Rp.').number_format(json_decode($s->relationSales->dsc)[0]) }}</td>
+                    <td>{{ __('Rp.').number_format(json_decode($s->relationSales->dsc)[1]) }}</td>
+                    <td>{{ json_decode($s->relationSales->dsc)[2].__('%') }}</td>
+                    <td>{{ __('Rp.').number_format($s->relationSales->tax) }}</td>
+                    <td>{{ __('Rp.').number_format($s->relationSales->dp) }}</td>
+                    <td>{{ $s->relationCustomer->code }}</td>
+                    <td>{{ $s->relationMarketer->code }}</td>
+                    <td>{{ date("d-M-Y", strtotime($s->tgl)) }}</td>
                     <td>
-                        @if ($p->relationPurchase->info != null)
-                        {{ $p->relationPurchase->info }}
+                        @if ($s->relationSales->info != null)
+                        {{ $s->relationSales->info }}
                         @else
                         {{ __('Kosong') }}
                         @endif
@@ -61,7 +63,7 @@
                         <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
                             title="Delete" data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan dan 
                             mengembalikan perubahan yang sebelumnya. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/purchase/delete/{{ $p->id }}','_self')"><i
+                            data-confirm-yes="window.open('/sales/delete/{{ $s->id }}','_self')"><i
                                 class="fas fa-trash"></i></a>
                     </td>
                 </tr>

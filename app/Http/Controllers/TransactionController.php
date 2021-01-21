@@ -34,7 +34,7 @@ class TransactionController extends Controller
      */
     public function indexPurchase()
     {
-        $purchase = Transaction::with('relationItems', 'relationSupplier')->get();
+        $purchase = Transaction::with('relationItems', 'relationSupplier', 'relationPurchase')->get();
         return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
     }
 
@@ -117,8 +117,9 @@ class TransactionController extends Controller
     //TODO: Sales
     public function indexSales()
     {
-        $sales = Transaction::with('relationItems', 'relationSales')->get();
-        return view('pages.transaksi.penjualan.penjualan', ['purchase' => $sales]);
+        $sales = Transaction::with('relationItems', 'relationSales', 'relationCustomer', 'relationMarketer')->get();
+        // dd($sales);
+        return view('pages.transaksi.penjualan.penjualan', ['sales' => $sales]);
     }
 
     public function createSales()

@@ -20,10 +20,10 @@ class ItemsDetail extends Model
 
     protected $fillable = [
         'id',
-        'price_inc',
-        'price_exc',
-        'profit',
         'price',
+        'profit',
+        'sell_price',
+        'ppn'
     ];
 
     public function relationItems()

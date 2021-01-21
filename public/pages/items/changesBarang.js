@@ -35,11 +35,12 @@ function checkExclude() {
 }
 
 function checkPrice() {
-    let include = numberWithoutCommas($("#price_inc").val());
+    let price = numberWithoutCommas($("#price").val());
+    let ppn = $('input[name="ppn"]:checked').val();
     let profit = numberWithoutCommas($("#profit").val());
     $.ajax({
         url: "/check-price",
-        data: { include: include, profit: profit },
+        data: { ppn: ppn, profit: profit, price: price },
         type: "GET",
         success: function(data) {
             if (data.status == "error") {
@@ -49,9 +50,9 @@ function checkPrice() {
                     icon: "error",
                     button: "Ok"
                 });
-                $("#price").val(0);
+                $("#sell_price").val(0);
             } else {
-                $("#price").val(numberWithCommas(data.price));
+                $("#sell_price").val(numberWithCommas(data.price));
             }
         }
     });

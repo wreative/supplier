@@ -80,14 +80,27 @@ class PublicController extends Controller
 
     public function checkPrice(Request $req)
     {
-        $include = (int)$req->include;
+        // $include = (int)$req->include;
+        // $profit = (int)$req->profit;
+        // if ($profit >= 100) {
+        //     return Response()->json(['status' => 'error']);
+        // } else {
+        //     $price = round($include + ($include * $profit / 100));
+        //     return Response()->json(['price' => $price]);
+        // }
+        // $include = (int)$req->include;
+        $price = (int)$req->price;
         $profit = (int)$req->profit;
+        $ppn = $req->ppn;
         if ($profit >= 100) {
             return Response()->json(['status' => 'error']);
-        } else {
+        } else if ($ppn == 1) {
+            $include = $price + ($price * 10 / 100);
             $price = round($include + ($include * $profit / 100));
-            return Response()->json(['price' => $price]);
+        } else if ($ppn == 0) {
+            $price = round($price + ($price * $profit / 100));
         }
+        return Response()->json(['price' => $price]);
     }
 
     public function checkPurchase(Request $req)
