@@ -23,7 +23,7 @@
                     required>
                     @foreach ($items as $i)
                     <option value="{{ $i->id }}">
-                        {{ $i->name." - ".$i->stock." Stok - Rp.".number_format($i->relationDetail->price) }}
+                        {{ $i->name." - ".$i->stock." Stok - Rp.".number_format($i->relationDetail->sell_price) }}
                     </option>
                     @endforeach
                 </select>

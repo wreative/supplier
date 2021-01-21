@@ -84,6 +84,6 @@ class MarketerController extends Controller
 
         // Saved Datas
         $sales->save();
-        return redirect()->route('masterSupplier');
+        return redirect()->route('masterMarketer');
     }
 }

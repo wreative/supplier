@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <input class="form-control currency @error('price') is-invalid @enderror" id="price" type="text"
-                        name="price" value="{{ $items->relationDetail->price }}">
+                        name="price" value="{{ $items->relationDetail == null ? 0 : $items->relationDetail->price }}">
                 </div>
                 @error('price')
                 <span class="text-danger" role="alert">
@@ -72,12 +72,12 @@
                 <div class="selectgroup w-100" id="ppn">
                     <label class="selectgroup-item">
                         <input type="radio" name="ppn" value="1" class="selectgroup-input"
-                            {{ $items->relationDetail->ppn == 1 ? 'checked' : '' }}>
+                            {{ $items->relationDetail == null ? 'checked' : ($items->relationDetail->ppn == 1 ? 'checked' : '') }}>
                         <span class="selectgroup-button">{{ __('Ya') }}</span>
                     </label>
                     <label class="selectgroup-item">
                         <input type="radio" name="ppn" value="0" class="selectgroup-input"
-                            {{ $items->relationDetail->ppn == 0 ? 'checked' : '' }}>
+                            {{ $items->relationDetail == null ? '' : ($items->relationDetail->ppn == 0 ? 'checked' : '') }}>
                         <span class="selectgroup-button">{{ __('Tidak') }}</span>
                     </label>
                 </div>
@@ -86,7 +86,8 @@
                 <label>{{ __('Keuntungan') }}</label>
                 <div class="input-group">
                     <input class="form-control @error('profit') is-invalid @enderror" type="text" name="profit"
-                        id="profit" max="100" value="{{ $items->relationDetail->profit }}">
+                        id="profit" max="100"
+                        value="{{ $items->relationDetail == null ? 0 : $items->relationDetail->profit }}">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('%') }}
@@ -111,7 +112,8 @@
                         </div>
                     </div>
                     <input class="form-control currency @error('sell_price') is-invalid @enderror" type="text"
-                        name="sell_price" id="sell_price" value="{{ $items->relationDetail->sell_price }}">
+                        name="sell_price" id="sell_price"
+                        value="{{ $items->relationDetail == null ? 0 : $items->relationDetail->sell_price }}">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button"
                             onclick="checkPrice()">{{ __('Ambil Data') }}</button>

@@ -60,7 +60,7 @@
                         <span class="badge badge-danger">{{ __('TIDAK') }}</span>
                         @endif
                         @else
-                        {{ __('Rp.0') }}
+                        <span class="badge badge-info">{{ __('KOSONG') }}</span>
                         @endif
                     </td>
                     <td>
