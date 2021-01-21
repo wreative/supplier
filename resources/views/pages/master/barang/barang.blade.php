@@ -25,8 +25,8 @@
                     <th>{{ __('Nama') }}</th>
                     <th>{{ __('Stock') }}</th>
                     <th>{{ __('Units') }}</th>
-                    <th>{{ __('Harga Include PPN') }}</th>
-                    <th>{{ __('Harga Exclude PPN') }}</th>
+                    <th>{{ __('Harga Pokok') }}</th>
+                    <th>{{ __('Include PPN') }}</th>
                     <th>{{ __('Keuntungan') }}</th>
                     <th>{{ __('Harga Jual') }}</th>
                     <th>{{ __('Keterangan') }}</th>
@@ -47,14 +47,18 @@
                     <td>{{ $i->relationUnits->name }}</td>
                     <td>
                         @if($i->relationDetail != null)
-                        {{ __('Rp.').number_format($i->relationDetail->price_inc) }}
+                        {{ __('Rp.').number_format($i->relationDetail->price) }}
                         @else
                         {{ __('Rp.0') }}
                         @endif
                     </td>
                     <td>
                         @if($i->relationDetail != null)
-                        {{ __('Rp.').number_format($i->relationDetail->price_exc) }}
+                        @if ($i->relationDetail->ppn == 1)
+                        <span class="badge badge-success">{{ __('YA') }}</span>
+                        @else
+                        <span class="badge badge-danger">{{ __('TIDAK') }}</span>
+                        @endif
                         @else
                         {{ __('Rp.0') }}
                         @endif
@@ -68,7 +72,7 @@
                     </td>
                     <td>
                         @if($i->relationDetail != null)
-                        {{ __('Rp.').number_format($i->relationDetail->price) }}
+                        {{ __('Rp.').number_format($i->relationDetail->sell_price) }}
                         @else
                         {{ __('Rp.0') }}
                         @endif

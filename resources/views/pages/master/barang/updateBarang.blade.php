@@ -51,61 +51,42 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Harga Pokok (Include PPN)') }}<code>*</code></label>
+                <label>{{ __('Harga Pokok') }}<code>*</code></label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('price_inc') is-invalid @enderror" id="price_inc"
-                        type="text" name="price_inc"
-                        value="{{ $items->relationDetail != null ? $items->relationDetail->price_inc : 0 }}">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"
-                            onclick="checkInclude()">{{ __('Ambil Data') }}</button>
-                    </div>
+                    <input class="form-control currency @error('price') is-invalid @enderror" id="price" type="text"
+                        name="price" value="{{ $items->relationDetail->price }}">
                 </div>
-                <span class="text-primary" role="alert">
-                    {{ __('Harga Pokok (Exclude PPN) harus terisi untuk mengambil data') }}
-                </span>
-                @error('price_inc')
+                @error('price')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Harga Pokok (Exclude PPN)') }}</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
-                        </div>
-                    </div>
-                    <input class="form-control currency @error('price_exc') is-invalid @enderror" type="text"
-                        name="price_exc" id="price_exc"
-                        value="{{ $items->relationDetail != null ? $items->relationDetail->price_exc : 0 }}">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button"
-                            onclick="checkExclude()">{{ __('Ambil Data') }}</button>
-                    </div>
+                <label class="form-label">{{ __('Include PPN') }}<code>*</code></label>
+                <div class="selectgroup w-100" id="ppn">
+                    <label class="selectgroup-item">
+                        <input type="radio" name="ppn" value="1" class="selectgroup-input"
+                            {{ $items->relationDetail->ppn == 1 ? 'checked' : '' }}>
+                        <span class="selectgroup-button">{{ __('Ya') }}</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="ppn" value="0" class="selectgroup-input"
+                            {{ $items->relationDetail->ppn == 0 ? 'checked' : '' }}>
+                        <span class="selectgroup-button">{{ __('Tidak') }}</span>
+                    </label>
                 </div>
-                <span class="text-primary" role="alert">
-                    {{ __('Harga Pokok (Include PPN) harus terisi untuk mengambil data') }}
-                </span>
-                @error('price_exc')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
             </div>
             <div class="form-group">
                 <label>{{ __('Keuntungan') }}</label>
                 <div class="input-group">
                     <input class="form-control @error('profit') is-invalid @enderror" type="text" name="profit"
-                        id="profit" max="100"
-                        value="{{ $items->relationDetail != null ? $items->relationDetail->profit : 0 }}">
+                        id="profit" max="100" value="{{ $items->relationDetail->profit }}">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('%') }}
@@ -129,8 +110,8 @@
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('price') is-invalid @enderror" type="text" name="price"
-                        id="price" value="{{ $items->relationDetail != null ? $items->relationDetail->price : 0 }}">
+                    <input class="form-control currency @error('sell_price') is-invalid @enderror" type="text"
+                        name="sell_price" id="sell_price" value="{{ $items->relationDetail->sell_price }}">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button"
                             onclick="checkPrice()">{{ __('Ambil Data') }}</button>

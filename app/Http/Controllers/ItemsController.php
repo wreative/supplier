@@ -49,9 +49,10 @@ class ItemsController extends Controller
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
-            'profit' => 'nullable|numeric|max:100',
-            'price_inc' => 'required',
             'price' => 'required',
+            'ppn' => 'required|numeric|integer',
+            'profit' => 'nullable|numeric|max:100',
+            'sell_price' => 'required',
         ]);
 
         // Initial
@@ -72,8 +73,8 @@ class ItemsController extends Controller
 
         // $price = $final + $profit;
         // dd($price);
-        $price_exc = $req->price_exc == null ? $price_exc = 0
-            : $this->PublicController->removeComma($req->price_exc);
+        // $price_exc = $req->price_exc == null ? $price_exc = 0
+        //     : $this->PublicController->removeComma($req->price_exc);
         $count = $this->PublicController->countID('items');
 
         Items::create([
@@ -87,10 +88,10 @@ class ItemsController extends Controller
 
         ItemsDetail::create([
             'id' => $count,
-            'price_inc' => $this->PublicController->removeComma($req->price_inc),
-            'price_exc' => $price_exc,
+            'price' => $this->PublicController->removeComma($req->price),
             'profit' => $req->profit,
-            'price' => $this->PublicController->removeComma($req->price)
+            'sell_price' => $this->PublicController->removeComma($req->sell_price),
+            'ppn' => $req->ppn,
         ]);
 
         return redirect()->route('masterItems');
@@ -116,12 +117,14 @@ class ItemsController extends Controller
     public function update($id, Request $req)
     {
         $this->validate($req, [
+            'code' => 'required',
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
-            'profit' => 'numeric|max:100',
-            'price_inc' => 'required',
             'price' => 'required',
+            'ppn' => 'required|numeric|integer',
+            'profit' => 'nullable|numeric|max:100',
+            'sell_price' => 'required',
         ]);
 
         $items = Items::find($id);
@@ -135,10 +138,10 @@ class ItemsController extends Controller
         if ($items->detail_id == null) {
             // Stored Items
             ItemsDetail::create([
-                'price_inc' => $this->PublicController->removeComma($req->price_inc),
-                'price_exc' => $this->PublicController->removeComma($req->price_exc),
+                'price' => $this->PublicController->removeComma($req->price),
                 'profit' => $req->profit,
-                'price' => $this->PublicController->removeComma($req->price)
+                'sell_price' => $this->PublicController->removeComma($req->sell_price),
+                'ppn' => $req->ppn,
             ]);
 
             $count = DB::table('d_items')
@@ -151,10 +154,10 @@ class ItemsController extends Controller
             $itemsDetail = ItemsDetail::find($items->detail_id);
 
             // Stored Items
-            $itemsDetail->price_inc = $this->PublicController->removeComma($req->price_inc);
-            $itemsDetail->price_exc = $this->PublicController->removeComma($req->price_exc);
-            $itemsDetail->profit = $req->profit;
             $itemsDetail->price = $this->PublicController->removeComma($req->price);
+            $itemsDetail->profit = $req->profit;
+            $itemsDetail->sell_price = $this->PublicController->removeComma($req->sell_price);
+            $itemsDetail->ppn = $req->ppn;
 
             $itemsDetail->save();
         }
