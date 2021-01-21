@@ -113,7 +113,7 @@ class PublicController extends Controller
             return Response()->json(['status' => 'error']);
         }
 
-        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp);
+        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp, $req->ppn);
         return Response()->json(['hasil' => $datas]);
     }
 
@@ -127,22 +127,30 @@ class PublicController extends Controller
             return Response()->json(['status' => 'error']);
         }
 
-        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp);
+        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp, $req->ppn);
         return Response()->json(['hasil' => $datas]);
     }
 
-    public function calculate($total, $items, $discountNom, $discountPer, $dp)
+    public function calculate($total, $items, $discountNom, $discountPer, $dp, $ppn)
     {
         // Initial
         $totalItems = (int)$total;
         $itemsName = Items::find($items)->name;
         $items = Items::find($items)->detail_id;
         $itemsDetail = ItemsDetail::find($items);
-        $itemsPrice = $itemsDetail->price;
+        $itemsPrice = $itemsDetail->sell_price;
         $dsc_nom = (int)$discountNom;
         $dsc_per = (int)$discountPer;
-        $tax = $itemsDetail->price_inc * $totalItems;
         $downPayment = (int)$dp;
+
+        // Tax
+        if ($ppn == 1) {
+            $tax = round($itemsDetail->price + ($itemsDetail->price * 10 / 100) * $totalItems);
+            $status = 1;
+        } else if ($ppn == 0) {
+            $tax = round($itemsDetail->price * $totalItems);
+            $status = 0;
+        }
 
         // Initial New Price
         $newPrice = $totalItems * $itemsPrice;
@@ -155,7 +163,7 @@ class PublicController extends Controller
 
         // Passing Data
         $datas = array(
-            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per
+            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per, $status
         );
         return $datas;
     }

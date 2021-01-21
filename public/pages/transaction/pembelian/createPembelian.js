@@ -15,6 +15,7 @@ function getPrice() {
     let dsc_nom = numberWithoutCommas($("#dsc_nom").val());
     let dsc_per = $("#dsc_per").val();
     let dp = numberWithoutCommas($("#dp").val());
+    let ppn = $('input[name="ppn"]:checked').val();
     $.ajax({
         url: "/check-purchase",
         data: {
@@ -22,7 +23,8 @@ function getPrice() {
             items: items,
             dsc_nom: dsc_nom,
             dsc_per: dsc_per,
-            dp: dp
+            dp: dp,
+            ppn: ppn
         },
         type: "GET",
         success: function(data) {

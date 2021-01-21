@@ -80,21 +80,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>{{ __('Pajak') }}</label>
-                <div class="input-group">
-                    <input class="form-control currency @error('tax') is-invalid @enderror" type="text" name="tax"
-                        id="tax" max="100" value="10" disabled>
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('%') }}
-                        </div>
-                    </div>
+                <label class="form-label">{{ __('Include PPN') }}<code>*</code></label>
+                <div class="selectgroup w-100" id="ppn">
+                    <label class="selectgroup-item">
+                        <input type="radio" name="ppn" value="1" class="selectgroup-input" checked>
+                        <span class="selectgroup-button">{{ __('Ya') }}</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="ppn" value="0" class="selectgroup-input">
+                        <span class="selectgroup-button">{{ __('Tidak') }}</span>
+                    </label>
                 </div>
-                @error('tax')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
             </div>
             <div class="form-group">
                 <label>{{ __('Uang Muka (DP)') }}</label>
