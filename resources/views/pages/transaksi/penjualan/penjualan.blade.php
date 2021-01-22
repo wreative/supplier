@@ -14,6 +14,9 @@
             <i class="far fa-edit"></i>{{ __(' Tambah Transaksi Penjualan') }}</a>
     </div>
     <div class="card-body">
+        @if($count == 0)
+        <h4 class="text-center">{{ __('DATA KOSONG') }}</h4>
+        @else
         <table class="table-striped table" id="transaction" width="100%">
             <thead>
                 <tr>
@@ -27,7 +30,9 @@
                     <th>{{ __('Diskon Nominal') }}</th>
                     <th>{{ __('Diskon Persen') }}</th>
                     <th>{{ __('Pajak') }}</th>
+                    <th>{{ __('PPN') }}</th>
                     <th>{{ __('Uang Muka') }}</th>
+                    <th>{{ __('Harga') }}</th>
                     <th>{{ __('Kode Customer') }}</th>
                     <th>{{ __('Kode Sales') }}</th>
                     <th>{{ __('Tanggal') }}</th>
@@ -48,7 +53,15 @@
                     <td>{{ __('Rp.').number_format(json_decode($s->relationSales->dsc)[1]) }}</td>
                     <td>{{ json_decode($s->relationSales->dsc)[2].__('%') }}</td>
                     <td>{{ __('Rp.').number_format($s->relationSales->tax) }}</td>
+                    <td>
+                        @if ($s->relationSales->ppn == 1)
+                        <span class="badge badge-success">{{ __('YA') }}</span>
+                        @else
+                        <span class="badge badge-danger">{{ __('TIDAK') }}</span>
+                        @endif
+                    </td>
                     <td>{{ __('Rp.').number_format($s->relationSales->dp) }}</td>
+                    <td>{{ __('Rp.').number_format($s->price) }}</td>
                     <td>{{ $s->relationCustomer->code }}</td>
                     <td>{{ $s->relationMarketer->code }}</td>
                     <td>{{ date("d-M-Y", strtotime($s->tgl)) }}</td>
@@ -70,6 +83,7 @@
                 @endforeach
             </tbody>
         </table>
+        @endif
     </div>
 </div>
 @endsection

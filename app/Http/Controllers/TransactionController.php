@@ -34,8 +34,10 @@ class TransactionController extends Controller
      */
     public function indexPurchase()
     {
-        $purchase = Transaction::with('relationItems', 'relationSupplier', 'relationPurchase')->get();
-        return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase]);
+        $purchase = Transaction::with('relationItems', 'relationSupplier', 'relationPurchase')
+            ->whereNull('s_id')->get();
+        $count = Purchase::count();
+        return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase, 'count' => $count]);
     }
 
     public function createPurchase()
@@ -60,7 +62,15 @@ class TransactionController extends Controller
             'supplier' => 'required',
         ]);
 
-        $datas = $this->PublicController->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp, $req->ppn);
+        $datas = $this->PublicController->calculate(
+            $req->total,
+            $req->items,
+            $req->dsc_nom,
+            $req->dsc_per,
+            $req->dp,
+            $req->ppn
+        );
+
         $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
         $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
         $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
@@ -122,9 +132,10 @@ class TransactionController extends Controller
     //TODO: Sales
     public function indexSales()
     {
-        $sales = Transaction::with('relationItems', 'relationSales', 'relationCustomer', 'relationMarketer')->get();
-        // dd($sales);
-        return view('pages.transaksi.penjualan.penjualan', ['sales' => $sales]);
+        $sales = Transaction::with('relationItems', 'relationSales', 'relationCustomer', 'relationMarketer')
+            ->whereNull('p_id')->get();
+        $count = Sales::count();
+        return view('pages.transaksi.penjualan.penjualan', ['sales' => $sales, 'count' => $count]);
     }
 
     public function createSales()
@@ -149,25 +160,38 @@ class TransactionController extends Controller
             'dsc_per' => 'nullable|numeric|max:100',
             'tax' => 'numeric|max:100',
             'tgl' => 'required|date',
-            'customer' => 'required',
-            'marketer' => 'required'
+            'marketer' => 'required',
+            'customer' => 'required'
         ]);
 
-        $datas = $this->PublicController->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->tax);
+        $datas = $this->PublicController->calculate(
+            $req->total,
+            $req->items,
+            $req->dsc_nom,
+            $req->dsc_per,
+            $req->dp,
+            $req->ppn
+        );
+
         $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
         $codeCustomer = Str::substr(Customer::find($req->customer)->code, 3, 5);
         $code = Str::replaceLast('CUS', $codeCustomer, $req->code);
         $count = $this->PublicController->countID('sales');
 
+        $sellPrice = $this->PublicController->checkPricePPN(
+            $datas[1],
+            $req->ppn,
+            $req->profit
+        );
+
         Transaction::create([
             'items_id' => $req->items,
-            // 'unit_id' => $req->units,
             's_id' => $count,
-            'cus_id' => $req->customer,
-            'mar_id' => $req->marketer,
             'total' => $req->total,
             'tgl' => $req->tgl,
-            'price' => $datas[1]
+            'price' => $sellPrice,
+            'cus_id' => $req->customer,
+            'mar_id' => $req->marketer,
         ]);
 
         Sales::create([
@@ -177,11 +201,14 @@ class TransactionController extends Controller
             'info' => $req->info,
             'dp' => $datas[5],
             'tax' => $datas[4],
+            'ppn' => $req->ppn
         ]);
 
         // Modify Stock Items
         $items = Items::find($req->items);
-        $stock = $items->stock > $datas[3] ? $items->stock - $datas[3] : $datas[3] - $items->stock;
+        $stock = $items->stock > $datas[3] ?
+            $items->stock - $datas[3] :
+            $datas[3] - $items->stock;
         $items->stock = $stock;
 
         // Saved Datas
@@ -193,16 +220,15 @@ class TransactionController extends Controller
     public function deleteSales($id)
     {
         $transaction = Transaction::find($id);
-        $purchase = Purchase::find($transaction->p_id);
+        $sales = Sales::find($transaction->p_id);
         $items = Items::find($transaction->items_id);
-        $stock = $items->stock > $transaction->total ?
-            $items->stock - $transaction->total :
-            $transaction->total - $items->stock;
+        $stock = $items->stock + $transaction->total;
+
         // Modification Data
         $items->stock = $stock;
         $items->save();
         // Deleted Data
-        $purchase->delete();
+        $sales->delete();
         $transaction->delete();
 
         return redirect()->route('masterPurchase');

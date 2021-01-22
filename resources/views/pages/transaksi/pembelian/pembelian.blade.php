@@ -14,6 +14,9 @@
             <i class="far fa-edit"></i>{{ __(' Tambah Transaksi Pembelian') }}</a>
     </div>
     <div class="card-body">
+        @if ($count == 0)
+        <h4 class="text-center">{{ __('DATA KOSONG') }}</h4>
+        @else
         <table class="table-striped table" id="transaction" width="100%">
             <thead>
                 <tr>
@@ -78,6 +81,7 @@
                 @endforeach
             </tbody>
         </table>
+        @endif
     </div>
 </div>
 @endsection
