@@ -41,7 +41,8 @@
                 <label>{{ __('Units') }}<code>*</code></label>
                 <select class="custom-select @error('units') is-invalid @enderror" name="units" required>
                     @foreach ($units as $u)
-                    <option value="{{ $u->id }}">{{ $u->name }}</option>
+                    <option value="{{ $u->id }}" {{ $items->relationUnits->id == $u->id ? 'selected' : '' }}>
+                        {{ $u->name }}</option>
                     @endforeach
                 </select>
                 @error('units')
@@ -119,6 +120,9 @@
                             onclick="checkPrice()">{{ __('Ambil Data') }}</button>
                     </div>
                 </div>
+                <span class="text-primary" role="alert">
+                    {{ __('Setiap ada perubahan dalam include ppn silahkan Ambil Data terlebih dahulu') }}
+                </span>
                 @error('price')
                 <span class="text-danger" role="alert">
                     {{ $message }}
@@ -137,7 +141,7 @@
             </div>
         </div>
         <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Edit') }}</button>
+            <button class="btn btn-primary mr-1" type="submit">{{ __('Simpan Perubahan') }}</button>
         </div>
     </form>
 </div>

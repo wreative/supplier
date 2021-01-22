@@ -86,11 +86,17 @@ class ItemsController extends Controller
             'detail_id' => $count
         ]);
 
+        $sellPrice = $this->checkPrice(
+            $this->PublicController->removeComma($req->price),
+            $req->ppn,
+            $req->profit
+        );
+
         ItemsDetail::create([
             'id' => $count,
             'price' => $this->PublicController->removeComma($req->price),
             'profit' => $req->profit,
-            'sell_price' => $this->PublicController->removeComma($req->sell_price),
+            'sell_price' => $sellPrice,
             'ppn' => $req->ppn,
         ]);
 
@@ -117,7 +123,6 @@ class ItemsController extends Controller
     public function update($id, Request $req)
     {
         $this->validate($req, [
-            'code' => 'required',
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
             'units' => 'required',
@@ -135,12 +140,18 @@ class ItemsController extends Controller
         $items->stock = $this->PublicController->removeComma($req->stock);
         $items->info = $req->info;
 
+        $sellPrice = $this->checkPrice(
+            $this->PublicController->removeComma($req->price),
+            $req->ppn,
+            $req->profit
+        );
+
         if ($items->detail_id == null) {
             // Stored Items
             ItemsDetail::create([
                 'price' => $this->PublicController->removeComma($req->price),
                 'profit' => $req->profit,
-                'sell_price' => $this->PublicController->removeComma($req->sell_price),
+                'sell_price' => $sellPrice,
                 'ppn' => $req->ppn,
             ]);
 
@@ -156,7 +167,7 @@ class ItemsController extends Controller
             // Stored Items
             $itemsDetail->price = $this->PublicController->removeComma($req->price);
             $itemsDetail->profit = $req->profit;
-            $itemsDetail->sell_price = $this->PublicController->removeComma($req->sell_price);
+            $itemsDetail->sell_price = $sellPrice;
             $itemsDetail->ppn = $req->ppn;
 
             $itemsDetail->save();
@@ -254,5 +265,16 @@ class ItemsController extends Controller
         $items->save();
         $itemsDetail->save();
         return redirect()->route('masterItemsAlmaas');
+    }
+
+    function checkPrice($price, $ppn, $profit)
+    {
+        if ($ppn == 1) {
+            $include = $price + ($price * 10 / 100);
+            $price = round($include + ($include * $profit / 100));
+        } else if ($ppn == 0) {
+            $price = round($price + ($price * $profit / 100));
+        }
+        return $price;
     }
 }
