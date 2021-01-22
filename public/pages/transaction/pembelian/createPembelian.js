@@ -69,6 +69,19 @@ function getPrice() {
                     button: "Tutup"
                 });
             }
+        },
+        error: function(data) {
+            if (data.status == 401) {
+                swal({
+                    title: "Error",
+                    text:
+                        "Maaf anda telah logout secara otomatis silahkan melakukan login kembali",
+                    icon: "error",
+                    button: "Ok"
+                }).then(() => {
+                    location.reload();
+                });
+            }
         }
     });
 }

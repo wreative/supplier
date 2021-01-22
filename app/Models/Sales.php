@@ -25,6 +25,7 @@ class Sales extends Model
         'info',
         'dp',
         'tax',
+        'ppn'
     ];
 
     public function relationTransaction()

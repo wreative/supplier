@@ -55,6 +55,9 @@
                         <input class="form-control currency @error('dsc_nom') is-invalid @enderror" id="dsc_nom"
                             type="text" name="dsc_nom">
                     </div>
+                    <span class="text-primary" role="alert">
+                        {{ __('Prioritas') }}
+                    </span>
                     @error('dsc_nom')
                     <span class="text-danger" role="alert">
                         {{ $message }}

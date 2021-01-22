@@ -20,6 +20,7 @@ class CreateSales extends Migration
             $table->string('info')->nullable();
             $table->bigInteger('dp');
             $table->bigInteger('tax');
+            $table->boolean('ppn');
         });
     }
 
