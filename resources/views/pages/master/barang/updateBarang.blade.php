@@ -141,7 +141,7 @@
             </div>
         </div>
         <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Simpan Perubahan') }}</button>
+            <button class="btn btn-primary mr-1" type="submit">{{ __('pages.edit') }}</button>
         </div>
     </form>
 </div>

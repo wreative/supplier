@@ -96,7 +96,7 @@
             </div>
         </div>
         <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Edit') }}</button>
+            <button class="btn btn-primary mr-1" type="submit">{{ __('pages.edit') }}</button>
         </div>
     </form>
 </div>

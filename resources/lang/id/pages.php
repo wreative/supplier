@@ -14,5 +14,6 @@ return [
     */
 
     'title' => 'Stok BatuBeling',
-    'brand' => 'SBB'
+    'brand' => 'SBB',
+    'edit' => 'Simpan Perubahan'
 ];

@@ -138,7 +138,7 @@ class PublicController extends Controller
         $itemsName = Items::find($items)->name;
         $items = Items::find($items)->detail_id;
         $itemsDetail = ItemsDetail::find($items);
-        $itemsPrice = $itemsDetail->price;
+        $itemsPrice = $itemsDetail->sell_price;
         $dsc_nom = (int)$discountNom;
         $dsc_per = (int)$discountPer;
         $downPayment = (int)$dp;
@@ -149,10 +149,8 @@ class PublicController extends Controller
         // Tax
         if ($ppn == 1) {
             $tax = round($newPrice * 10 / 100);
-            $status = 1;
         } else if ($ppn == 0) {
             $tax = 0;
-            $status = 0;
         }
 
         // Discount
@@ -163,7 +161,7 @@ class PublicController extends Controller
 
         // Passing Data
         $datas = array(
-            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per, $status
+            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per
         );
         return $datas;
     }
