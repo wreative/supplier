@@ -74,7 +74,6 @@ class TransactionController extends Controller
 
         Transaction::create([
             'items_id' => $req->items,
-            // 'unit_id' => $req->units,
             'p_id' => $count,
             'sup_id' => $req->supplier,
             'total' => $req->total,
@@ -104,7 +103,6 @@ class TransactionController extends Controller
 
     public function deletePurchase($id)
     {
-
         $transaction = Transaction::find($id);
         $purchase = Purchase::find($transaction->p_id);
         $items = Items::find($transaction->items_id);

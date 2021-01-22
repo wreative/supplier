@@ -27,6 +27,7 @@
                     <th>{{ __('Diskon Nominal') }}</th>
                     <th>{{ __('Diskon Persen') }}</th>
                     <th>{{ __('Pajak') }}</th>
+                    <th>{{ __('PPN') }}</th>
                     <th>{{ __('Uang Muka') }}</th>
                     <th>{{ __('Harga') }}</th>
                     <th>{{ __('Kode Supplier') }}</th>
@@ -48,6 +49,13 @@
                     <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1]) }}</td>
                     <td>{{ json_decode($p->relationPurchase->dsc)[2].__('%') }}</td>
                     <td>{{ __('Rp.').number_format($p->relationPurchase->tax) }}</td>
+                    <td>
+                        @if ($p->relationPurchase->ppn == 1)
+                        <span class="badge badge-success">{{ __('YA') }}</span>
+                        @else
+                        <span class="badge badge-danger">{{ __('TIDAK') }}</span>
+                        @endif
+                    </td>
                     <td>{{ __('Rp.').number_format($p->relationPurchase->dp) }}</td>
                     <td>{{ __('Rp.').number_format($p->price) }}</td>
                     <td>{{ $p->relationSupplier->code }}</td>
