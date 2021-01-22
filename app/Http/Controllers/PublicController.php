@@ -157,12 +157,23 @@ class PublicController extends Controller
         $discount = $dsc_nom != 0 ? $discount = $dsc_nom : ($dsc_per != 0 ? round($newPrice * $dsc_per / 100) : 0);
 
         // Calculate Total Price
-        $totalPrice = round($newPrice - $discount - $downPayment);
+        $totalPrice = round($newPrice - $discount - $downPayment + $tax);
 
         // Passing Data
         $datas = array(
             $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per
         );
         return $datas;
+    }
+
+    public function checkPricePPN($price, $ppn, $profit)
+    {
+        if ($ppn == 1) {
+            $include = $price + ($price * 10 / 100);
+            $price = round($include + ($include * $profit / 100));
+        } else if ($ppn == 0) {
+            $price = round($price + ($price * $profit / 100));
+        }
+        return $price;
     }
 }

@@ -86,7 +86,7 @@ class ItemsController extends Controller
             'detail_id' => $count
         ]);
 
-        $sellPrice = $this->checkPrice(
+        $sellPrice = $this->PublicController->checkPricePPN(
             $this->PublicController->removeComma($req->price),
             $req->ppn,
             $req->profit
@@ -140,7 +140,7 @@ class ItemsController extends Controller
         $items->stock = $this->PublicController->removeComma($req->stock);
         $items->info = $req->info;
 
-        $sellPrice = $this->checkPrice(
+        $sellPrice = $this->PublicController->checkPricePPN(
             $this->PublicController->removeComma($req->price),
             $req->ppn,
             $req->profit
@@ -265,16 +265,5 @@ class ItemsController extends Controller
         $items->save();
         $itemsDetail->save();
         return redirect()->route('masterItemsAlmaas');
-    }
-
-    function checkPrice($price, $ppn, $profit)
-    {
-        if ($ppn == 1) {
-            $include = $price + ($price * 10 / 100);
-            $price = round($include + ($include * $profit / 100));
-        } else if ($ppn == 0) {
-            $price = round($price + ($price * $profit / 100));
-        }
-        return $price;
     }
 }

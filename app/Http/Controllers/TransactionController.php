@@ -60,11 +60,17 @@ class TransactionController extends Controller
             'supplier' => 'required',
         ]);
 
-        $datas = $this->PublicController->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->tax);
+        $datas = $this->PublicController->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp, $req->ppn);
         $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
         $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
         $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
         $count = $this->PublicController->countID('purchase');
+
+        $sellPrice = $this->PublicController->checkPricePPN(
+            $datas[1],
+            $req->ppn,
+            $req->profit
+        );
 
         Transaction::create([
             'items_id' => $req->items,
@@ -73,7 +79,7 @@ class TransactionController extends Controller
             'sup_id' => $req->supplier,
             'total' => $req->total,
             'tgl' => $req->tgl,
-            'price' => $datas[1]
+            'price' => $sellPrice
         ]);
 
         Purchase::create([
@@ -83,6 +89,7 @@ class TransactionController extends Controller
             'info' => $req->info,
             'dp' => $datas[5],
             'tax' => $datas[4],
+            'ppn' => $req->ppn
         ]);
 
         // Modify Stock Items
@@ -220,5 +227,16 @@ class TransactionController extends Controller
     {
         $array = array($dsc, $dscNom, $dscPer);
         return json_encode($array);
+    }
+
+    public function checkPricePPN($price, $ppn, $profit)
+    {
+        if ($ppn == 1) {
+            $include = $price + ($price * 10 / 100);
+            $price = round($include + ($include * $profit / 100));
+        } else if ($ppn == 0) {
+            $price = round($price + ($price * $profit / 100));
+        }
+        return $price;
     }
 }
