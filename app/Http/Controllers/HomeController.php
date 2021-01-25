@@ -31,7 +31,11 @@ class HomeController extends Controller
             $stock = Items::sum('stock');
             $purchase = DB::table('purchase')->count();
             $sales = DB::table('sales')->count();
-            return view('home', ['items' => $items, 'stock' => $stock, 'purchase' => $purchase, 'sales' => $sales]);
+            $stockValue = DB::table('items')
+                ->select('stock', 'name')->where('stock', '<=', '20')->get();
+            return view('home', [
+                'items' => $items, 'stock' => $stock, 'purchase' => $purchase, 'sales' => $sales, 'stockValue' => $stockValue
+            ]);
         } else {
             $items = DB::table('al_items')->count();
             $stock = ItemsAlmaas::sum('stock');

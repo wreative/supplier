@@ -14,6 +14,17 @@
 </div>
 @endif
 @if (Auth::user()->role_id == 1)
+@foreach ($stockValue as $s)
+<div class="alert alert-danger alert-dismissible show fade">
+    <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+            <span>×</span>
+        </button>
+        <i class="far fa-lightbulb"></i>
+        {{ __(' Barang ').$s->name.__(' akan habis karena memiliki ').$s->stock.__(' stok') }}
+    </div>
+</div>
+@endforeach
 <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6 col-12">
         <div class="card card-statistic-1">
@@ -110,14 +121,6 @@
     </div>
 </div>
 @endif
-{{-- <div class="card">
-    <div class="card-header">
-        <h4>{{ __('Absensi Karyawan Bulanan') }}</h4>
-</div>
-<div class="card-body">
-    <canvas id="absensi"></canvas>
-</div>
-</div> --}}
 @endsection
 @section('script')
 <script src="{{ asset('pages/home.js') }}"></script>
