@@ -79,6 +79,14 @@
                         <span class="selectgroup-button">{{ __('Tidak') }}</span>
                     </label>
                 </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency" type="text" id="result_ppn" disabled>
+                </div>
             </div>
             <div class="form-group">
                 <label>{{ __('Keuntungan') }}</label>
