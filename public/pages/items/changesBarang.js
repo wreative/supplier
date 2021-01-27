@@ -1,23 +1,14 @@
 "use strict";
 
-// $(".currency")
-//     .toArray()
-//     .forEach(function(field) {
-//         new Cleave(field, {
-//             numeral: true,
-//             numeralDecimalMark: ",",
-//             delimiter: "."
-//         });
-//     });
-$(".currency").inputmask({
-    groupSeparator: ".",
-    alias: "numeric",
-    placeholder: "0",
-    autoGroup: true,
-    digits: 2,
-    digitsOptional: false,
-    clearMaskOnLostFocus: false
-});
+$(".currency")
+    .toArray()
+    .forEach(function(field) {
+        new Cleave(field, {
+            numeral: true,
+            numeralDecimalMark: ".",
+            delimiter: ","
+        });
+    });
 
 function checkInclude() {
     let exclude = numberWithoutCommas($("#price_exc").val());
@@ -43,22 +34,40 @@ function checkExclude() {
     });
 }
 
-$(function() {
-    $("#price, #result_ppn,#ppn").on("keyup", function() {
-        let price = parseInt(numberWithoutCommas($("#price").val())) || 0;
-        let ppn = $('input[name="ppn"]:checked').val();
-        // console.log(price + (price * 10) / 100);
-        // console.log(ppn);
-        if (ppn != 1) {
-            $("#result_ppn").val(price);
-        } else {
-            $("#result_ppn").val(price + (price * 10) / 100);
+// $(function() {
+//     $("#price, #result_ppn,#ppn").on("keyup", function() {
+//         let price = parseInt(numberWithoutCommas($("#price").val())) || 0;
+//         console.log(price);
+//         let ppn = $('input[name="ppn"]:checked').val();
+//         if (ppn != 1) {
+//             $("#result_ppn").val(price);
+//         } else {
+//             $("#result_ppn").val(price + (price * 10) / 100);
+//         }
+//     });
+// });
+
+// $(function() {
+//     $("input[type=radio]").on("change", function() {
+//         console.log($(this).val());
+//     });
+// });
+
+function checkPPN() {
+    let price = $("#price").val();
+    let ppn = $('input[name="ppn"]:checked').val();
+    $.ajax({
+        url: "/check-ppn",
+        data: { ppn: ppn, price: price },
+        type: "GET",
+        success: function(data) {
+            $("#result_ppn").val(data.price);
         }
     });
-});
+}
 
 function checkPrice() {
-    let price = numberWithoutCommas($("#price").val());
+    let price = $("#price").val();
     let ppn = $('input[name="ppn"]:checked').val();
     let profit = numberWithoutCommas($("#profit").val());
     $.ajax({
@@ -82,8 +91,7 @@ function checkPrice() {
 }
 
 function numberWithoutCommas(x) {
-    var regex = /[.,\s]/g;
-    return x.replace(regex, "");
+    return x.replace(/,/g, "");
 }
 
 function numberWithCommas(x) {

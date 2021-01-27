@@ -10,6 +10,9 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.0.2/cleave.min.js"
+    integrity="sha512-SvgzybymTn9KvnNGu0HxXiGoNeOi0TTK7viiG0EGn2Qbeu/NFi3JdWrJs2JHiGA1Lph+dxiDv5F9gDlcgBzjfA=="
+    crossorigin="anonymous"></script>
 
 <!-- JS Libraies & Template -->
 <script src="{{ asset('assets.js') }}"></script>
@@ -23,10 +26,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
     integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA=="
     crossorigin="anonymous"></script>
-{{-- <script>
-    $("#name").fireModal({body: 
-        '<form method="POST" action="{{ route('changeName') }}" class="needs-validation">
-@csrf
-<input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autofocus>
-</form>', center: true,title: 'Ganti Nama',});
-</script> --}}

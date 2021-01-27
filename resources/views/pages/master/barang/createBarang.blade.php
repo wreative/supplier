@@ -13,6 +13,7 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap barang.') }}
 </p>
 <div class="card">
+    {{ 1000.22 * 1000.22 }}
     <form method="POST" action="{{ route('storeItems') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
@@ -86,7 +87,14 @@
                         </div>
                     </div>
                     <input class="form-control currency" type="text" id="result_ppn" disabled>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkPPN()">{{ __('Ambil Data') }}</button>
+                    </div>
                 </div>
+                <span class="text-primary" role="alert">
+                    {{ __('Klik tombol Ambil Data jika ada perubahan pada Harga Pokok atau PPN') }}
+                </span>
             </div>
             <div class="form-group">
                 <label>{{ __('Keuntungan') }}</label>
