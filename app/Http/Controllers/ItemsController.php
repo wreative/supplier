@@ -98,6 +98,7 @@ class ItemsController extends Controller
             'profit' => $req->profit,
             'sell_price' => $sellPrice,
             'ppn' => $req->ppn,
+            'ppn_price' => $this->checkPPN($req->price, $req->ppn)
         ]);
 
         return redirect()->route('masterItems');
@@ -153,6 +154,7 @@ class ItemsController extends Controller
                 'profit' => $req->profit,
                 'sell_price' => $sellPrice,
                 'ppn' => $req->ppn,
+                'ppn_price' => $this->checkPPN($req->price, $req->ppn)
             ]);
 
             $count = DB::table('d_items')
@@ -169,6 +171,7 @@ class ItemsController extends Controller
             $itemsDetail->profit = $req->profit;
             $itemsDetail->sell_price = $sellPrice;
             $itemsDetail->ppn = $req->ppn;
+            $itemsDetail->ppn_price = $this->checkPPN($req->price, $req->ppn);
 
             $itemsDetail->save();
         }
@@ -265,5 +268,12 @@ class ItemsController extends Controller
         $items->save();
         $itemsDetail->save();
         return redirect()->route('masterItemsAlmaas');
+    }
+
+    function checkPPN($price, $ppn)
+    {
+        $price = $this->PublicController->removeComma($price);
+        $price = $ppn == 1 ? $price + ($price * 10 / 100) : $price;
+        return $price;
     }
 }

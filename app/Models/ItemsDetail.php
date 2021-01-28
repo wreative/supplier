@@ -23,7 +23,8 @@ class ItemsDetail extends Model
         'price',
         'profit',
         'sell_price',
-        'ppn'
+        'ppn',
+        'ppn_price'
     ];
 
     public function relationItems()
