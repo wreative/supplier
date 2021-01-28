@@ -54,7 +54,7 @@ function checkExclude() {
 // });
 
 function checkPPN() {
-    let price = $("#price").val();
+    let price = $("#price").val() == "" ? 0 : $("#price").val();
     let ppn = $('input[name="ppn"]:checked').val();
     $.ajax({
         url: "/check-ppn",
@@ -67,7 +67,7 @@ function checkPPN() {
 }
 
 function checkPrice() {
-    let price = $("#price").val();
+    let price = $("#price").val() == "" ? 0 : $("#price").val();
     let ppn = $('input[name="ppn"]:checked').val();
     let profit = numberWithoutCommas($("#profit").val());
     $.ajax({

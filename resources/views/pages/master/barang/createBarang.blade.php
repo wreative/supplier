@@ -13,7 +13,6 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap barang.') }}
 </p>
 <div class="card">
-    {{ 1000.22 * 1000.22 }}
     <form method="POST" action="{{ route('storeItems') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">

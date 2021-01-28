@@ -88,19 +88,19 @@ class PublicController extends Controller
 
         // $price = (int)$req->price;
         $price = $this->removeComma($req->price);
-        $price = $price * 2000.22;
+        // $price = $price * 2000.22;
         // $price = number_format($req->price, 2, '.', '');
         // $price = $price + 2000.22;
-        // $profit = (int)$req->profit;
-        // $ppn = $req->ppn;
-        // if ($profit >= 100) {
-        //     return Response()->json(['status' => 'error']);
-        // } else if ($ppn == 1) {
-        //     $include = $price + ($price * 10 / 100);
-        //     $price = round($include + ($include * $profit / 100));
-        // } else if ($ppn == 0) {
-        //     $price = round($price + ($price * $profit / 100));
-        // }
+        $profit = (int)$req->profit;
+        $ppn = $req->ppn;
+        if ($profit >= 100) {
+            return Response()->json(['status' => 'error']);
+        } else if ($ppn == 1) {
+            $include = $price + ($price * 10 / 100);
+            $price = round($include + ($include * $profit / 100));
+        } else if ($ppn == 0) {
+            $price = round($price + ($price * $profit / 100));
+        }
         return Response()->json(['price' => number_format($price, 2)]);
     }
 
