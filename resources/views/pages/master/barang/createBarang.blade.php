@@ -130,7 +130,7 @@
                             onclick="checkPrice()">{{ __('Ambil Data') }}</button>
                     </div>
                 </div>
-                @error('price')
+                @error('sell_price')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>

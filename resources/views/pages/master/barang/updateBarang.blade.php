@@ -82,6 +82,22 @@
                         <span class="selectgroup-button">{{ __('Tidak') }}</span>
                     </label>
                 </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency" type="text" id="result_ppn"
+                        value="{{ $items->relationDetail == null ? 0 : $items->relationDetail->ppn_price }}" disabled>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                            onclick="checkPPN()">{{ __('Ambil Data') }}</button>
+                    </div>
+                </div>
+                <span class="text-primary" role="alert">
+                    {{ __('Klik tombol Ambil Data jika ada perubahan pada Harga Pokok atau PPN') }}
+                </span>
             </div>
             <div class="form-group">
                 <label>{{ __('Keuntungan') }}</label>
@@ -120,10 +136,7 @@
                             onclick="checkPrice()">{{ __('Ambil Data') }}</button>
                     </div>
                 </div>
-                <span class="text-primary" role="alert">
-                    {{ __('Setiap ada perubahan dalam include ppn silahkan Ambil Data terlebih dahulu') }}
-                </span>
-                @error('price')
+                @error('sell_price')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
