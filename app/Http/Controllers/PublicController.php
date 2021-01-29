@@ -186,6 +186,12 @@ class PublicController extends Controller
         return $price;
     }
 
+    public function getItems(Request $req)
+    {
+        $datas = Items::with('relationDetail')->find($req->items);
+        return Response()->json(['items' => $datas]);
+    }
+
     public function removeComma($number)
     {
         return str_replace(',', '', $number);

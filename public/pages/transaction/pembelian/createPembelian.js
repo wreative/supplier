@@ -86,6 +86,56 @@ function getPrice() {
     });
 }
 
+function getItems() {
+    let items = $("#items").val();
+    $.ajax({
+        url: "/check-items",
+        data: {
+            items: items
+        },
+        type: "GET",
+        success: function(data) {
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML =
+                "<table class='table table-hover'><thead><tr><th scope='col'>Nama</th><th scope='col'>Detail</th></tr></thead><tbody><tr><th scope='row'>Nama Barang</th><td>" +
+                data.items.name +
+                "</td></tr><tr><th scope='row'>Harga PerItem</th><td>Rp." +
+                data.items.stock +
+                "</td></tr><tr><th scope='row'>Diskon</th><td>Rp." +
+                data.items.code +
+                "</td></tr><tr><th scope='row'>Jumlah</th><td>" +
+                data.items.code +
+                " Item" +
+                "</td></tr><tr><th scope='row'>Pajak 10%</th><td>Rp." +
+                data.items.code +
+                "</td></tr><tr><th scope='row'>Pembayaran DP</th><td>Rp." +
+                data.items.code +
+                "</td></tr><tr><th scope='row'>Total Harga</th><td>Rp." +
+                data.items.code +
+                "</td></tr></tbody></table>";
+            swal({
+                title: "Cek Data Barang " + data.items.name,
+                content: wrapper,
+                icon: "info",
+                button: "Tutup"
+            });
+        },
+        error: function(data) {
+            if (data.status == 401) {
+                swal({
+                    title: "Error",
+                    text:
+                        "Maaf anda telah logout secara otomatis silahkan melakukan login kembali",
+                    icon: "error",
+                    button: "Ok"
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        }
+    });
+}
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -93,3 +143,28 @@ function numberWithCommas(x) {
 function numberWithoutCommas(x) {
     return x.replace(",", "");
 }
+
+$("#supplier").fireModal({
+    body: $("#modal-supplier"),
+    center: true,
+    title: "Tambah Data Supplier",
+    buttons: [
+        {
+            text: "Tambah",
+            submit: true,
+            class: "btn btn-primary btn-shadow",
+            handler: function() {}
+        }
+    ]
+});
+
+$(".tlp")
+    .toArray()
+    .forEach(function(field) {
+        new Cleave(field, {
+            prefix: "+62",
+            delimiter: " ",
+            phone: true,
+            phoneRegionCode: "id"
+        });
+    });

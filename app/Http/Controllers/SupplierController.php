@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PublicController;
 use App\Models\Supplier;
 use App\Models\SupplierDetail;
+use Illuminate\Support\Facades\Route;
 
 class SupplierController extends Controller
 {
@@ -33,15 +34,17 @@ class SupplierController extends Controller
 
     public function create()
     {
-        $code = "SU-" . str_pad($this->PublicController->getRandom('supplier'), 5, '0', STR_PAD_LEFT);
+
         $supplier = Supplier::all();
-        return view('pages.master.supplier.createSupplier', ['code' => $code, 'supplier' => $supplier]);
+        return view('pages.master.supplier.createSupplier', [
+            'code' => $this->generateCode(), 'supplier' => $supplier
+        ]);
     }
 
     public function store(Request $req)
     {
         $this->validate($req, [
-            'code' => 'required',
+            // 'code' => 'required',
             'name' => 'required',
             'tlp' => 'required',
             'city' => 'required',
@@ -49,12 +52,17 @@ class SupplierController extends Controller
             'pos' => 'required'
         ]);
 
+        $code = $req->code == null ? $this->generateCode() : $req->code;
         $count = $this->PublicController->countID('supplier');
 
         Supplier::create([
             'name' => $req->name,
-            'code' => $req->code,
-            'address' => $this->PublicController->createJSON($req->city, $req->province, $req->pos),
+            'code' => $code,
+            'address' => $this->PublicController->createJSON(
+                $req->city,
+                $req->province,
+                $req->pos
+            ),
             'tlp' => $req->tlp,
             'detail_id' => $count
         ]);
@@ -63,7 +71,10 @@ class SupplierController extends Controller
             'id' => $count,
             'email' => $req->email,
             'fax' => $req->fax,
-            'sales' => $this->PublicController->createJSON2($req->sales_name, $req->sales_tlp),
+            'sales' => $this->PublicController->createJSON2(
+                $req->sales_name,
+                $req->sales_tlp
+            ),
             'no_rek' => $req->no_rek,
             'name_rek' => $req->name_rek,
             'bank' => $req->bank,
@@ -71,7 +82,8 @@ class SupplierController extends Controller
             'info' => $req->info
         ]);
 
-        return redirect()->route('masterSupplier');
+        return $req->code == null ? redirect()->route('createPurchase')
+            : redirect()->route('masterSupplier');
     }
 
     public function delete($id)
@@ -124,5 +136,11 @@ class SupplierController extends Controller
         $supplier->save();
         $supplierDetail->save();
         return redirect()->route('masterSupplier');
+    }
+
+    function generateCode()
+    {
+        $code = "SU-" . str_pad($this->PublicController->getRandom('supplier'), 5, '0', STR_PAD_LEFT);
+        return $code;
     }
 }

@@ -80,6 +80,8 @@ Route::group(['middleware' => 'supplier'], function () {
         ->name('checkSales');
     Route::get('/check-ppn', [App\Http\Controllers\PublicController::class, 'checkPPN'])
         ->name('checkPPN');
+    Route::get('/check-items', [App\Http\Controllers\PublicController::class, 'getItems'])
+        ->name('checkItems');
 
     // Transaction
 
