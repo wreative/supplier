@@ -79,13 +79,16 @@ Route::group(['middleware' => 'supplier'], function () {
     // Transaction
 
     // Purchase
-    Route::get('/purchase', [App\Http\Controllers\TransactionController::class, 'indexPurchase'])
-        ->name('masterPurchase');
-    Route::get('/purchase/create', [App\Http\Controllers\TransactionController::class, 'createPurchase'])
-        ->name('createPurchase');
-    Route::post('/purchase/store', [App\Http\Controllers\TransactionController::class, 'storePurchase'])
-        ->name('storePurchase');
-    Route::get('/purchase/delete/{id}', [App\Http\Controllers\TransactionController::class, 'deletePurchase']);
+    Route::resource('purchase', App\Http\Controllers\PurchaseController::class)->only([
+        'index', 'store', 'create', 'destroy'
+    ]);
+    // Route::get('/purchase', [App\Http\Controllers\TransactionController::class, 'indexPurchase'])
+    //     ->name('masterPurchase');
+    // Route::get('/purchase/create', [App\Http\Controllers\TransactionController::class, 'createPurchase'])
+    //     ->name('createPurchase');
+    // Route::post('/purchase/store', [App\Http\Controllers\TransactionController::class, 'storePurchase'])
+    //     ->name('storePurchase');
+    // Route::get('/purchase/delete/{id}', [App\Http\Controllers\TransactionController::class, 'deletePurchase']);
 
     // Sales
     Route::get('/sales', [App\Http\Controllers\TransactionController::class, 'indexSales'])

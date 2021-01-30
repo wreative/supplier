@@ -38,8 +38,9 @@
                     <span>{{ __('Sales') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Transaksi') }}</li>
-            <li class="{{ Request::route()->getName() == 'masterPurchase' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('masterPurchase') }}"><i class="fas fa-exchange-alt"></i>
+            <li class="{{ Request::route()->getName() == 'purchase.index' ? 'active' : (
+                Request::route()->getName() == 'purchase.create' ? 'active' : '') }}">
+                <a class="nav-link" href="{{ route('purchase.index') }}"><i class="fas fa-exchange-alt"></i>
                     <span>{{ __('Pembelian') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'masterSales' ? 'active' : '' }}">

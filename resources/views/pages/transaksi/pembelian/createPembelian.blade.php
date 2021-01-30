@@ -13,7 +13,7 @@
     {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan.') }}
 </p>
 <div class="card">
-    <form method="POST" action="{{ route('storePurchase') }}">
+    <form method="POST" action="{{ route('purchase.store') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
@@ -72,7 +72,7 @@
                             onclick="getItems()">{{ __('Cek Data') }}</button>
                     </div>
                     <div class="col-sm">
-                        <button class="mt-2 btn btn-primary btn-block" id="items"
+                        <button class="mt-2 btn btn-primary btn-block" id="barang"
                             type="button">{{ __('Tambah Barang') }}</button>
                     </div>
                 </div>
@@ -175,6 +175,7 @@
 </div>
 @endsection
 @include('pages.transaksi.pembelian.components.createSupplier')
+@include('pages.transaksi.pembelian.components.createBarang')
 @section('script')
 <script src="{{ asset('pages/transaction/pembelian/createPembelian.js') }}"></script>
 @endsection

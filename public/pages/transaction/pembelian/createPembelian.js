@@ -5,7 +5,8 @@ $(".currency")
     .forEach(function(field) {
         new Cleave(field, {
             numeral: true,
-            numeralThousandsGroupStyle: "thousand"
+            numeralDecimalMark: ".",
+            delimiter: ","
         });
     });
 
@@ -161,6 +162,20 @@ $("#supplier").fireModal({
     ]
 });
 
+$("#barang").fireModal({
+    body: $("#modal-barang"),
+    center: true,
+    title: "Tambah Data Barang",
+    buttons: [
+        {
+            text: "Tambah",
+            submit: true,
+            class: "btn btn-primary btn-shadow",
+            handler: function() {}
+        }
+    ]
+});
+
 $(".tlp")
     .toArray()
     .forEach(function(field) {
@@ -171,3 +186,40 @@ $(".tlp")
             phoneRegionCode: "id"
         });
     });
+
+function checkPPN() {
+    let price = $("#price").val() == "" ? 0 : $("#price").val();
+    let ppn = $('input[name="ppn"]:checked').val();
+    $.ajax({
+        url: "/check-ppn",
+        data: { ppn: ppn, price: price },
+        type: "GET",
+        success: function(data) {
+            $("#result_ppn").val(data.price);
+        }
+    });
+}
+
+function checkPrice() {
+    let price = $("#price").val() == "" ? 0 : $("#price").val();
+    let ppn = $('input[name="ppn"]:checked').val();
+    let profit = numberWithoutCommas($("#profit").val());
+    $.ajax({
+        url: "/check-price",
+        data: { ppn: ppn, profit: profit, price: price },
+        type: "GET",
+        success: function(data) {
+            if (data.status == "error") {
+                swal({
+                    title: "Error",
+                    text: "Keuntungan yang dimasukkan melebihi 100%",
+                    icon: "error",
+                    button: "Ok"
+                });
+                $("#sell_price").val(0);
+            } else {
+                $("#sell_price").val(data.price);
+            }
+        }
+    });
+}
