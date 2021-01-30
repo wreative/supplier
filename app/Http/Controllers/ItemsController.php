@@ -10,6 +10,8 @@ use App\Models\ItemsDetailAlmaas;
 use App\Models\Units;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Route;
+
 
 class ItemsController extends Controller
 {
@@ -101,17 +103,17 @@ class ItemsController extends Controller
             'ppn_price' => $this->checkPPN($req->price, $req->ppn)
         ]);
 
-        return redirect()->route('masterItems');
+        return redirect()->route('items.index');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $items = Items::find($id);
         $itemsDetail = ItemsDetail::find($items->detail_id);
 
         $items->delete();
         $itemsDetail->delete();
-        return redirect()->route('masterItems');
+        return redirect()->route('items.index');
     }
 
     public function edit($id)
@@ -178,7 +180,7 @@ class ItemsController extends Controller
 
         // Saved Datas
         $items->save();
-        return redirect()->route('masterItems');
+        return redirect()->route('items.index');
     }
 
     public function indexAlmaas()

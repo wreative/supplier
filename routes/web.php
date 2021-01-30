@@ -23,16 +23,9 @@ Auth::routes(['reset' => false, 'register' => false]);
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'supplier'], function () {
-    // Items
-    Route::get('/items', [App\Http\Controllers\ItemsController::class, 'index'])
-        ->name('masterItems');
-    Route::get('/items/create', [App\Http\Controllers\ItemsController::class, 'create'])
-        ->name('createItems');
-    Route::post('/items/store', [App\Http\Controllers\ItemsController::class, 'store'])
-        ->name('storeItems');
-    Route::get('/items/edit/{id}', [App\Http\Controllers\ItemsController::class, 'edit']);
-    Route::put('/items/update/{id}', [App\Http\Controllers\ItemsController::class, 'update']);
-    Route::get('/items/delete/{id}', [App\Http\Controllers\ItemsController::class, 'delete']);
+    Route::resource('items', App\Http\Controllers\ItemsController::class)->except([
+        'show'
+    ]);
 
     // Customer
     Route::get('/customer', [App\Http\Controllers\CustomerController::class, 'index'])

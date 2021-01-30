@@ -188,7 +188,7 @@ class PublicController extends Controller
 
     public function getItems(Request $req)
     {
-        $datas = Items::with('relationDetail')->find($req->items);
+        $datas = Items::with('relationDetail', 'relationUnits')->find($req->items);
         return Response()->json(['items' => $datas]);
     }
 

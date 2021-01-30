@@ -19,9 +19,10 @@
                     <span>{{ __('Satuan') }}</span></a>
             </li>
             @if (Auth::user()->role_id == '1')
-            <li class="{{ Request::route()->getName() == 'masterItems' ? 'active' : (
-                    Request::route()->getName() == 'createItems' ? 'active' : '') }}">
-                <a class="nav-link" href="{{ route('masterItems') }}"><i class="fas fa-boxes"></i>
+            <li class="{{ Request::route()->getName() == 'items.index' ? 'active' : (
+                    Request::route()->getName() == 'items.create' ? 'active' : (
+                        Request::route()->getName() == 'items.edit' ? 'active' : '')) }}">
+                <a class="nav-link" href="{{ route('items.index') }}"><i class="fas fa-boxes"></i>
                     <span>{{ __('Barang') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'masterCustomer' ? 'active' : '' }}">

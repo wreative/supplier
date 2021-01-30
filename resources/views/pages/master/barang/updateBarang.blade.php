@@ -13,7 +13,7 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap barang.') }}
 </p>
 <div class="card">
-    <form method="POST" action="/items/update/{{ $items->id }}">
+    <form method="POST" action="{{ route('items.update',$items->id) }}">
         @csrf
         @method('PUT')
         <div class="card-body">

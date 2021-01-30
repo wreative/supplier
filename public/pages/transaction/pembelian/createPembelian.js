@@ -95,23 +95,26 @@ function getItems() {
         },
         type: "GET",
         success: function(data) {
+            console.log(data.items);
             const wrapper = document.createElement("div");
             wrapper.innerHTML =
-                "<table class='table table-hover'><thead><tr><th scope='col'>Nama</th><th scope='col'>Detail</th></tr></thead><tbody><tr><th scope='row'>Nama Barang</th><td>" +
+                "<table class='table table-hover'><thead><tr><th scope='col'>Nama</th><th scope='col'>Detail</th></tr></thead><tbody><tr><th scope='row'>Kode</th><td>" +
+                data.items.code +
+                "</td></tr><tr><th scope='row'>Nama</th><td>" +
                 data.items.name +
-                "</td></tr><tr><th scope='row'>Harga PerItem</th><td>Rp." +
+                "</td></tr><tr><th scope='row'>Stok</th><td>" +
                 data.items.stock +
-                "</td></tr><tr><th scope='row'>Diskon</th><td>Rp." +
-                data.items.code +
-                "</td></tr><tr><th scope='row'>Jumlah</th><td>" +
-                data.items.code +
-                " Item" +
-                "</td></tr><tr><th scope='row'>Pajak 10%</th><td>Rp." +
-                data.items.code +
-                "</td></tr><tr><th scope='row'>Pembayaran DP</th><td>Rp." +
-                data.items.code +
-                "</td></tr><tr><th scope='row'>Total Harga</th><td>Rp." +
-                data.items.code +
+                "</td></tr><tr><th scope='row'>Unit</th><td>" +
+                data.items.relation_units.name +
+                "</td></tr><tr><th scope='row'>Harga Pokok</th><td>Rp." +
+                numberWithCommas(data.items.relation_detail.price) +
+                "</td></tr><tr><th scope='row'>PPN 10%</th><td>Rp." +
+                numberWithCommas(data.items.relation_detail.ppn_price) +
+                "</td></tr><tr><th scope='row'>Keuntungan</th><td>" +
+                data.items.relation_detail.profit +
+                "%" +
+                "</td></tr><tr><th scope='row'>Harga Jual</th><td>Rp." +
+                numberWithCommas(data.items.relation_detail.sell_price) +
                 "</td></tr></tbody></table>";
             swal({
                 title: "Cek Data Barang " + data.items.name,
