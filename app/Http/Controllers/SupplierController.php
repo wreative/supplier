@@ -82,7 +82,7 @@ class SupplierController extends Controller
             'info' => $req->info
         ]);
 
-        return $req->code == null ? redirect()->route('createPurchase')
+        return $req->code == null ? redirect()->route('purchase.create')
             : redirect()->route('masterSupplier');
     }
 

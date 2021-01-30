@@ -66,16 +66,8 @@
                     {{ $message }}
                 </span>
                 @enderror
-                <div class="row">
-                    <div class="col-sm">
-                        <button class="mt-2 btn btn-primary btn-block" type="button"
-                            onclick="getItems()">{{ __('Cek Data') }}</button>
-                    </div>
-                    <div class="col-sm">
-                        <button class="mt-2 btn btn-primary btn-block" id="barang"
-                            type="button">{{ __('Tambah Barang') }}</button>
-                    </div>
-                </div>
+                <button class="mt-2 btn btn-primary btn-block" type="button"
+                    onclick="getItems()">{{ __('Cek Data') }}</button>
             </div>
             <div class="form-group">
                 <label>{{ __('Total Barang') }}<code>*</code></label>
@@ -174,8 +166,9 @@
     </form>
 </div>
 @endsection
+
 @include('pages.transaksi.pembelian.components.createSupplier')
-@include('pages.transaksi.pembelian.components.createBarang')
+
 @section('script')
 <script src="{{ asset('pages/transaction/pembelian/createPembelian.js') }}"></script>
 @endsection
