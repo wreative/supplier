@@ -97,9 +97,9 @@ class PublicController extends Controller
             return Response()->json(['status' => 'error']);
         } else if ($ppn == 1) {
             $include = $price + ($price * 10 / 100);
-            $price = round($include + ($include * $profit / 100));
+            $price = $include + ($include * $profit / 100);
         } else if ($ppn == 0) {
-            $price = round($price + ($price * $profit / 100));
+            $price = $price + ($price * $profit / 100);
         }
         return Response()->json(['price' => number_format($price, 2)]);
     }
@@ -179,9 +179,9 @@ class PublicController extends Controller
     {
         if ($ppn == 1) {
             $include = $price + ($price * 10 / 100);
-            $price = round($include + ($include * $profit / 100));
+            $price = $include + ($include * $profit / 100);
         } else if ($ppn == 0) {
-            $price = round($price + ($price * $profit / 100));
+            $price = $price + ($price * $profit / 100);
         }
         return $price;
     }
