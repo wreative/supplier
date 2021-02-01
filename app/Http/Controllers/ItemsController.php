@@ -10,7 +10,6 @@ use App\Models\ItemsDetailAlmaas;
 use App\Models\Units;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Route;
 
 
 class ItemsController extends Controller
@@ -35,6 +34,7 @@ class ItemsController extends Controller
     {
         $items = Items::with('relationUnits', 'relationDetail')->get();
         return view('pages.master.barang.barang', ['items' => $items]);
+        //TODO:Yajra Datatables
     }
 
     public function create()
