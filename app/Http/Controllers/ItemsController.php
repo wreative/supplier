@@ -77,7 +77,7 @@ class ItemsController extends Controller
         // dd($price);
         // $price_exc = $req->price_exc == null ? $price_exc = 0
         //     : $this->PublicController->removeComma($req->price_exc);
-        $count = $this->PublicController->countID('items');
+        $count = $this->PublicController->countID('d_items');
 
         Items::create([
             'name' => $req->name,
