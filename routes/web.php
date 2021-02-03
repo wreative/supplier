@@ -105,12 +105,9 @@ Route::group(['middleware' => 'almaas'], function () {
 
 
 // Units
-Route::get('/units', [App\Http\Controllers\UnitsController::class, 'index'])
-    ->name('masterUnits');
-Route::get('/units/create', [App\Http\Controllers\UnitsController::class, 'create'])
-    ->name('createUnits');
-Route::post('/units/store', [App\Http\Controllers\UnitsController::class, 'store'])
-    ->name('storeUnits');
+Route::resource('units', App\Http\Controllers\UnitsController::class)->only([
+    'index', 'store', 'create'
+]);
 
 // Users
 Route::get('/change-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'index'])
