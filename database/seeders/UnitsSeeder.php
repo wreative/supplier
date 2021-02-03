@@ -18,39 +18,39 @@ class UnitsSeeder extends Seeder
         DB::table('units')->insert([
             [
                 'id' => '1',
-                'name' => 'biji',
+                'name' => 'Biji',
             ],
             [
                 'id' => '2',
-                'name' => 'kantong',
+                'name' => 'Kantong',
             ],
             [
                 'id' => '3',
-                'name' => 'kodi',
+                'name' => 'Kodi',
             ],
             [
                 'id' => '4',
-                'name' => 'kotak',
+                'name' => 'Kotak',
             ],
             [
                 'id' => '5',
-                'name' => 'lembar',
+                'name' => 'Lembar',
             ],
             [
                 'id' => '6',
-                'name' => 'lusin',
+                'name' => 'Lusin',
             ],
             [
                 'id' => '7',
-                'name' => 'pack',
+                'name' => 'Pack',
             ],
             [
                 'id' => '8',
-                'name' => 'pcs',
+                'name' => 'Pcs',
             ],
             [
                 'id' => '9',
-                'name' => 'units',
+                'name' => 'Units',
             ],
         ]);
     }
