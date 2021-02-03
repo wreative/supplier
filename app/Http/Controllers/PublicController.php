@@ -73,37 +73,6 @@ class PublicController extends Controller
         return Response()->json(['exclude' => $exclude]);
     }
 
-    public function checkPrice(Request $req)
-    {
-        //TODO: Don't Remove
-        // $include = (int)$req->include;
-        // $profit = (int)$req->profit;
-        // if ($profit >= 100) {
-        //     return Response()->json(['status' => 'error']);
-        // } else {
-        //     $price = round($include + ($include * $profit / 100));
-        //     return Response()->json(['price' => $price]);
-        // }
-        // $include = (int)$req->include;
-
-        // $price = (int)$req->price;
-        $price = $this->removeComma($req->price);
-        // $price = $price * 2000.22;
-        // $price = number_format($req->price, 2, '.', '');
-        // $price = $price + 2000.22;
-        $profit = (int)$req->profit;
-        $ppn = $req->ppn;
-        if ($profit >= 100) {
-            return Response()->json(['status' => 'error']);
-        } else if ($ppn == 1) {
-            $include = $price + ($price * 10 / 100);
-            $price = $include + ($include * $profit / 100);
-        } else if ($ppn == 0) {
-            $price = $price + ($price * $profit / 100);
-        }
-        return Response()->json(['price' => number_format($price, 2)]);
-    }
-
     public function checkPPN(Request $req)
     {
         $ppn = $req->ppn;
@@ -175,6 +144,7 @@ class PublicController extends Controller
         return $datas;
     }
 
+    // Items Function
     public function checkPricePPN($price, $ppn, $profit)
     {
         if ($ppn == 1) {
@@ -184,6 +154,40 @@ class PublicController extends Controller
             $price = $price + ($price * $profit / 100);
         }
         return $price;
+    }
+
+    public function checkPrice(Request $req)
+    {
+        //TODO: Don't Remove
+        // $include = (int)$req->include;
+        // $profit = (int)$req->profit;
+        // if ($profit >= 100) {
+        //     return Response()->json(['status' => 'error']);
+        // } else {
+        //     $price = round($include + ($include * $profit / 100));
+        //     return Response()->json(['price' => $price]);
+        // }
+        // $include = (int)$req->include;
+
+        // $price = (int)$req->price;
+        $price = $this->removeComma($req->price);
+        // $price = $price * 2000.22;
+        // $price = number_format($req->price, 2, '.', '');
+        // $price = $price + 2000.22;
+        $profit = (int)$req->profit;
+        $profitNom = $this->removeComma($req->profit_nom);
+        $ppn = $req->ppn;
+
+
+        if ($profit >= 100) {
+            return Response()->json(['status' => 'error']);
+        } else if ($ppn == 1) {
+            $include = $price + ($price * 10 / 100);
+            $price = $include + ($include * $profit / 100);
+        } else if ($ppn == 0) {
+            $price = $price + ($price * $profit / 100);
+        }
+        return Response()->json(['price' => number_format($price, 2)]);
     }
 
     public function getItems(Request $req)

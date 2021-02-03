@@ -17,6 +17,7 @@ class CreateDItems extends Migration
             $table->id();
             $table->decimal('price', 10, 2);
             $table->decimal('profit', 10, 2)->nullable();
+            $table->bigInteger('profit_nom')->nullable();
             $table->decimal('sell_price', 10, 2);
             $table->boolean('ppn');
             $table->decimal('ppn_price', 10, 2);

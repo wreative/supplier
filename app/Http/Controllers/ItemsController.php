@@ -98,6 +98,7 @@ class ItemsController extends Controller
             'id' => $count,
             'price' => $this->PublicController->removeComma($req->price),
             'profit' => $req->profit,
+            'profit_nom' => $this->PublicController->removeComma($req->profit_nom),
             'sell_price' => $sellPrice,
             'ppn' => $req->ppn,
             'ppn_price' => $this->checkPPN($req->price, $req->ppn)
@@ -154,6 +155,7 @@ class ItemsController extends Controller
             ItemsDetail::create([
                 'price' => $this->PublicController->removeComma($req->price),
                 'profit' => $req->profit,
+                'profit_nom' => $this->PublicController->removeComma($req->profit_nom),
                 'sell_price' => $sellPrice,
                 'ppn' => $req->ppn,
                 'ppn_price' => $this->checkPPN($req->price, $req->ppn)
@@ -171,6 +173,7 @@ class ItemsController extends Controller
             // Stored Items
             $itemsDetail->price = $this->PublicController->removeComma($req->price);
             $itemsDetail->profit = $req->profit;
+            $itemsDetail->profit_nom = $this->PublicController->removeComma($req->profit_nom);
             $itemsDetail->sell_price = $sellPrice;
             $itemsDetail->ppn = $req->ppn;
             $itemsDetail->ppn_price = $this->checkPPN($req->price, $req->ppn);

@@ -22,6 +22,7 @@ class ItemsDetail extends Model
         'id',
         'price',
         'profit',
+        'profit_nom',
         'sell_price',
         'ppn',
         'ppn_price'

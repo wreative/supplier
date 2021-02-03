@@ -99,26 +99,50 @@
                     {{ __('Klik tombol Ambil Data jika ada perubahan pada Harga Pokok atau PPN') }}
                 </span>
             </div>
-            <div class="form-group">
-                <label>{{ __('Keuntungan') }}</label>
-                <div class="input-group">
-                    <input class="form-control @error('profit') is-invalid @enderror" type="text" name="profit"
-                        id="profit" max="100"
-                        value="{{ $items->relationDetail == null ? 0 : $items->relationDetail->profit }}">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('%') }}
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('Keuntungan Nominal') }}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('profit_nom') is-invalid @enderror" type="text"
+                                name="profit_nom" id="profit_nom"
+                                value="{{ $items->relationDetail == null ? 0 : $items->relationDetail->profit_nom }}">
                         </div>
+                        @error('profit_nom')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                 </div>
-                <span class="text-primary" role="alert">
-                    {{ __('Maksimal 100%') }}
-                </span>
-                @error('profit')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
+                <div class="col">
+                    <div class="form-group">
+                        <label>{{ __('Keuntungan Persen') }}</label>
+                        <div class="input-group">
+                            <input class="form-control @error('profit') is-invalid @enderror" type="text" name="profit"
+                                id="profit" max="100"
+                                value="{{ $items->relationDetail == null ? 0 : $items->relationDetail->profit }}">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('%') }}
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-primary" role="alert">
+                            {{ __('Maksimal 100%') }}
+                        </span>
+                        @error('profit')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>{{ __('Harga Jual') }}<code>*</code></label>

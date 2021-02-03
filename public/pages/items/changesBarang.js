@@ -35,19 +35,6 @@ function checkExclude() {
 }
 
 // $(function() {
-//     $("#price, #result_ppn,#ppn").on("keyup", function() {
-//         let price = parseInt(numberWithoutCommas($("#price").val())) || 0;
-//         console.log(price);
-//         let ppn = $('input[name="ppn"]:checked').val();
-//         if (ppn != 1) {
-//             $("#result_ppn").val(price);
-//         } else {
-//             $("#result_ppn").val(price + (price * 10) / 100);
-//         }
-//     });
-// });
-
-// $(function() {
 //     $("input[type=radio]").on("change", function() {
 //         console.log($(this).val());
 //     });
@@ -70,9 +57,15 @@ function checkPrice() {
     let price = $("#price").val() == "" ? 0 : $("#price").val();
     let ppn = $('input[name="ppn"]:checked').val();
     let profit = numberWithoutCommas($("#profit").val());
+    let profit_nom = $("#profit_nom").val() == "" ? 0 : $("#profit_nom").val();
     $.ajax({
         url: "/check-price",
-        data: { ppn: ppn, profit: profit, price: price },
+        data: {
+            ppn: ppn,
+            profit: profit,
+            price: price,
+            profit_nom: profit_nom
+        },
         type: "GET",
         success: function(data) {
             if (data.status == "error") {
@@ -90,17 +83,47 @@ function checkPrice() {
     });
 }
 
+// $("#profit, #result_ppn, #profit_nom").on("keyup", function() {
+//     let result_ppn = $("#result_ppn")
+//         .val()
+//         .replace(",", "");
+//     let profit = $("#profit").val();
+//     let profit_nom = $("#profit_nom")
+//         .val()
+//         .replace(",", "");
+//     $("#profit").val((profit_nom * 100) / result_ppn);
+//     $("#profit_nom").val((profit_nom * profit) / 100);
+//     // $("#profit").val((numberWithoutCommas(profit_nom) / result_ppn) * 100);
+//     // let ppn = $('input[name="ppn"]:checked').val();
+//     // if (ppn != 1) {
+//     //     $("#result_ppn").val(price);
+//     // } else {
+//     //     $("#result_ppn").val(price + (price * 10) / 100);
+//     // }
+// });
+
+$("#profit, #result_ppn").on("keyup", function() {
+    let result_ppn = $("#result_ppn")
+        .val()
+        .replace(",", "");
+    let profit = $("#profit").val();
+    $("#profit_nom").val(numberWithCommas((result_ppn * profit) / 100));
+});
+
+$("#result_ppn, #profit_nom").on("keyup", function() {
+    let result_ppn = $("#result_ppn")
+        .val()
+        .replace(",", "");
+    let profit_nom = $("#profit_nom")
+        .val()
+        .replace(",", "");
+    $("#profit").val(Math.round((profit_nom * 100) / result_ppn));
+});
+
 function numberWithoutCommas(x) {
     return x.replace(/,/g, "");
 }
 
 function numberWithCommas(x) {
-    // return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    // const formatter = new Intl.NumberFormat("id", {
-    //     // style: "currency",
-    //     // currency: "USD",
-    //     minimumFractionDigits: 2
-    // });
-    // return formatter.format(x);
-    return accounting.formatMoney(x, "", 2, ".", ",");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
