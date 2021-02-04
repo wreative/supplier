@@ -12,8 +12,10 @@
                 <a href="{{ route('home') }}" class="nav-link"><i
                         class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'home' ? 'active' : '' }}">
-                <a href="{{ route('home') }}" class="nav-link"><i
+            <li class="{{ Request::route()->getName() == 'bidding.index' ? 'active' : (
+                Request::route()->getName() == 'bidding.create' ? 'active' : (
+                    Request::route()->getName() == 'bidding.edit' ? 'active' : '')) }}">
+                <a href="{{ route('bidding.index') }}" class="nav-link"><i
                         class="fas fa-handshake"></i><span>{{ __('Penawaran') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'home' ? 'active' : '' }}">
