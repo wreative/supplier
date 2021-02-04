@@ -13,17 +13,64 @@
     {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi penjualan yang dilakukan.') }}
 </p>
 <div class="card">
-    <form method="POST" action="{{ route('storeSales') }}">
+    <form method="POST" action="{{ route('sales.store') }}">
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
+            <div class="form-group">
+                <label>{{ __('Tanggal') }}<code>*</code></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="far fa-calendar"></i>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control datepicker @error('tgl') is-invalid @enderror" name="tgl"
+                        required>
+                    @error('tgl')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{ __('Customer') }}<code>*</code></label>
+                <select class="form-control select2 @error('customer') is-invalid @enderror" name="customer" required>
+                    @foreach ($customer as $c)
+                    <option value="{{ $c->id }}">
+                        {{ $c->name." - ".$c->code }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('customer')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>{{ __('Sales') }}<code>*</code></label>
+                <select class="form-control select2 @error('marketer') is-invalid @enderror" name="marketer" required>
+                    @foreach ($marketer as $m)
+                    <option value="{{ $m->id }}">
+                        {{ $m->name." - ".$m->code }}
+                    </option>
+                    @endforeach
+                </select>
+                @error('marketer')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
             <div class="form-group">
                 <label>{{ __('Nama Barang') }}<code>*</code></label>
                 <select class="form-control select2 @error('items') is-invalid @enderror" name="items" id="items"
                     required>
                     @foreach ($items as $i)
                     <option value="{{ $i->id }}">
-                        {{ $i->name." - ".$i->stock." Stok - Rp.".number_format($i->relationDetail->sell_price) }}
+                        {{ $i->name }}
                     </option>
                     @endforeach
                 </select>
@@ -32,6 +79,8 @@
                     {{ $message }}
                 </span>
                 @enderror
+                <button class="mt-2 btn btn-primary btn-block" type="button"
+                    onclick="getItems()">{{ __('Cek Data') }}</button>
             </div>
             <div class="form-group">
                 <label>{{ __('Total Barang') }}<code>*</code></label>
@@ -107,53 +156,6 @@
                         name="dp">
                 </div>
                 @error('dp')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Tanggal') }}<code>*</code></label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <i class="far fa-calendar"></i>
-                        </div>
-                    </div>
-                    <input type="text" class="form-control datepicker @error('tgl') is-invalid @enderror" name="tgl"
-                        required>
-                    @error('tgl')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="form-group">
-                <label>{{ __('Customer') }}<code>*</code></label>
-                <select class="form-control select2 @error('customer') is-invalid @enderror" name="customer" required>
-                    @foreach ($customer as $c)
-                    <option value="{{ $c->id }}">
-                        {{ $c->name." - ".$c->code }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('customer')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Sales') }}<code>*</code></label>
-                <select class="form-control select2 @error('marketer') is-invalid @enderror" name="marketer" required>
-                    @foreach ($marketer as $m)
-                    <option value="{{ $m->id }}">
-                        {{ $m->name." - ".$m->code }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('marketer')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>

@@ -80,14 +80,9 @@ Route::group(['middleware' => 'supplier'], function () {
         'index', 'store', 'create', 'destroy'
     ]);
 
-    // Sales
-    Route::get('/sales', [App\Http\Controllers\TransactionController::class, 'indexSales'])
-        ->name('masterSales');
-    Route::get('/sales/create', [App\Http\Controllers\TransactionController::class, 'createSales'])
-        ->name('createSales');
-    Route::post('/sales/store', [App\Http\Controllers\TransactionController::class, 'storeSales'])
-        ->name('storeSales');
-    Route::get('/sales/delete/{id}', [App\Http\Controllers\TransactionController::class, 'deleteSales']);
+    Route::resource('sales', App\Http\Controllers\SalesController::class)->only([
+        'index', 'store', 'create', 'destroy'
+    ]);
 });
 
 Route::group(['middleware' => 'almaas'], function () {

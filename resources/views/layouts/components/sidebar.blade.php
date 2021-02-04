@@ -52,8 +52,9 @@
                 <a class="nav-link" href="{{ route('purchase.index') }}"><i class="fas fa-exchange-alt"></i>
                     <span>{{ __('Pembelian') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'masterSales' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('masterSales') }}"><i class="fas fa-exchange-alt"></i>
+            <li class="{{ Request::route()->getName() == 'sales.index' ? 'active' : (
+                Request::route()->getName() == 'sales.create' ? 'active' : '') }}">
+                <a class="nav-link" href="{{ route('sales.index') }}"><i class="fas fa-exchange-alt"></i>
                     <span>{{ __('Penjualan') }}</span></a>
             </li>
             @elseif(Auth::user()->role_id == '2')

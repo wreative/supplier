@@ -8,7 +8,6 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use App\Models\Units;
-use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
 {
@@ -69,8 +68,8 @@ class PurchaseController extends Controller
         );
 
         $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
-        $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
-        $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
+        // $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
+        // $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
         $count = $this->PublicController->countID('purchase');
 
         $sellPrice = $this->PublicController->checkPricePPN(
@@ -90,7 +89,7 @@ class PurchaseController extends Controller
 
         Purchase::create([
             'id' => $count,
-            'code' => $code,
+            'code' => $req->code,
             'dsc' => $discount,
             'info' => $req->info,
             'dp' => $datas[5],
