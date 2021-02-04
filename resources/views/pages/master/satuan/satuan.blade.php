@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('createUnits') }}" class="btn btn-icon icon-left btn-primary">
+        <a href="{{ route('units.create') }}" class="btn btn-icon icon-left btn-primary">
             <i class="far fa-edit"></i>{{ __(' Tambah Satuan') }}</a>
     </div>
     <div class="card-body">

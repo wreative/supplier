@@ -38,7 +38,7 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $code = "TSP/" . $this->PublicController->getRandom('purchase') . "/" . date("dmY") . "/SUP";
+        $code = "SP" . $this->PublicController->getRandom('purchase') . "/PBL/" . date("m") . date("Y");
         $items = Items::all();
         $supplier = Supplier::all();
         $units = Units::all();
@@ -105,7 +105,7 @@ class PurchaseController extends Controller
         // Saved Datas
         $items->save();
 
-        return redirect()->route('masterPurchase');
+        return redirect()->route('purchase.index');
     }
 
     public function destroy($id)
@@ -123,6 +123,12 @@ class PurchaseController extends Controller
         $purchase->delete();
         $transaction->delete();
 
-        return redirect()->route('masterPurchase');
+        return redirect()->route('purchase.index');
+    }
+
+    function createJSON($dsc, $dscNom, $dscPer)
+    {
+        $array = array($dsc, $dscNom, $dscPer);
+        return json_encode($array);
     }
 }

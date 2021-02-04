@@ -21,9 +21,10 @@
                         class="fas fa-shipping-fast"></i><span>{{ __('Surat Jalan') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Master') }}</li>
-            <li class="{{ Request::route()->getName() == 'masterUnits' ? 'active' : (
-                    Request::route()->getName() == 'createUnits' ? 'active' : '') }}">
-                <a class="nav-link" href="{{ route('masterUnits') }}"><i class="fas fa-tags"></i>
+            <li class="{{ Request::route()->getName() == 'units.index' ? 'active' : (
+                    Request::route()->getName() == 'units.create' ? 'active' : (
+                        Request::route()->getName() == 'units.edit' ? 'active' : '')) }}">
+                <a class="nav-link" href="{{ route('units.index') }}"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
             @if (Auth::user()->role_id == '1')

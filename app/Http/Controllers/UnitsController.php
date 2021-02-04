@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Items;
 use App\Models\Units;
 
 class UnitsController extends Controller
@@ -44,14 +43,14 @@ class UnitsController extends Controller
             'name' => $req->name
         ]);
 
-        return redirect()->route('masterUnits');
+        return redirect()->route('units.index');
     }
 
     public function delete($id)
     {
         $units = Units::find($id);
         $units->delete();
-        return redirect()->route('masterUnits');
+        return redirect()->route('units.index');
     }
 
     public function edit($id)
@@ -73,6 +72,6 @@ class UnitsController extends Controller
 
         // Saved Datas
         $units->save();
-        return redirect()->route('masterUnits');
+        return redirect()->route('units.index');
     }
 }

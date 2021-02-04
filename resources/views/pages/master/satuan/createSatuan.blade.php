@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="card">
-    <form method="POST" action="{{ route('storeUnits') }}">
+    <form method="POST" action="{{ route('units.store') }}">
         @csrf
         <div class="card-body">
             <div class="form-group">
