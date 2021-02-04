@@ -12,6 +12,14 @@
                 <a href="{{ route('home') }}" class="nav-link"><i
                         class="fas fa-fire"></i><span>{{ __('Dashboard') }}</span></a>
             </li>
+            <li class="{{ Request::route()->getName() == 'home' ? 'active' : '' }}">
+                <a href="{{ route('home') }}" class="nav-link"><i
+                        class="fas fa-handshake"></i><span>{{ __('Penawaran') }}</span></a>
+            </li>
+            <li class="{{ Request::route()->getName() == 'home' ? 'active' : '' }}">
+                <a href="{{ route('home') }}" class="nav-link"><i
+                        class="fas fa-shipping-fast"></i><span>{{ __('Surat Jalan') }}</span></a>
+            </li>
             <li class="menu-header">{{ __('Master') }}</li>
             <li class="{{ Request::route()->getName() == 'masterUnits' ? 'active' : (
                     Request::route()->getName() == 'createUnits' ? 'active' : '') }}">
