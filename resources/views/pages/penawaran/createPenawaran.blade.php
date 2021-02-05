@@ -8,14 +8,14 @@
 @endsection
 
 @section('content')
-{{-- <h2 class="section-title">{{ $code }}</h2> --}}
+<h2 class="section-title">{{ $code }}</h2>
 <p class="section-lead">
     {{ __('ID yang digunakan untuk mengidentifikasi setiap penawaran.') }}
 </p>
 <div class="card">
     <form method="POST" action="{{ route('storeMarketer') }}">
         @csrf
-        {{-- <input type="hidden" value="{{ $code }}" name="code"> --}}
+        <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
             <div class="form-group">
                 <label>{{ __('Nama') }}<code>*</code></label>

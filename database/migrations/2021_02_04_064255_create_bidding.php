@@ -15,7 +15,15 @@ class CreateBidding extends Migration
     {
         Schema::create('bidding', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('code');
+            $table->foreignId('cus_id');
+            $table->json('items');
+            $table->date('date');
+            $table->boolean('ppn');
+            $table->json('dsc');
+            $table->bigInteger('gt');
+            $table->string('info');
+            $table->json('cost');
         });
     }
 
