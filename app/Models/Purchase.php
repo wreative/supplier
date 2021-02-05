@@ -25,7 +25,10 @@ class Purchase extends Model
         'info',
         'dp',
         'tax',
-        'ppn'
+        'ppn',
+        'etc_price',
+        'ship_price',
+        'status'
     ];
 
     public function relationTransaction()

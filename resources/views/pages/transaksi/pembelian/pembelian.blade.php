@@ -25,6 +25,7 @@
                     </th>
                     <th>{{ __('No Transaksi') }}</th>
                     <th>{{ __('Kode Barang') }}</th>
+                    <th>{{ __('Status') }}</th>
                     <th>{{ __('Total') }}</th>
                     <th>{{ __('Diskon') }}</th>
                     <th>{{ __('Diskon Nominal') }}</th>
@@ -47,6 +48,11 @@
                     </td>
                     <td>{{ $p->relationPurchase->code }}</td>
                     <td>{{ $p->relationItems->code }}</td>
+                    <td>
+                        <span class="badge badge-info">
+                            {{ $p->relationPurchase->status }}
+                        </span>
+                    </td>
                     <td>{{ $p->total.__(" Items") }}</td>
                     <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[0]) }}</td>
                     <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1]) }}</td>

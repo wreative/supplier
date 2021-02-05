@@ -148,22 +148,69 @@
                 </span>
                 @enderror
             </div>
-            <div class="form-group">
-                <label>{{ __('Keterangan') }}</label>
-                <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                    rows="10" style="height: 77px;"></textarea>
-                @error('info')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
+            {{-- <div class="form-group">
+                <label>{{ __('Biaya Kirim') }}</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {{ __('Rp.') }}
+                    </div>
+                </div>
+                <input class="form-control currency @error('ship_price') is-invalid @enderror" id="ship_price"
+                    type="text" name="ship_price">
+            </div>
+            @error('ship_price')
+            <span class="text-danger" role="alert">
+                {{ $message }}
+            </span>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>{{ __('Biaya Lain') }}</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        {{ __('Rp.') }}
+                    </div>
+                </div>
+                <input class="form-control currency @error('etc_price') is-invalid @enderror" id="etc_price" type="text"
+                    name="etc_price">
+            </div>
+            @error('etc_price')
+            <span class="text-danger" role="alert">
+                {{ $message }}
+            </span>
+            @enderror
+        </div> --}}
+        <div class="form-group">
+            <label class="form-label">{{ __('Status') }}<code>*</code></label>
+            <div class="selectgroup w-100">
+                <label class="selectgroup-item">
+                    <input type="radio" name="status" value="0" class="selectgroup-input">
+                    <span class="selectgroup-button">{{ __('Dipesan') }}</span>
+                </label>
+                <label class="selectgroup-item">
+                    <input type="radio" name="status" value="1" class="selectgroup-input" checked>
+                    <span class="selectgroup-button">{{ __('Diterima') }}</span>
+                </label>
             </div>
         </div>
-        <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="button" onclick="getPrice()">{{ __('Cek Harga') }}</button>
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
+        <div class="form-group">
+            <label>{{ __('Keterangan') }}</label>
+            <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
+                rows="10" style="height: 77px;"></textarea>
+            @error('info')
+            <span class="text-danger" role="alert">
+                {{ $message }}
+            </span>
+            @enderror
         </div>
-    </form>
+</div>
+<div class="card-footer text-right">
+    <button class="btn btn-primary mr-1" type="button" onclick="getPrice()">{{ __('Cek Harga') }}</button>
+    <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
+</div>
+</form>
 </div>
 @endsection
 

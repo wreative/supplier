@@ -56,6 +56,7 @@ class PurchaseController extends Controller
             'tax' => 'numeric|max:100',
             'tgl' => 'required|date',
             'supplier' => 'required',
+            'status' => 'required'
         ]);
 
         $datas = $this->PublicController->calculate(
@@ -67,6 +68,7 @@ class PurchaseController extends Controller
             $req->ppn
         );
 
+        $status = $req->status == '1' ? 'Diterima' : 'Dipesan';
         $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
         // $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
         // $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
@@ -94,7 +96,8 @@ class PurchaseController extends Controller
             'info' => $req->info,
             'dp' => $datas[5],
             'tax' => $datas[4],
-            'ppn' => $req->ppn
+            'ppn' => $req->ppn,
+            'status' => $status
         ]);
 
         // Modify Stock Items

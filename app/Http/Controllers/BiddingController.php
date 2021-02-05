@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Items;
+use App\Models\Customer;
 
 class BiddingController extends Controller
 {
@@ -31,10 +33,12 @@ class BiddingController extends Controller
     {
         $code = "SP" . $this->PublicController->getRandom('bidding') . "/SS/BB/" . date("m") . "/" . date("Y");
         // $units = Units::all();
-        // $items = Items::all();
-        // $customer = Customer::all();
+        $items = Items::all();
+        $customer = Customer::all();
         // $marketer = Marketer::all();
-        return view('pages.penawaran.createPenawaran', ['code' => $code]);
+        return view('pages.penawaran.createPenawaran', [
+            'code' => $code, 'items' => $items, 'customer' => $customer
+        ]);
     }
 
     public function store(Request $req)
