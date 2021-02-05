@@ -37,7 +37,7 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $code = "SP" . $this->PublicController->getRandom('purchase') . "/PBL/" . date("m") . date("Y");
+        $code = "SP" . $this->PublicController->getRandom('purchase') . "/PBL/" . date("m") . "/" . date("Y");
         $items = Items::all();
         $supplier = Supplier::all();
         $units = Units::all();

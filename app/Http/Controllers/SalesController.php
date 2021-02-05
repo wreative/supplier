@@ -41,7 +41,7 @@ class SalesController extends Controller
 
     public function create()
     {
-        $code = "SP" . $this->PublicController->getRandom('sales') . "/PJL/" . date("m") . date("Y");
+        $code = "SP" . $this->PublicController->getRandom('sales') . "/PJL/" . date("m") . "/" . date("Y");
         $units = Units::all();
         $items = Items::all();
         $customer = Customer::all();
