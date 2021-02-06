@@ -10,6 +10,7 @@ use App\Models\ItemsDetailAlmaas;
 use App\Models\Units;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class ItemsController extends Controller
@@ -30,10 +31,17 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $req)
     {
-        $items = Items::with('relationUnits', 'relationDetail')->get();
-        return view('pages.master.barang.barang', ['items' => $items]);
+        // $items = Items::with('relationUnits', 'relationDetail')->get();
+        // DataTables::
+        if ($req->ajax()) {
+            datatables()->of(Items::all())->toJson();
+            datatables(Items::with('relationUnits', 'relationDetail')->toJson());
+            // dd('asdas');
+        }
+
+        return view('pages.master.barang.barang');
         //TODO:Yajra Datatables
     }
 
