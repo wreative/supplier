@@ -13,7 +13,7 @@
     {{ __('ID yang digunakan untuk mengidentifikasi setiap penawaran.') }}
 </p>
 
-<form method="POST" action="{{ route('storeMarketer') }}">
+<form method="POST" action="{{ route('bidding.store') }}">
     @csrf
     <input type="hidden" value="{{ $code }}" name="code">
     <div class="card">
@@ -120,28 +120,56 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
-        </div>
     </div>
-    <h2 class="section-title">{{ __('Tambah Barang') }}</h2>
-    <div class="card" id="mycard-dimiss">
+    <h2 class="section-title">{{ __('Barang') }}</h2>
+    <div class="card">
         <div class="card-header">
-            <h4 class="d-none">{{ __('Add Data') }}</h4>
-            <div class="card-header-action">
-                <a data-dismiss="#mycard-dimiss" class="btn btn-icon btn-danger" href="#"><i
-                        class="fas fa-times"></i></a>
-            </div>
+            <a class="btn btn-icon icon-left btn-primary" style="cursor: pointer;color: white" onclick="add_item()">
+                <i class="far fa-edit"></i>{{ __(' Tambah Barang') }}
+            </a>
         </div>
         <div class="card-body">
-            You can dimiss this card.
+            <table class="table-striped table" id="penawaran" width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            {{ __('Barang') }}
+                        </th>
+                        <th>{{ __('Total') }}</th>
+                        <th>{{ __('Aksi') }}</th>
+                    </tr>
+                </thead>
+                <tbody class="drop"></tbody>
+            </table>
         </div>
-        <div class="card-footer">
-            Card Footer
+        <div class="card-footer text-right">
+            <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
         </div>
     </div>
 </form>
 @endsection
 @section('script')
-<script src="{{ asset('pages/sales/changes.js') }}"></script>
+<script src="{{ asset('pages/penawaran/changesPenawaran.js') }}"></script>
+<script>
+    function add_item(){
+        var remove = $('.remove').length;
+        $('.drop').append(
+            '<tr class="remove remove_'+(remove+1)+'">'+
+        '<th>'+
+            '<select class="form-control select2" name="kode_rak_dt[]">'+
+              @foreach ($items as $i )
+              '<option value="{{ $i->id }}">{{ $i->name }}</option>'+
+              @endforeach
+            '</select>'+
+        '</th>'+
+        '<th>'+
+            '<input type="text" class="form-control @error('stock') is-invalid @enderror" name="stock" required
+                    autofocus>'+
+        '</th>'+        
+        '<th><button type="button" class="btn btn-danger" onclick="remove_item(\''+(remove+1)+'\')"><i class="fas fa-trash"></i> Hapus</button></th>'+
+      '</tr>'      
+    );
+    $(".select2").select2();
+}
+</script>
 @endsection

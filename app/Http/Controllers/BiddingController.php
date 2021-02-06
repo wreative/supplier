@@ -32,10 +32,8 @@ class BiddingController extends Controller
     public function create()
     {
         $code = "SP" . $this->PublicController->getRandom('bidding') . "/SS/BB/" . date("m") . "/" . date("Y");
-        // $units = Units::all();
         $items = Items::all();
         $customer = Customer::all();
-        // $marketer = Marketer::all();
         return view('pages.penawaran.createPenawaran', [
             'code' => $code, 'items' => $items, 'customer' => $customer
         ]);
