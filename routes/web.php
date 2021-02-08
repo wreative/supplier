@@ -75,6 +75,7 @@ Route::group(['middleware' => 'supplier'], function () {
         ->name('checkPPN');
     Route::get('/check-items', [App\Http\Controllers\PublicController::class, 'getItems'])
         ->name('checkItems');
+
     // Transaksi Pembelian
     Route::resource('purchase', App\Http\Controllers\PurchaseController::class)->only([
         'index', 'store', 'create', 'destroy'

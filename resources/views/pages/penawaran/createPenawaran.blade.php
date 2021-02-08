@@ -12,7 +12,16 @@
 <p class="section-lead">
     {{ __('ID yang digunakan untuk mengidentifikasi setiap penawaran.') }}
 </p>
-
+@if(Session::has('status'))
+<div class="alert alert-primary alert-has-icon">
+    <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
+    <div class="alert-body">
+        <div class="alert-title">{{ __('Informasi') }}</div>
+        {{ Session::get('status') }}
+    </div>
+</div>
+@endif
+{{-- <form class="form-save" enctype="multipart/form-data"> --}}
 <form method="POST" action="{{ route('bidding.store') }}">
     @csrf
     <input type="hidden" value="{{ $code }}" name="code">
@@ -54,10 +63,10 @@
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('dp') is-invalid @enderror" id="dp" type="text"
-                        name="dp">
+                    <input class="form-control currency @error('ship_cost') is-invalid @enderror" id="ship_cost"
+                        type="text" name="ship_cost">
                 </div>
-                @error('dp')
+                @error('ship_cost')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
@@ -71,13 +80,13 @@
                             {{ __('Rp.') }}
                         </div>
                     </div>
-                    <input class="form-control currency @error('dp') is-invalid @enderror" id="dp" type="text"
-                        name="dp">
+                    <input class="form-control currency @error('pack_fee') is-invalid @enderror" id="pack_fee"
+                        type="text" name="pack_fee">
                 </div>
-                @error('dp')
+                @error('pack_fee')
                 <span class="text-danger" role="alert">
                     {{ $message }}
-                </span>
+                </span>s
                 @enderror
             </div>
             <div class="form-row">
@@ -118,6 +127,16 @@
                     </span>
                     @enderror
                 </div>
+                <div class="form-group">
+                    <label>{{ __('Keterangan') }}</label>
+                    <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info"
+                        cols="150" rows="10" style="height: 77px;"></textarea>
+                    @error('info')
+                    <span class="text-danger" role="alert">
+                        {{ $message }}
+                    </span>
+                    @enderror
+                </div>
             </div>
         </div>
     </div>
@@ -143,7 +162,8 @@
             </table>
         </div>
         <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
+            <a class="btn btn-primary mr-1" style="color: white;cursor: pointer;">{{ __('Cek Data') }}</a>
+            <button class="btn btn-primary mr-1" onclick="save()">{{ __('Tambah') }}</button>
         </div>
     </div>
 </form>
@@ -156,14 +176,14 @@
         $('.drop').append(
             '<tr class="remove remove_'+(remove+1)+'">'+
         '<th>'+
-            '<select class="form-control select2" name="kode_rak_dt[]">'+
+            '<select class="form-control select2" name="items[]">'+
               @foreach ($items as $i )
               '<option value="{{ $i->id }}">{{ $i->name }}</option>'+
               @endforeach
             '</select>'+
         '</th>'+
         '<th>'+
-            '<input type="text" class="form-control @error('stock') is-invalid @enderror" name="stock" required
+            '<input type="text" class="form-control @error('total') is-invalid @enderror" name="total[]" required
                     autofocus>'+
         '</th>'+        
         '<th><button type="button" class="btn btn-danger" onclick="remove_item(\''+(remove+1)+'\')"><i class="fas fa-trash"></i> Hapus</button></th>'+

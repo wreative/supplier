@@ -196,6 +196,10 @@ class PublicController extends Controller
         return Response()->json(['items' => $datas]);
     }
 
+    public function biddingPrice(Request $req)
+    {
+    }
+
     public function removeComma($number)
     {
         return str_replace(',', '', $number);
