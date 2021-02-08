@@ -33,15 +33,15 @@ class ItemsController extends Controller
      */
     public function index(Request $req)
     {
-        // $items = Items::with('relationUnits', 'relationDetail')->get();
+        $items = Items::with('relationUnits', 'relationDetail')->get();
         // DataTables::
-        if ($req->ajax()) {
-            datatables()->of(Items::all())->toJson();
-            datatables(Items::with('relationUnits', 'relationDetail')->toJson());
-            // dd('asdas');
-        }
+        // if ($req->ajax()) {
+        //     datatables()->of(Items::all())->toJson();
+        //     datatables(Items::with('relationUnits', 'relationDetail')->toJson());
+        //     // dd('asdas');
+        // }
 
-        return view('pages.master.barang.barang');
+        return view('pages.master.barang.barang', ['items' => $items]);
         //TODO:Yajra Datatables
     }
 
