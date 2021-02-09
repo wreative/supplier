@@ -35,143 +35,77 @@ class BiddingController extends Controller
 
     public function create()
     {
-        $code = $this->createCode();
-        $items = Items::all();
-        $customer = Customer::all();
         return view('pages.penawaran.createPenawaran', [
-            'code' => $code, 'items' => $items, 'customer' => $customer
+            'code' => $this->createCode(),
+            'items' => Items::all(),
+            'customer' => Customer::all()
         ]);
     }
 
     public function store(Request $req)
     {
-        $items = Items::all();
-        $customer = Customer::all();
-
         $this->validate($req, [
             'code' => 'required',
             'customer' => 'required',
             'ppn' => 'required|numeric|integer',
             // 'items' => 'required',
-
             // 'total' => 'required|numeric|integer|min:1',
             // 'dsc_per' => 'nullable|numeric|max:100',
             // 'tax' => 'numeric|max:100',
             // 'tgl' => 'required|date',
             // 'marketer' => 'required',            
         ]);
-        // return Response()->json(['status' => 'error']);
         // dd($req->all());
-        $items = $req->items;
-        $total = $req->total;
 
-
-        // return Response()->json(['status' => "nulled"]);
         if ($req->items == null) {
             return redirect()->route('bidding.create', [
-                'code' => $this->createCode(), 'items' => $items, 'customer' => $customer
+                'code' => $this->createCode(),
+                'items' => Items::all(),
+                'customer' => Customer::all()
             ])->with(['status' => 'Pastikan sudah menambahkan barang minimal 1']);
         } else {
-            $items = count($req->items);
+            $items = $totalItems = count($req->items);
         }
 
-        // DB::beginTransaction();
-        // try {
-        //     // if ($req->hasFile('gambar')) {
-        //     //     if (filesize($req->file('gambar')) > 2000000) {
-        //     //         return Response()->json(['status' => 'big_image']);
-        //     //     } else {
-        //     //         $imagePath = $req->file('gambar');
-        //     //         $fileName =  '/public/buku/buku_' . $req->id . '.' . $imagePath->getClientOriginalExtension();
-        //     //         $fileNames =  'buku_' . $req->id . '.' . $imagePath->getClientOriginalExtension();
-        //     //         Storage::put($fileName, file_get_contents($req->file('gambar')));
-        //     //     }
-        //     // } else {
-        //     //     $fileName = $req->gambar_old;
-        //     // }
-        //     // if (filesize($req->file('gambar')) > 2000000) {
-        //     //     return Response()->json(['status' => 'big_image']);
-        //     // } elseif ($req->hasFile('gambar')) {
-        //     //     $imagePath = $req->file('gambar');
-        //     //     // $fileName =  '/public/buku/buku_' . $id . '.' . $imagePath->getClientOriginalExtension();
-        //     //     $fileNames =  'buku_' . $req->id . '.' . $imagePath->getClientOriginalExtension();
-        //     //     // Storage::put($fileName, file_get_contents($req->file('gambar')));
-        //     //     $imagePath->move(public_path('storage/buku'), $fileNames);
-        //     // } else {
-        //     //     $fileNames = 'default.svg';
-        //     // }
-
-        //     // $this->model->buku()->where('mb_id', $req->id)->update([
-        //     //     'mb_kategori' => $req->kategori,
-        //     //     'mb_penerbit' => $req->penerbit,
-        //     //     'mb_pengarang' => $req->pengarang,
-        //     //     'mb_created_by' => Auth::user()->id,
-        //     //     'mb_created_at' => date('Y-m-d H:i:s'),
-        //     //     'mb_name' => $req->name,
-        //     //     'mb_image' => $fileNames,
-        //     //     'mb_desc' => $req->desc,
-        //     //     'mb_pinjam' => $req->pinjam,
-        //     // ]);
-
-        //     // for ($i = 0; $i < count($req->isbn); $i++) {
-        //     //     $this->model->buku_dt()->where('mbdt_status', 'TERSEDIA')->where('mbdt_id', $req->id)->delete();
-        //     // }
-        //     // for ($i = 0; $i < count($req->isbn); $i++) {
-        //     //     if ($req->status[$i] == 'TERSEDIA') {
-        //     //         $dt = $this->model->buku_dt()->where('mbdt_id', $req->id)->max('mbdt_dt') + 1;
-        //     //         $this->model->buku_dt()->create([
-        //     //             'mbdt_id'  => $req->id,
-        //     //             'mbdt_dt'  => $dt,
-        //     //             'mbdt_isbn' => $req->isbn[$i],
-        //     //             'mbdt_status' => $req->status[$i],
-        //     //             'mbdt_rak_buku_dt' => $req->kode_rak_dt[$i],
-        //     //             'mbdt_kondisi' => $req->kondisi[$i],
-        //     //         ]);
-        //     //     }
-        //     // }
-        // dd(array_merge($req->items, $req->total));
-        // foreach ($req->items as $items => $req->total) {
-        //     $data2[] = [
-        //         'id_items' => $items,
-        //         'total' => $req->total
-        //     ];
-        // }
-        for ($i = 0; $i <= count($req->items); $i++) {
+        // Create items
+        for ($i = 0; $i <= $totalItems; $i++) {
+            // $sellpriceItems = Items::with('relationDetail')->find($req->items);
             $items = [
                 'id_items' => $req->items,
-                'total' => $req->total
+                'total' => $req->total,
+                // 'price' => $sellpriceItems
             ];
         }
 
-        // $collection = collect($req->items);
+        // Create array from sell price items
+        $sellPrice = $this->PublicController->createArrayPrice($totalItems, $items);
 
-        // $merged = $collection->merge($req->total);
+        // Create Sub total items
+        $subtotalPrice = $this->PublicController->createSubtotalPrice($sellPrice, $items);
 
-        // dd($merged->all());
+        // Create total price from array
+        $totalPrice = $this->PublicController->createTotalPrice($subtotalPrice);
+
+        // Other functions
+        $discount = $this->PublicController->createJSON2($req->dsc_nom, $req->dsc_per);
+        $cost = $this->PublicController->createJSON2($req->ship_cost, $req->pack_fee);
+
+        // Grand Total
+        $gt = $this->PublicController->biddingPrice($totalPrice, $discount, $cost, $req->ppn);
 
 
+        // Stored data
         Bidding::create([
             'code' => $req->code,
             'cus_id' => $req->customer,
             'items' => json_encode($items),
             'date' => date("Y-m-d"),
-            'ppn' => $req->code,
-            'dsc' => $req->customer,
-            'gt' => $req->marketer,
-            'info' => $req->marketer,
-            'cost' => $req->marketer,
+            'ppn' => $req->ppn,
+            'dsc' => $discount,
+            'gt' => $gt,
+            'info' => $req->info,
+            'cost' => $cost,
         ]);
-        // DB::commit();
-
-        //     // return Response()->json(['status' => 'sukses']);
-
-
-        //     // all good
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     // something went wrong
-        //     return Response()->json(['status' => 'nulled']);
-        // }
 
         // $datas = $this->PublicController->calculate(
         //     $req->total,
@@ -245,6 +179,7 @@ class BiddingController extends Controller
 
     function createCode()
     {
-        return "SP" . $this->PublicController->getRandom('bidding') . "/SS/BB/" . date("m") . "/" . date("Y");
+        return "SP" . $this->PublicController->getRandom('bidding') .
+            "/SS/BB/" . date("m") . "/" . date("Y");
     }
 }

@@ -196,10 +196,55 @@ class PublicController extends Controller
         return Response()->json(['items' => $datas]);
     }
 
-    public function biddingPrice(Request $req)
+    // Bidding
+    public function biddingPrice($totalPrice, $discount, $cost, $ppn)
     {
+        // Initial
+        $dsc_nom = $this->removeComma(json_decode($discount)[0]);
+        $dsc_per = json_decode($discount)[1];
+
+        if ($ppn == 1) {
+            $price = $totalPrice * 10 / 100;
+        } else {
+            $price = 0;
+        }
+
+        $grandTotal = $totalPrice;
+
+        return $price;
+        // $discount = $dsc_nom != 0 ? $discount = $dsc_nom : ($dsc_per != 0 ? round($newPrice * $dsc_per / 100) : 0);
     }
 
+    public function createArrayPrice($totalItems, $items)
+    {
+        $array = array();
+        for ($i = 0; $i < $totalItems; $i++) {
+            $sellpriceItems = Items::with('relationDetail')->find($items['id_items'][$i])->relationDetail->sell_price;
+            array_push($array, $sellpriceItems);
+        }
+        return $array;
+    }
+
+    public function createSubtotalPrice($sellPrice, $items)
+    {
+        $array = array();
+        for ($i = 0; $i < count($items['id_items']); $i++) {
+            $sellpriceItems = $sellPrice[$i] * $items['total'][$i];
+            array_push($array, $sellpriceItems);
+        }
+        return $array;
+    }
+
+    public function createTotalPrice($subTotal)
+    {
+        $total = 0;
+        for ($i = 0; $i < count($subTotal); $i++) {
+            $total = $total + $subTotal[$i];
+        }
+        return $total;
+    }
+
+    // Other functions
     public function removeComma($number)
     {
         return str_replace(',', '', $number);
