@@ -202,17 +202,24 @@ class PublicController extends Controller
         // Initial
         $dsc_nom = $this->removeComma(json_decode($discount)[0]);
         $dsc_per = json_decode($discount)[1];
+        $ship_cost = $this->removeComma(json_decode($cost)[0]);
+        $pack_fee = $this->removeComma(json_decode($cost)[1]);
 
-        if ($ppn == 1) {
-            $price = $totalPrice * 10 / 100;
-        } else {
-            $price = 0;
-        }
+        // PPN
+        $pricePPN = $ppn == 1 ? $totalPrice * 10 / 100 : 0;
 
-        $grandTotal = $totalPrice;
+        // Other Cost
+        $totalPrice = $ppn == 1 ? $totalPrice + 10000 + $ship_cost + $pack_fee + $pricePPN
+            : $totalPrice + $ship_cost + $pack_fee;
 
-        return $price;
-        // $discount = $dsc_nom != 0 ? $discount = $dsc_nom : ($dsc_per != 0 ? round($newPrice * $dsc_per / 100) : 0);
+        // Discount 
+        $discount = $dsc_nom != 0 ? $discount = $dsc_nom
+            : ($dsc_per != 0 ? round($totalPrice * $dsc_per / 100)
+                : 0);
+
+        // Grand Total
+        $grandTotal = $totalPrice - $discount;
+        return $grandTotal;
     }
 
     public function createArrayPrice($totalItems, $items)

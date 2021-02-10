@@ -19,11 +19,24 @@ class Bidding extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name',
         'code',
-        'address',
-        'tlp',
-        'detail_id',
-        'sales_id'
+        'cus_id',
+        'items',
+        'date',
+        'ppn',
+        'dsc',
+        'gt',
+        'info',
+        'cost'
     ];
+
+    public function relationItems()
+    {
+        return $this->belongsTo('App\Models\Items', 'unit_id', 'id');
+    }
+
+    public function relationCustomer()
+    {
+        return $this->belongsTo('App\Models\Items', 'unit_id', 'id');
+    }
 }

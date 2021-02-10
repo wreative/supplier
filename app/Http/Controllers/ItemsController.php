@@ -86,6 +86,8 @@ class ItemsController extends Controller
         // $price_exc = $req->price_exc == null ? $price_exc = 0
         //     : $this->PublicController->removeComma($req->price_exc);
         $count = $this->PublicController->countID('d_items');
+        $profit_nom = $req->profit_nom == null ? 0
+            : $this->PublicController->removeComma($req->profit_nom);
 
         Items::create([
             'name' => $req->name,
@@ -106,7 +108,7 @@ class ItemsController extends Controller
             'id' => $count,
             'price' => $this->PublicController->removeComma($req->price),
             'profit' => $req->profit,
-            'profit_nom' => $this->PublicController->removeComma($req->profit_nom),
+            'profit_nom' => $profit_nom,
             'sell_price' => $sellPrice,
             'ppn' => $req->ppn,
             'ppn_price' => $this->checkPPN($req->price, $req->ppn)

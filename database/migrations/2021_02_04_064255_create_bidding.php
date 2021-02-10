@@ -22,7 +22,7 @@ class CreateBidding extends Migration
             $table->boolean('ppn');
             $table->json('dsc');
             $table->bigInteger('gt'); // Grand Total
-            $table->string('info');
+            $table->string('info')->nullable();
             $table->json('cost'); //Harga Total dan harga lain-lain
         });
     }

@@ -30,6 +30,7 @@ class BiddingController extends Controller
      */
     public function index()
     {
+
         return view('pages.penawaran.penawaran');
     }
 
@@ -48,14 +49,13 @@ class BiddingController extends Controller
             'code' => 'required',
             'customer' => 'required',
             'ppn' => 'required|numeric|integer',
-            // 'items' => 'required',
-            // 'total' => 'required|numeric|integer|min:1',
-            // 'dsc_per' => 'nullable|numeric|max:100',
-            // 'tax' => 'numeric|max:100',
-            // 'tgl' => 'required|date',
-            // 'marketer' => 'required',            
         ]);
         // dd($req->all());
+
+        // Null Safety
+        $dsc_nom = $req->dsc_nom == null ? 0 : $req->dsc_nom;
+        $ship_cost = $req->ship_cost == null ? 0 : $req->ship_cost;
+        $pack_fee = $req->pack_fee == null ? 0 : $req->pack_fee;
 
         if ($req->items == null) {
             return redirect()->route('bidding.create', [
@@ -87,12 +87,11 @@ class BiddingController extends Controller
         $totalPrice = $this->PublicController->createTotalPrice($subtotalPrice);
 
         // Other functions
-        $discount = $this->PublicController->createJSON2($req->dsc_nom, $req->dsc_per);
-        $cost = $this->PublicController->createJSON2($req->ship_cost, $req->pack_fee);
+        $discount = $this->PublicController->createJSON2($dsc_nom, $req->dsc_per);
+        $cost = $this->PublicController->createJSON2($ship_cost, $pack_fee);
 
         // Grand Total
         $gt = $this->PublicController->biddingPrice($totalPrice, $discount, $cost, $req->ppn);
-
 
         // Stored data
         Bidding::create([
@@ -107,57 +106,7 @@ class BiddingController extends Controller
             'cost' => $cost,
         ]);
 
-        // $datas = $this->PublicController->calculate(
-        //     $req->total,
-        //     $req->items,
-        //     $req->dsc_nom,
-        //     $req->dsc_per,
-        //     $req->dp,
-        //     $req->ppn
-        // );
-
-        // $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
-        // // $codeCustomer = Str::substr(Customer::find($req->customer)->code, 3, 5);
-        // // $code = Str::replaceLast('CUS', $codeCustomer, $req->code);
-        // $count = $this->PublicController->countID('sales');
-
-        // $sellPrice = $this->PublicController->checkPricePPN(
-        //     $datas[1],
-        //     $req->ppn,
-        //     $req->profit
-        // );
-
-        // Bidding::create([
-        //     'items_id' => $req->items,
-        //     's_id' => $count,
-        //     'total' => $req->total,
-        //     'tgl' => $req->tgl,
-        //     'price' => $sellPrice,
-        //     'cus_id' => $req->customer,
-        //     'mar_id' => $req->marketer,
-        // ]);
-
-        // Sales::create([
-        //     'id' => $count,
-        //     'code' => $req->code,
-        //     'dsc' => $discount,
-        //     'info' => $req->info,
-        //     'dp' => $datas[5],
-        //     'tax' => $datas[4],
-        //     'ppn' => $req->ppn
-        // ]);
-
-        // // Modify Stock Items
-        // $items = Items::find($req->items);
-        // $stock = $items->stock > $datas[3] ?
-        //     $items->stock - $datas[3] :
-        //     $datas[3] - $items->stock;
-        // $items->stock = $stock;
-
-        // // Saved Datas
-        // $items->save();
-
-        // return redirect()->route('bidding.index');
+        return redirect()->route('bidding.index');
     }
 
     public function destroy($id)

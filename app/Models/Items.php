@@ -41,4 +41,9 @@ class Items extends Model
     {
         return $this->belongsTo('App\Models\ItemsDetail', 'detail_id', 'id');
     }
+
+    public function relationBidding()
+    {
+        return $this->belongsTo('App\Models\Units', 'unit_id', 'id');
+    }
 }
