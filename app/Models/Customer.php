@@ -41,4 +41,9 @@ class Customer extends Model
     {
         return $this->hasMany('App\Models\Transaction', 'id', 'cus_id');
     }
+
+    public function relationBidding()
+    {
+        return $this->hasMany('App\Models\Bidding', 'id', 'cus_id');
+    }
 }

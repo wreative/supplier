@@ -30,13 +30,8 @@ class Bidding extends Model
         'cost'
     ];
 
-    public function relationItems()
-    {
-        return $this->belongsTo('App\Models\Items', 'unit_id', 'id');
-    }
-
     public function relationCustomer()
     {
-        return $this->belongsTo('App\Models\Items', 'unit_id', 'id');
+        return $this->belongsTo('App\Models\Customer', 'cus_id', 'id');
     }
 }
