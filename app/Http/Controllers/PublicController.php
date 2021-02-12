@@ -200,7 +200,7 @@ class PublicController extends Controller
     public function biddingPrice($totalPrice, $discount, $cost, $ppn)
     {
         // Initial
-        $dsc_nom = $this->removeComma(json_decode($discount)[0]);
+        $dsc_nom = json_decode($discount)[0];
         $dsc_per = json_decode($discount)[1];
         $ship_cost = $this->removeComma(json_decode($cost)[0]);
         $pack_fee = $this->removeComma(json_decode($cost)[1]);

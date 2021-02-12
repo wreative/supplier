@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Items;
 use App\Models\Customer;
 use App\Models\Bidding;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Arr;
 
 
 class BiddingController extends Controller
@@ -30,8 +28,8 @@ class BiddingController extends Controller
      */
     public function index()
     {
-
-        return view('pages.penawaran.penawaran');
+        $bidding = Bidding::with('relationCustomer')->get();
+        return view('pages.penawaran.penawaran', ['bidding' => $bidding]);
     }
 
     public function create()
@@ -87,8 +85,14 @@ class BiddingController extends Controller
         $totalPrice = $this->PublicController->createTotalPrice($subtotalPrice);
 
         // Other functions
-        $discount = $this->PublicController->createJSON2($dsc_nom, $req->dsc_per);
-        $cost = $this->PublicController->createJSON2($ship_cost, $pack_fee);
+        $discount = $this->PublicController->createJSON2(
+            $this->PublicController->removeComma($dsc_nom),
+            $req->dsc_per
+        );
+        $cost = $this->PublicController->createJSON2(
+            $this->PublicController->removeComma($ship_cost),
+            $this->PublicController->removeComma($pack_fee)
+        );
 
         // Grand Total
         $gt = $this->PublicController->biddingPrice($totalPrice, $discount, $cost, $req->ppn);
@@ -111,19 +115,25 @@ class BiddingController extends Controller
 
     public function destroy($id)
     {
-        $transaction = Transaction::find($id);
-        $sales = Sales::find($transaction->p_id);
-        $items = Items::find($transaction->items_id);
-        $stock = $items->stock + $transaction->total;
-
-        // Modification Data
-        $items->stock = $stock;
-        $items->save();
-        // Deleted Data
-        $sales->delete();
-        $transaction->delete();
-
+        $bidding = Bidding::find($id);
+        $bidding->delete();
         return redirect()->route('bidding.index');
+    }
+
+    function biddingItems(Request $req)
+    {
+        $bidding = Bidding::find($req->id)->items;
+        $decode = json_decode($bidding);
+        $array = array();
+        for ($i = 0; $i < count($decode->id_items); $i++) {
+            $items = Items::find($decode->id_items[$i]);
+            array_push($array, $items);
+        }
+        return Response()->json([
+            'items' => $array,
+            'total' => $decode->total,
+            'code' => Bidding::find($req->id)->code
+        ]);
     }
 
     function createCode()

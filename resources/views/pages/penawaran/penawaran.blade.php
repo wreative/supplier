@@ -19,35 +19,71 @@
                     <th class="text-center">
                         {{ __('Kode') }}
                     </th>
-                    <th>{{ __('Nama') }}</th>
-                    <th>{{ __('Telepon') }}</th>
+                    <th>{{ __('Kode Customer') }}</th>
+                    <th>{{ __('Tanggal') }}</th>
+                    <th>{{ __('Diskon Nominal') }}</th>
+                    <th>{{ __('Diskon Persen') }}</th>
+                    <th>{{ __('PPN') }}</th>
+                    <th>{{ __('Biaya Kirim') }}</th>
+                    <th>{{ __('Biaya Packing') }}</th>
+                    <th>{{ __('Grand Total') }}</th>
+                    <th>{{ __('Keterangan') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach($sales as $s)
+                @foreach($bidding as $b)
                 <tr>
                     <td class="text-center">
-                        {{ $s->code }}
-                </td>
-                <td>{{ $s->name }}</td>
-                <td>{{ $s->tlp }}</td>
-                <td>
-                    <a href="/marketer/edit/{{ $s->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
-                        data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                    <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
-                        title="Delete"
-                        data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                        data-confirm-yes="window.open('/marketer/delete/{{ $s->id }}','_self')"><i
-                            class="fas fa-trash"></i></a>
-                </td>
+                        {{ $b->code }}
+                    </td>
+                    <td>{{ $b->relationCustomer->code }}</td>
+                    <td>{{ date("d-M-Y", strtotime($b->date)) }}</td>
+                    <td>{{ __('Rp.').number_format(json_decode($b->dsc)[0]) }}</td>
+                    <td>
+                        @if(json_decode($b->dsc)[1] == "")
+                        {{ __('0%') }}
+                        @else
+                        {{ json_decode($b->dsc)[1].__('%') }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($b->ppn == 1)
+                        <span class="badge badge-success">{{ __('YA') }}</span>
+                        @else
+                        <span class="badge badge-danger">{{ __('TIDAK') }}</span>
+                        @endif
+                    </td>
+                    <td>{{ __('Rp.').number_format(json_decode($b->cost)[0]) }}</td>
+                    <td>{{ __('Rp.').number_format(json_decode($b->cost)[1]) }}</td>
+                    <td>{{ __('Rp.').number_format($b->gt) }}</td>
+                    <td>
+                        @if ($b->info != null)
+                        {{ $b->info }}
+                        @else
+                        {{ __('Kosong') }}
+                        @endif
+                    </td>
+                    <td>
+                        <button onclick="getItem({{ $b->id }})" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
+                            data-toggle="tooltip" title="Lihat data barang"><i class="fas fa-eye"></i></button>
+                        <form id="del-data" action="{{ route('bidding.destroy',$b->id) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-action mb-1 mt-1" data-toggle="tooltip" title="Delete"
+                                data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
+                                data-confirm-yes="document.getElementById('del-data').submit();"><i
+                                    class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
                 </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
     </div>
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/sales/sales.js') }}"></script>
+<script src="{{ asset('pages/penawaran/penawaran.js') }}"></script>
 @endsection

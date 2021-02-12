@@ -45,7 +45,7 @@ mix.scripts(
         "resources/js/select2.full.min.js",
         "resources/js/cleave.min.js",
         "resources/js/cleave-phone.id.js",
-        "resources/js/repeater.js",
+        // "resources/js/repeater.js",
         "resources/js/scripts.js"
     ],
     "public/assets.js"

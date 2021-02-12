@@ -88,6 +88,8 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::resource('bidding', App\Http\Controllers\BiddingController::class)->only([
         'index', 'store', 'create', 'destroy'
     ]);
+    Route::get('/bidding-items', [App\Http\Controllers\BiddingController::class, 'biddingItems'])
+        ->name('biddingItems');
 });
 
 Route::group(['middleware' => 'almaas'], function () {
