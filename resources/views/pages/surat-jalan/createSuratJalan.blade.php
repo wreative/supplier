@@ -1,9 +1,8 @@
 @extends('layouts.default')
 @section('title', __('pages.title').__(' | Tambah Surat Jalan'))
 @section('titleContent', __('Tambah Surat Jalan'))
-@section('breadcrumb', __('Master'))
+@section('breadcrumb', __('Surat Jalan'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Surat Jalan') }}</div>
 <div class="breadcrumb-item active">{{ __('Tambah Surat Jalan') }}</div>
 @endsection
 

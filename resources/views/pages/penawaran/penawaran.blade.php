@@ -1,10 +1,6 @@
 @extends('layouts.default')
 @section('title', __('pages.title').__(' | Master Penawaran'))
 @section('titleContent', __('Penawaran'))
-@section('breadcrumb', __('Master'))
-@section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Penawaran') }}</div>
-@endsection
 
 @section('content')
 <div class="card">
