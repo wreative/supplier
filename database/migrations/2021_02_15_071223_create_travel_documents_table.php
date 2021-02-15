@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBidding extends Migration
+class CreateTravelDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreateBidding extends Migration
      */
     public function up()
     {
-        Schema::create('bidding', function (Blueprint $table) {
+        Schema::create('travel_doc', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->foreignId('cus_id');
-            $table->json('items');
+            $table->foreignId('bid_id');
             $table->date('date');
-            $table->boolean('ppn');
-            $table->json('dsc');
-            $table->bigInteger('gt'); // Grand Total
+            $table->string('driver');
+            $table->string('police_num');
             $table->string('info')->nullable();
-            $table->json('cost'); //Harga Total dan harga lain-lain
-            $table->foreignId('tdoc_id')->nullable();
         });
     }
 
@@ -35,6 +31,6 @@ class CreateBidding extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bidding');
+        Schema::dropIfExists('travel_doc');
     }
 }
