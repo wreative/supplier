@@ -90,6 +90,10 @@ Route::group(['middleware' => 'supplier'], function () {
     ]);
     Route::get('/bidding-items', [App\Http\Controllers\BiddingController::class, 'biddingItems'])
         ->name('biddingItems');
+    // Surat Jalan
+    Route::resource('tdoc', App\Http\Controllers\TravelDocumentController::class)->only([
+        'index', 'store', 'create', 'destroy'
+    ]);
 });
 
 Route::group(['middleware' => 'almaas'], function () {

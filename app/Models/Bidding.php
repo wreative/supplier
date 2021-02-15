@@ -27,11 +27,17 @@ class Bidding extends Model
         'dsc',
         'gt',
         'info',
-        'cost'
+        'cost',
+        'tdoc_id'
     ];
 
     public function relationCustomer()
     {
         return $this->belongsTo('App\Models\Customer', 'cus_id', 'id');
+    }
+
+    public function relationTravelDocument()
+    {
+        return $this->belongsTo('App\Models\TravelDocument', 'tdoc_id', 'id');
     }
 }

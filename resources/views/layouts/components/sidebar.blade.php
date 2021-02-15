@@ -18,8 +18,10 @@
                 <a href="{{ route('bidding.index') }}" class="nav-link"><i
                         class="fas fa-handshake"></i><span>{{ __('Penawaran') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'home' ? 'active' : '' }}">
-                <a href="{{ route('home') }}" class="nav-link"><i
+            <li class="{{ Request::route()->getName() == 'tdoc.index' ? 'active' : (
+                Request::route()->getName() == 'tdoc.create' ? 'active' : (
+                    Request::route()->getName() == 'tdoc.edit' ? 'active' : '')) }}">
+                <a href="{{ route('tdoc.index') }}" class="nav-link"><i
                         class="fas fa-shipping-fast"></i><span>{{ __('Surat Jalan') }}</span></a>
             </li>
             <li class="menu-header">{{ __('Master') }}</li>
