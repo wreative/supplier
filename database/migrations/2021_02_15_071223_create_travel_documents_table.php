@@ -21,6 +21,7 @@ class CreateTravelDocumentsTable extends Migration
             $table->string('driver');
             $table->string('police_num');
             $table->string('info')->nullable();
+            $table->boolean('print');
         });
     }
 

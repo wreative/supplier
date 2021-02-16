@@ -25,6 +25,7 @@ class TravelDocument extends Model
         'driver',
         'police_num',
         'info',
+        'print'
     ];
 
     public function relationBidding()
