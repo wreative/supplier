@@ -20,6 +20,7 @@
                     <th>{{ __('Tanggal') }}</th>
                     <th>{{ __('Driver') }}</th>
                     <th>{{ __('Nomor Polisi') }}</th>
+                    <th>{{ __('Print') }}</th>
                     <th>
                         {{ __('Keterangan') }}
                     </th>
@@ -27,28 +28,34 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($bidding as $b)
+                @foreach($travelDocument as $td)
                 <tr>
                     <td class="text-center">
-                        {{ $b->code }}
+                        {{ $td->code }}
                     </td>
-                    <td>{{ $b->relationCustomer->code }}</td>
-                    <td>{{ date("d-M-Y", strtotime($b->date)) }}</td>
-                    <td>{{ __('Rp.').number_format($b->gt) }}</td>
-                    <td>{{ __('Rp.').number_format($b->gt) }}</td>
-                    <td>{{ __('Rp.').number_format($b->gt) }}</td>
+                    <td>{{ $td->c_code }}</td>
+                    <td>{{ $td->b_code }}</td>
+                    <td>{{ date("d-M-Y", strtotime($td->date)) }}</td>
+                    <td>{{ $td->driver }}</td>
+                    <td>{{ $td->police_num }}</td>
                     <td>
-                        @if ($b->info != null)
-                        {{ $b->info }}
+                        @if ($td->print == 1)
+                        <span class="badge badge-success">{{ __('PERNAH') }}</span>
+                        @else
+                        <span class="badge badge-danger">{{ __('TIDAK') }}</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($td->info != null)
+                        {{ $td->info }}
                         @else
                         {{ __('Kosong') }}
                         @endif
                     </td>
                     <td>
-                        <button onclick="getItem({{ $b->id }})" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
-                            data-toggle="tooltip" title="Lihat data barang"><i class="fas fa-eye"></i></button>
-                        <form id="del-data" action="{{ route('bidding.destroy',$b->id) }}" method="POST"
-                            class="d-inline">
+                        <button onclick="getItem({{ $td->id }})" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
+                            data-toggle="tooltip" title="Lihat data barang"><i class="fas fa-print"></i></button>
+                        <form id="del-data" action="{{ route('tdoc.destroy',$td->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-action mb-1 mt-1" data-toggle="tooltip" title="Delete"

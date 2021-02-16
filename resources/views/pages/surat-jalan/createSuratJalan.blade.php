@@ -20,22 +20,21 @@
     </div>
 </div>
 @endif
-{{-- <form class="form-save" enctype="multipart/form-data"> --}}
-<form method="POST" action="{{ route('bidding.store') }}">
+<form method="POST" action="{{ route('tdoc.store') }}">
     @csrf
     <input type="hidden" value="{{ $code }}" name="code">
     <div class="card">
         <div class="card-body">
             <div class="form-group">
                 <label>{{ __('Surat Penawaran') }}<code>*</code></label>
-                <select class="form-control select2 @error('bidding') is-invalid @enderror" name="bidding" required>
+                <select class="form-control select2 @error('sp') is-invalid @enderror" name="sp" required>
                     @foreach ($bidding as $b)
                     <option value="{{ $b->id }}">
-                        {{ $b->name." - ".$b->code }}
+                        {{ $b->code }}
                     </option>
                     @endforeach
                 </select>
-                @error('bidding')
+                @error('sp')
                 <span class="text-danger" role="alert">
                     {{ $message }}
                 </span>
@@ -44,7 +43,7 @@
             <div class="form-group">
                 <label>{{ __('Driver') }}</label>
                 <div class="input-group">
-                    <input class="form-control currency @error('driver') is-invalid @enderror" id="driver" type="text"
+                    <input class="form-control @error('driver') is-invalid @enderror" id="driver" type="text"
                         name="driver">
                 </div>
                 @error('driver')
@@ -56,8 +55,8 @@
             <div class="form-group">
                 <label>{{ __('Nomor Polisi') }}</label>
                 <div class="input-group">
-                    <input class="form-control currency @error('police_num') is-invalid @enderror" id="police_num"
-                        type="text" name="police_num">
+                    <input class="form-control @error('police_num') is-invalid @enderror" id="police_num" type="text"
+                        name="police_num">
                 </div>
                 @error('police_num')
                 <span class="text-danger" role="alert">
