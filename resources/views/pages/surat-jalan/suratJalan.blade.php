@@ -53,8 +53,8 @@
                         @endif
                     </td>
                     <td>
-                        <button onclick="getItem({{ $td->id }})" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
-                            data-toggle="tooltip" title="Lihat data barang"><i class="fas fa-print"></i></button>
+                        <button onclick="getItem({{ $td->id }})" class="btn btn-dark btn-action mb-1 mt-1 mr-1"
+                            data-toggle="tooltip" title="Print"><i class="fas fa-print"></i></button>
                         <form id="del-data" action="{{ route('tdoc.destroy',$td->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
