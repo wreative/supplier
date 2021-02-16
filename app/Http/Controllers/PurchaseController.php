@@ -88,7 +88,7 @@ class PurchaseController extends Controller
             'tgl' => $req->tgl,
             'price' => $sellPrice +
                 $this->PublicController->removeComma($req->etc_price) +
-                $this->PublicController->removeComma($req->ship_price)
+                $this->PublicController->removeComma($req->ship_price),
         ]);
 
         Purchase::create([
@@ -99,7 +99,9 @@ class PurchaseController extends Controller
             'dp' => $datas[5],
             'tax' => $datas[4],
             'ppn' => $req->ppn,
-            'status' => $status
+            'status' => $status,
+            'etc_price' => $this->PublicController->removeComma($req->etc_price),
+            'ship_price' => $this->PublicController->removeComma($req->ship_price)
         ]);
 
         // Modify Stock Items

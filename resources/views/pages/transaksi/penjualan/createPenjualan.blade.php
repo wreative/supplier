@@ -162,6 +162,40 @@
                 @enderror
             </div>
             <div class="form-group">
+                <label>{{ __('Biaya Kirim') }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency @error('ship_price') is-invalid @enderror" id="ship_price"
+                        type="text" name="ship_price">
+                </div>
+                @error('ship_price')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label>{{ __('Biaya Lain') }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency @error('etc_price') is-invalid @enderror" id="etc_price"
+                        type="text" name="etc_price">
+                </div>
+                @error('etc_price')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
                     rows="10" style="height: 77px;"></textarea>

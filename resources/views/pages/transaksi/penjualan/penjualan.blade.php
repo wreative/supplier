@@ -33,6 +33,8 @@
                     <th>{{ __('PPN') }}</th>
                     <th>{{ __('Uang Muka') }}</th>
                     <th>{{ __('Harga') }}</th>
+                    <th>{{ __('Biaya Kirim') }}</th>
+                    <th>{{ __('Biaya Lain') }}</th>
                     <th>{{ __('Kode Customer') }}</th>
                     <th>{{ __('Kode Sales') }}</th>
                     <th>{{ __('Tanggal') }}</th>
@@ -62,6 +64,8 @@
                     </td>
                     <td>{{ __('Rp.').number_format($s->relationSales->dp) }}</td>
                     <td>{{ __('Rp.').number_format($s->price) }}</td>
+                    <td>{{ __('Rp.').number_format($p->relationSales->ship_price) }}</td>
+                    <td>{{ __('Rp.').number_format($p->relationSales->etc_price) }}</td>
                     <td>{{ $s->relationCustomer->code }}</td>
                     <td>{{ $s->relationMarketer->code }}</td>
                     <td>{{ date("d-M-Y", strtotime($s->tgl)) }}</td>

@@ -90,7 +90,9 @@ class SalesController extends Controller
             's_id' => $count,
             'total' => $req->total,
             'tgl' => $req->tgl,
-            'price' => $sellPrice,
+            'price' => $sellPrice +
+                $this->PublicController->removeComma($req->etc_price) +
+                $this->PublicController->removeComma($req->ship_price),
             'cus_id' => $req->customer,
             'mar_id' => $req->marketer,
         ]);
@@ -102,7 +104,9 @@ class SalesController extends Controller
             'info' => $req->info,
             'dp' => $datas[5],
             'tax' => $datas[4],
-            'ppn' => $req->ppn
+            'ppn' => $req->ppn,
+            'etc_price' => $this->PublicController->removeComma($req->etc_price),
+            'ship_price' => $this->PublicController->removeComma($req->ship_price)
         ]);
 
         // Modify Stock Items
