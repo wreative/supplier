@@ -59,6 +59,12 @@ class PurchaseController extends Controller
             'status' => 'required'
         ]);
 
+        // Null Safety
+        $etc_price = $req->etc_price == null ? 0 :
+            $this->PublicController->removeComma($req->etc_price);
+        $ship_price = $req->ship_price == null ? 0 :
+            $this->PublicController->removeComma($req->ship_price);
+
         $datas = $this->PublicController->calculate(
             $req->total,
             $req->items,
@@ -86,9 +92,7 @@ class PurchaseController extends Controller
             'sup_id' => $req->supplier,
             'total' => $req->total,
             'tgl' => $req->tgl,
-            'price' => $sellPrice +
-                $this->PublicController->removeComma($req->etc_price) +
-                $this->PublicController->removeComma($req->ship_price),
+            'price' => $sellPrice + $etc_price + $ship_price,
         ]);
 
         Purchase::create([
@@ -100,8 +104,8 @@ class PurchaseController extends Controller
             'tax' => $datas[4],
             'ppn' => $req->ppn,
             'status' => $status,
-            'etc_price' => $this->PublicController->removeComma($req->etc_price),
-            'ship_price' => $this->PublicController->removeComma($req->ship_price)
+            'etc_price' => $etc_price,
+            'ship_price' => $ship_price
         ]);
 
         // Modify Stock Items

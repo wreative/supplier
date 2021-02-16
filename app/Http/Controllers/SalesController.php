@@ -65,6 +65,12 @@ class SalesController extends Controller
             'customer' => 'required'
         ]);
 
+        // Null Safety
+        $etc_price = $req->etc_price == null ? 0 :
+            $this->PublicController->removeComma($req->etc_price);
+        $ship_price = $req->ship_price == null ? 0 :
+            $this->PublicController->removeComma($req->ship_price);
+
         $datas = $this->PublicController->calculate(
             $req->total,
             $req->items,
@@ -90,9 +96,7 @@ class SalesController extends Controller
             's_id' => $count,
             'total' => $req->total,
             'tgl' => $req->tgl,
-            'price' => $sellPrice +
-                $this->PublicController->removeComma($req->etc_price) +
-                $this->PublicController->removeComma($req->ship_price),
+            'price' => $sellPrice + $etc_price + $ship_price,
             'cus_id' => $req->customer,
             'mar_id' => $req->marketer,
         ]);
@@ -105,8 +109,8 @@ class SalesController extends Controller
             'dp' => $datas[5],
             'tax' => $datas[4],
             'ppn' => $req->ppn,
-            'etc_price' => $this->PublicController->removeComma($req->etc_price),
-            'ship_price' => $this->PublicController->removeComma($req->ship_price)
+            'etc_price' => $etc_price,
+            'ship_price' => $ship_price
         ]);
 
         // Modify Stock Items
