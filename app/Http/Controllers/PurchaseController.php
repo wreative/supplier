@@ -86,7 +86,9 @@ class PurchaseController extends Controller
             'sup_id' => $req->supplier,
             'total' => $req->total,
             'tgl' => $req->tgl,
-            'price' => $sellPrice
+            'price' => $sellPrice +
+                $this->PublicController->removeComma($req->etc_price) +
+                $this->PublicController->removeComma($req->ship_price)
         ]);
 
         Purchase::create([
