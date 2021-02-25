@@ -24,7 +24,9 @@ class Items extends Model
         'stock',
         'code',
         'info',
-        'detail_id'
+        'detail_id',
+        'hide',
+        'limit'
     ];
 
     public function relationUnits()

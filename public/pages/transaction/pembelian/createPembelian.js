@@ -107,7 +107,7 @@ function getItems() {
         },
         type: "GET",
         success: function(data) {
-            console.log(data.items);
+            console.log(data);
             const wrapper = document.createElement("div");
             wrapper.innerHTML =
                 "<table class='table table-hover'><thead><tr><th scope='col'>Nama</th><th scope='col'>Detail</th></tr></thead><tbody><tr><th scope='row'>Kode</th><td>" +
@@ -121,7 +121,7 @@ function getItems() {
                 "</td></tr><tr><th scope='row'>Harga Pokok</th><td>Rp." +
                 numberWithCommas(data.items.relation_detail.price) +
                 "</td></tr><tr><th scope='row'>PPN 10%</th><td>Rp." +
-                numberWithCommas(data.items.relation_detail.ppn_price) +
+                numberWithCommas(data.ppn) +
                 "</td></tr><tr><th scope='row'>Keuntungan</th><td>" +
                 data.items.relation_detail.profit +
                 "%" +

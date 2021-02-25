@@ -52,6 +52,22 @@
                 @enderror
             </div>
             <div class="form-group">
+                <label>{{ __('Limit') }}<code>*</code></label>
+                <div class="input-group">
+                    <input type="text" class="form-control @error('limit') is-invalid @enderror" name="limit" required>
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Hari') }}
+                        </div>
+                    </div>
+                </div>
+                @error('limit')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label>{{ __('Harga Pokok') }}<code>*</code></label>
                 <div class="input-group">
                     <div class="input-group-prepend">

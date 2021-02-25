@@ -21,6 +21,8 @@ class CreateItems extends Migration
             $table->string('code');
             $table->string('info')->nullable();
             $table->foreignId('detail_id');
+            $table->boolean('hide');
+            $table->bigInteger('limit');
         });
     }
 

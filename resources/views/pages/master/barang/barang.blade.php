@@ -31,6 +31,7 @@
                     <th>{{ __('Keuntungan Nominal') }}</th>
                     <th>{{ __('Keuntungan Persen') }}</th>
                     <th>{{ __('Harga Jual') }}</th>
+                    <th>{{ __('Limit') }}</th>
                     <th>{{ __('Keterangan') }}</th>
                     <th>{{ __('Aksi') }}</th>
                 </tr>
@@ -91,6 +92,13 @@
                         {{ __('Rp.').number_format($i->relationDetail->sell_price, 2) }}
                         @else
                         {{ __('Rp.0') }}
+                        @endif
+                    </td>
+                    <td>
+                        @if($i->limit != null)
+                        {{ $i->limit.__(' Hari') }}
+                        @else
+                        {{ __('0 Hari') }}
                         @endif
                     </td>
                     <td>

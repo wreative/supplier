@@ -193,7 +193,10 @@ class PublicController extends Controller
     public function getItems(Request $req)
     {
         $datas = Items::with('relationDetail', 'relationUnits')->find($req->items);
-        return Response()->json(['items' => $datas]);
+        $itemDetail = $datas->relationDetail;
+        // TODO:PR PPN PRICE
+        $ppn = $itemDetail->ppn_price == $itemDetail->price ? 0 : $itemDetail->ppn_price;
+        return Response()->json(['items' => $datas, 'ppn' => $ppn]);
     }
 
     // Bidding

@@ -58,6 +58,7 @@ class ItemsController extends Controller
             'code' => 'required',
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
+            'limit' => 'required|numeric|integer|min:1',
             'units' => 'required',
             'price' => 'required',
             'ppn' => 'required|numeric|integer',
@@ -95,7 +96,9 @@ class ItemsController extends Controller
             'stock' => $this->PublicController->removeComma($req->stock),
             'code' => $req->code,
             'info' => $req->info,
-            'detail_id' => $count
+            'detail_id' => $count,
+            'limit' => $req->limit,
+            'hide' => '0'
         ]);
 
         $sellPrice = $this->PublicController->checkPricePPN(
@@ -104,6 +107,8 @@ class ItemsController extends Controller
             $req->profit
         );
 
+        $ppnPrice = $this->checkPPN($req->price, $req->ppn);
+
         ItemsDetail::create([
             'id' => $count,
             'price' => $this->PublicController->removeComma($req->price),
@@ -111,7 +116,7 @@ class ItemsController extends Controller
             'profit_nom' => $profit_nom,
             'sell_price' => $sellPrice,
             'ppn' => $req->ppn,
-            'ppn_price' => $this->checkPPN($req->price, $req->ppn)
+            'ppn_price' => $sellPrice == $ppnPrice ? 0 : $ppnPrice,
         ]);
 
         return redirect()->route('items.index');
@@ -139,6 +144,7 @@ class ItemsController extends Controller
         $this->validate($req, [
             'name' => 'required',
             'stock' => 'required|numeric|integer|min:1',
+            'limit' => 'required|numeric|integer|min:1',
             'units' => 'required',
             'price' => 'required',
             'ppn' => 'required|numeric|integer',
@@ -153,12 +159,15 @@ class ItemsController extends Controller
         $items->unit_id = $req->units;
         $items->stock = $this->PublicController->removeComma($req->stock);
         $items->info = $req->info;
+        $items->limit = $req->limit;
 
         $sellPrice = $this->PublicController->checkPricePPN(
             $this->PublicController->removeComma($req->price),
             $req->ppn,
             $req->profit
         );
+
+        $ppnPrice = $this->checkPPN($req->price, $req->ppn);
 
         if ($items->detail_id == null) {
             // Stored Items
@@ -168,7 +177,7 @@ class ItemsController extends Controller
                 'profit_nom' => $this->PublicController->removeComma($req->profit_nom),
                 'sell_price' => $sellPrice,
                 'ppn' => $req->ppn,
-                'ppn_price' => $this->checkPPN($req->price, $req->ppn)
+                'ppn_price' => $sellPrice == $ppnPrice ? 0 : $ppnPrice,
             ]);
 
             $count = DB::table('d_items')
@@ -186,7 +195,7 @@ class ItemsController extends Controller
             $itemsDetail->profit_nom = $this->PublicController->removeComma($req->profit_nom);
             $itemsDetail->sell_price = $sellPrice;
             $itemsDetail->ppn = $req->ppn;
-            $itemsDetail->ppn_price = $this->checkPPN($req->price, $req->ppn);
+            $itemsDetail->ppn_price = $sellPrice == $ppnPrice ? 0 : $ppnPrice;
 
             $itemsDetail->save();
         }
