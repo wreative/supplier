@@ -94,6 +94,13 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::resource('tdoc', App\Http\Controllers\TravelDocumentController::class)->only([
         'index', 'store', 'create', 'destroy'
     ]);
+    // Laporan
+    Route::get('/report', [App\Http\Controllers\ReportController::class, 'index'])
+        ->name('report.index');
+    // Pengaturan
+    Route::resource('settings', SettingsController::class)->only([
+        'index', 'edit', 'update'
+    ]);
 });
 
 Route::group(['middleware' => 'almaas'], function () {
