@@ -81,13 +81,13 @@
                         @endif
                     </td>
                     <td>
-                        <form id="del-data" action="{{ route('purchase.destroy',$p->id) }}" method="POST"
+                        <form id="del-data{{ $p->id }}" action="{{ route('purchase.destroy',$p->id) }}" method="POST"
                             class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-action mb-1 mt-1" data-toggle="tooltip" title="Delete"
                                 data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                                data-confirm-yes="document.getElementById('del-data').submit();"><i
+                                data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();"><i
                                     class="fas fa-trash"></i></button>
                         </form>
                     </td>
