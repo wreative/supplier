@@ -31,9 +31,11 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $req)
+    public function index()
     {
-        $items = Items::with('relationUnits', 'relationDetail')->get();
+        $items = Items::with('relationUnits', 'relationDetail')
+            ->where('hide', '=', 0)
+            ->get();
         // DataTables::
         // if ($req->ajax()) {
         //     datatables()->of(Items::all())->toJson();
@@ -125,10 +127,12 @@ class ItemsController extends Controller
     public function destroy($id)
     {
         $items = Items::find($id);
-        $itemsDetail = ItemsDetail::find($items->detail_id);
+        // $itemsDetail = ItemsDetail::find($items->detail_id);
 
-        $items->delete();
-        $itemsDetail->delete();
+        $items->hide = 1;
+        $items->save();
+        // $items->delete();
+        // $itemsDetail->delete();
         return redirect()->route('items.index');
     }
 

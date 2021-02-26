@@ -54,7 +54,8 @@
             <div class="form-group">
                 <label>{{ __('Limit') }}<code>*</code></label>
                 <div class="input-group">
-                    <input type="text" class="form-control @error('limit') is-invalid @enderror" name="limit" required>
+                    <input type="text" class="form-control @error('limit') is-invalid @enderror" name="limit"
+                        value="{{ $items->limit == null ? 0 : $items->limit }}" required>
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             {{ __('Hari') }}
