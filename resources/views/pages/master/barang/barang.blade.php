@@ -24,12 +24,10 @@
                     </th>
                     <th>{{ __('Nama') }}</th>
                     <th>{{ __('Stock') }}</th>
-                    <th>{{ __('Units') }}</th>
                     <th>{{ __('Harga Pokok') }}</th>
                     <th>{{ __('Include PPN') }}</th>
                     <th>{{ __('Harga PPN') }}</th>
-                    <th>{{ __('Keuntungan Nominal') }}</th>
-                    <th>{{ __('Keuntungan Persen') }}</th>
+                    <th>{{ __('Keuntungan') }}</th>
                     <th>{{ __('Harga Jual') }}</th>
                     <th>{{ __('Limit') }}</th>
                     <th>{{ __('Keterangan') }}</th>
@@ -46,8 +44,7 @@
                         {{ $i->code }}
                     </td>
                     <td>{{ $i->name }}</td>
-                    <td>{{ number_format($i->stock) }}</td>
-                    <td>{{ $i->relationUnits->name }}</td>
+                    <td>{{ number_format($i->stock)." ".$i->relationUnits->name }}</td>
                     <td>
                         @if($i->relationDetail != null)
                         {{ __('Rp.').number_format($i->relationDetail->price, 2) }}
@@ -75,16 +72,10 @@
                     </td>
                     <td>
                         @if($i->relationDetail == null || $i->relationDetail->profit_nom == null)
-                        {{ __('Rp.0') }}
+                        {{ __('Rp.0 / 0%') }}
                         @else
-                        {{ __('Rp.').number_format($i->relationDetail->ppn_price, 2) }}
-                        @endif
-                    </td>
-                    <td>
-                        @if($i->relationDetail == null || $i->relationDetail->profit == null)
-                        {{ __('0%') }}
-                        @else
-                        {{ $i->relationDetail->profit.__('%') }}
+                        {{ __('Rp.').number_format($i->relationDetail->ppn_price, 2).
+                        " / ".$i->relationDetail->profit.__('%') }}
                         @endif
                     </td>
                     <td>
@@ -96,7 +87,7 @@
                     </td>
                     <td>
                         @if($i->limit != null)
-                        {{ $i->limit.__(' Hari') }}
+                        {{ $i->limit." ".$i->relationUnits->name }}
                         @else
                         {{ __('0 Hari') }}
                         @endif
