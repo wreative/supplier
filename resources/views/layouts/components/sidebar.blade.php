@@ -70,12 +70,12 @@
             <li class="menu-header">{{ __('Lainnya') }}</li>
             <li class="{{ Request::route()->getName() == 'purchase.index' ? 'active' : (
                 Request::route()->getName() == 'purchase.create' ? 'active' : '') }}">
-                <a class="nav-link" href="{{ route('purchase.index') }}"><i class="fas fa-exchange-alt"></i>
+                <a class="nav-link" href="{{ route('purchase.index') }}"><i class="fas fa-file-alt"></i>
                     <span>{{ __('Laporan') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'sales.index' ? 'active' : (
                 Request::route()->getName() == 'sales.create' ? 'active' : '') }}">
-                <a class="nav-link" href="{{ route('sales.index') }}"><i class="fas fa-exchange-alt"></i>
+                <a class="nav-link" href="{{ route('sales.index') }}"><i class="fas fa-cogs"></i>
                     <span>{{ __('Pengaturan') }}</span></a>
             </li>
         </ul>
