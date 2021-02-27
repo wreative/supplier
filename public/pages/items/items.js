@@ -2,6 +2,7 @@
 
 $("#items").dataTable({
     responsive: true,
+    autoWidth: true,
     dom: "lBfrtip",
     lengthMenu: [
         [10, 25, 50, -1],
@@ -17,14 +18,14 @@ $("#items").dataTable({
                 },
                 columns: ":visible"
             },
-            messageTop: "Dokumen dikeluarkan tanggal " + moment().format("LL"),
+            messageTop: "Dokumen dikeluarkan tanggal " + moment().format("L"),
             // footer: true,
             header: true,
             customize: function(win) {
                 $(win.document.body)
                     .css("font-size", "15pt")
                     .prepend(
-                        '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
+                        '<img src="http://stock.test/img/logo/watermark.png" style="position:absolute; top:500px; left:0; margin:auto; opacity: 0.2;" />'
                     );
 
                 $(win.document.body)

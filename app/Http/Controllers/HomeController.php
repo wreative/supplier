@@ -33,10 +33,10 @@ class HomeController extends Controller
             $sales = DB::table('sales')->count();
             $stockValue = DB::table('items')
                 ->select('*')
-                ->where('items.stock', '=', 'items.limit')
+                ->where('stock', '<=', 'limit')
                 ->get();
             // $stockValue = Items::where('limit', '=', 'stock')->get();
-            // dd($stockValue);
+            dd($stockValue);
             return view('home', [
                 'items' => $items,
                 'stock' => $stock,

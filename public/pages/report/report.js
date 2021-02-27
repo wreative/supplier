@@ -10,7 +10,7 @@ $("#report").dataTable({
                 $(win.document.body)
                     .css("font-size", "20pt")
                     .prepend(
-                        '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
+                        '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:20px; left:0; margin:auto;" />'
                     );
 
                 $(win.document.body)
