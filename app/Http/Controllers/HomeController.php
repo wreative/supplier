@@ -36,7 +36,7 @@ class HomeController extends Controller
                 ->where('stock', '<=', 'limit')
                 ->get();
             // $stockValue = Items::where('limit', '=', 'stock')->get();
-            dd($stockValue);
+            // dd($stockValue);
             return view('home', [
                 'items' => $items,
                 'stock' => $stock,

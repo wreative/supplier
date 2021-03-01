@@ -91,7 +91,15 @@ class PublicController extends Controller
             return Response()->json(['status' => 'error']);
         }
 
-        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp, $req->ppn);
+        $datas = $this->calculate(
+            $req->total,
+            $req->items,
+            $req->dsc_nom,
+            $req->dsc_per,
+            $req->dp,
+            $req->ppn,
+            0
+        );
         return Response()->json(['hasil' => $datas]);
     }
 
@@ -105,18 +113,32 @@ class PublicController extends Controller
             return Response()->json(['status' => 'error']);
         }
 
-        $datas = $this->calculate($req->total, $req->items, $req->dsc_nom, $req->dsc_per, $req->dp, $req->ppn);
+        $datas = $this->calculate(
+            $req->total,
+            $req->items,
+            $req->dsc_nom,
+            $req->dsc_per,
+            $req->dp,
+            $req->ppn,
+            1
+        );
         return Response()->json(['hasil' => $datas]);
     }
 
-    public function calculate($total, $items, $discountNom, $discountPer, $dp, $ppn)
+    public function calculate($total, $items, $discountNom, $discountPer, $dp, $ppn, $type)
     {
         // Initial
         $totalItems = (int)$total;
         $itemsName = Items::find($items)->name;
         $items = Items::find($items)->detail_id;
         $itemsDetail = ItemsDetail::find($items);
-        $itemsPrice = $itemsDetail->sell_price;
+        //TODO:change to price
+        if ($type == '0') {
+            $itemsPrice = $itemsDetail->price;
+        } else {
+            $itemsPrice = $itemsDetail->sell_price;
+        }
+
         $dsc_nom = (int)$discountNom;
         $dsc_per = (int)$discountPer;
         $downPayment = (int)$dp;
@@ -135,7 +157,7 @@ class PublicController extends Controller
         $discount = $dsc_nom != 0 ? $discount = $dsc_nom : ($dsc_per != 0 ? round($newPrice * $dsc_per / 100) : 0);
 
         // Calculate Total Price
-        $totalPrice = round($newPrice - $discount - $downPayment + $tax);
+        $totalPrice = $newPrice - $discount - $downPayment + $tax;
 
         // Passing Data
         $datas = array(
