@@ -100,8 +100,8 @@
                         @endif
                     </td>
                     <td>
-                        <a href="/items/{{ $i->id }}/edit" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
-                            data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="/items/{{ $i->id }}/edit" class="btn btn-primary btn-action mb-1 mt-1 mr-1"><i
+                                data-toggle="tooltip" title="Edit" class="fas fa-pencil-alt"></i></a>
                         <form id="del-data{{ $i->id }}" action="{{ route('items.destroy',$i->id) }}" method="POST"
                             class="d-inline">
                             @csrf

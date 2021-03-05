@@ -24,6 +24,8 @@ $(".tlp")
 function getPrice() {
     let total = $("#total").val();
     let items = $("#items").val();
+    let ship = $("#ship_price").val();
+    let etc = $("#etc_price").val();
     let dsc_nom = numberWithoutCommas($("#dsc_nom").val());
     let dsc_per = $("#dsc_per").val();
     let dp = numberWithoutCommas($("#dp").val());
@@ -36,7 +38,9 @@ function getPrice() {
             dsc_nom: dsc_nom,
             dsc_per: dsc_per,
             dp: dp,
-            ppn: ppn
+            ppn: ppn,
+            ship_price: ship,
+            etc_price: etc
         },
         type: "GET",
         success: function(data) {
@@ -44,6 +48,14 @@ function getPrice() {
                 swal({
                     title: "Error",
                     text: "Diskon persen yang dimasukkan melebihi 100%",
+                    icon: "error",
+                    button: "Ok"
+                });
+                $("#price").val(0);
+            } else if (data.status == "null") {
+                swal({
+                    title: "Error",
+                    text: "Total barang harus di isi dan minimal 1 barang",
                     icon: "error",
                     button: "Ok"
                 });
@@ -71,6 +83,10 @@ function getPrice() {
                     numberWithCommas(tax) +
                     "</td></tr><tr><th scope='row'>Pembayaran DP</th><td>Rp." +
                     numberWithCommas(dp) +
+                    "</td></tr><tr><th scope='row'>Biaya Kirim</th><td>Rp." +
+                    numberWithCommas(data.hasil[9]) +
+                    "</td></tr><tr><th scope='row'>Biaya Lain</th><td>Rp." +
+                    numberWithCommas(data.hasil[10]) +
                     "</td></tr><tr><th scope='row'>Total Harga</th><td>Rp." +
                     numberWithCommas(totalPrice) +
                     "</td></tr></tbody></table>";
@@ -116,7 +132,7 @@ function getItems() {
                 data.items.name +
                 "</td></tr><tr><th scope='row'>Stok</th><td>" +
                 data.items.stock +
-                "</td></tr><tr><th scope='row'>Unit</th><td>" +
+                " " +
                 data.items.relation_units.name +
                 "</td></tr><tr><th scope='row'>Harga Pokok</th><td>Rp." +
                 numberWithCommas(data.items.relation_detail.price) +

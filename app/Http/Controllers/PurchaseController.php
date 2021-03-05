@@ -71,7 +71,10 @@ class PurchaseController extends Controller
             $req->dsc_nom,
             $req->dsc_per,
             $req->dp,
-            $req->ppn
+            $req->ppn,
+            $ship_price,
+            $etc_price,
+            0
         );
 
         $status = $req->status == '1' ? 'Diterima' : 'Dipesan';
@@ -80,19 +83,13 @@ class PurchaseController extends Controller
         // $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
         $count = $this->PublicController->countID('purchase');
 
-        $sellPrice = $this->PublicController->checkPricePPN(
-            $datas[1],
-            $req->ppn,
-            $req->profit
-        );
-
         Transaction::create([
             'items_id' => $req->items,
             'p_id' => $count,
             'sup_id' => $req->supplier,
             'total' => $req->total,
             'tgl' => $req->tgl,
-            'price' => $sellPrice + $etc_price + $ship_price,
+            'price' => $datas[6],
         ]);
 
         Purchase::create([
@@ -104,8 +101,8 @@ class PurchaseController extends Controller
             'tax' => $datas[4],
             'ppn' => $req->ppn,
             'status' => $status,
-            'etc_price' => $etc_price,
-            'ship_price' => $ship_price
+            'etc_price' => $datas[10],
+            'ship_price' => $datas[9]
         ]);
 
         // Modify Stock Items

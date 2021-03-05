@@ -81,6 +81,7 @@ class PublicController extends Controller
         return Response()->json(['price' => number_format($price, 2)]);
     }
 
+    // Check Data From Purchase
     public function checkPurchase(Request $req)
     {
         // Initial
@@ -89,15 +90,27 @@ class PublicController extends Controller
         // Validation
         if ($dsc_per >= 100) {
             return Response()->json(['status' => 'error']);
+        } else if ($req->total <= 0 or $req->total ==  null) {
+            return Response()->json(['status' => 'null']);
         }
+
+        // Null Safety
+        $etc_price = $req->etc_price == null ? 0 :
+            $this->removeComma($req->etc_price);
+        $ship_price = $req->ship_price == null ? 0 :
+            $this->removeComma($req->ship_price);
+        $dp = $req->dp == null ? 0 :
+            $req->dp;
 
         $datas = $this->calculate(
             $req->total,
             $req->items,
             $req->dsc_nom,
             $req->dsc_per,
-            $req->dp,
+            $dp,
             $req->ppn,
+            $ship_price,
+            $etc_price,
             0
         );
         return Response()->json(['hasil' => $datas]);
@@ -125,7 +138,8 @@ class PublicController extends Controller
         return Response()->json(['hasil' => $datas]);
     }
 
-    public function calculate($total, $items, $discountNom, $discountPer, $dp, $ppn, $type)
+    // Main Formula
+    public function calculate($total, $items, $discountNom, $discountPer, $dp, $ppn, $shipPrice, $etcPrice, $type)
     {
         // Initial
         $totalItems = (int)$total;
@@ -141,7 +155,7 @@ class PublicController extends Controller
 
         $dsc_nom = (int)$discountNom;
         $dsc_per = (int)$discountPer;
-        $downPayment = (int)$dp;
+        $downPayment = $this->removeComma($dp);
 
         // Initial New Price
         $newPrice = $totalItems * $itemsPrice;
@@ -155,13 +169,14 @@ class PublicController extends Controller
 
         // Discount
         $discount = $dsc_nom != 0 ? $discount = $dsc_nom : ($dsc_per != 0 ? round($newPrice * $dsc_per / 100) : 0);
+        $discount *= $totalItems;
 
         // Calculate Total Price
-        $totalPrice = $newPrice - $discount - $downPayment + $tax;
+        $totalPrice = $newPrice - $discount - $downPayment + $shipPrice + $etcPrice + $tax;
 
         // Passing Data
         $datas = array(
-            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per
+            $itemsName, $itemsPrice, $discount, $totalItems, $tax, $downPayment, $totalPrice, $dsc_nom, $dsc_per, $shipPrice, $etcPrice
         );
         return $datas;
     }

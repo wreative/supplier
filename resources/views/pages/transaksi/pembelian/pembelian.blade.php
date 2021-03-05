@@ -27,9 +27,8 @@
                     <th>{{ __('Kode Barang') }}</th>
                     <th>{{ __('Status') }}</th>
                     <th>{{ __('Total') }}</th>
+                    <th>{{ __('Harga Diskon') }}</th>
                     <th>{{ __('Diskon') }}</th>
-                    <th>{{ __('Diskon Nominal') }}</th>
-                    <th>{{ __('Diskon Persen') }}</th>
                     <th>{{ __('Pajak') }}</th>
                     <th>{{ __('PPN') }}</th>
                     <th>{{ __('Uang Muka') }}</th>
@@ -57,8 +56,9 @@
                     </td>
                     <td>{{ $p->total.__(" Items") }}</td>
                     <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[0]) }}</td>
-                    <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1]) }}</td>
-                    <td>{{ json_decode($p->relationPurchase->dsc)[2].__('%') }}</td>
+                    <td>
+                        {{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1])." / ".json_decode($p->relationPurchase->dsc)[2].__('%') }}
+                    </td>
                     <td>{{ __('Rp.').number_format($p->relationPurchase->tax) }}</td>
                     <td>
                         @if ($p->relationPurchase->ppn == 1)
