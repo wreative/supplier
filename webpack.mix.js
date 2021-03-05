@@ -30,19 +30,17 @@ mix.styles(
 // Javascript
 mix.scripts(
     [
+        "resources/js/daterangepicker.js",
         "resources/js/bootstrap.min.js",
         "resources/js/stisla.js",
-        "resources/js/daterangepicker.js",
         "resources/js/jquery.dataTables.min.js",
         "resources/js/dataTables.bootstrap4.min.js",
         "resources/js/dataTables.searchBuilder.min.js",
         "resources/js/dataTables.buttons.min.js",
-        "resources/js/jszip.min.js",
         "resources/js/buttons.bootstrap4.min.js",
         "resources/js/buttons.flash.min.js",
         "resources/js/buttons.html5.min.js",
         "resources/js/buttons.print.min.js",
-        "resources/js/buttons.colVis.min.js",
         "resources/js/dataTables.responsive.min.js",
         "resources/js/responsive.bootstrap4.min.js",
         "resources/js/Chart.min.js",
