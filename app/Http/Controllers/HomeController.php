@@ -31,12 +31,7 @@ class HomeController extends Controller
             $stock = Items::sum('stock');
             $purchase = DB::table('purchase')->count();
             $sales = DB::table('sales')->count();
-            $stockValue = DB::table('items')
-                ->select('*')
-                ->where('stock', '<=', 'limit')
-                ->get();
-            // $stockValue = Items::where('limit', '=', 'stock')->get();
-            // dd($stockValue);
+            $stockValue = DB::table('items')->whereRaw('items.stock <= items.limit')->get();
             return view('home', [
                 'items' => $items,
                 'stock' => $stock,
