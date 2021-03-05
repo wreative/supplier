@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'Stok BatuBeling',
+    'title' => 'Supplier BatuBeling',
     'brand' => 'SBB',
     'edit' => 'Simpan Perubahan'
 ];
