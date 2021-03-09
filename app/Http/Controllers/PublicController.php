@@ -116,6 +116,7 @@ class PublicController extends Controller
         return Response()->json(['hasil' => $datas]);
     }
 
+    // Sales
     public function checkSales(Request $req)
     {
         // Initial
@@ -136,6 +137,12 @@ class PublicController extends Controller
             1
         );
         return Response()->json(['hasil' => $datas]);
+    }
+
+    public function getPrice(Request $req)
+    {
+        $sellPrice = ItemsDetail::find($req->id)->sell_price;
+        return Response()->json(['price' => $sellPrice]);
     }
 
     // Main Formula

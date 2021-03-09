@@ -51,6 +51,7 @@
                 <button class="mt-2 btn btn-primary btn-block" id="supplier"
                     type="button">{{ __('Tambah Supplier') }}</button>
             </div>
+            <h2 class="section-title mb-3">{{ __('Barang') }}</h2>
             <div class="form-group">
                 <label>{{ __('Nama Barang') }}<code>*</code></label>
                 <select class="form-control select2 @error('items') is-invalid @enderror" name="items" id="items"
@@ -68,6 +69,36 @@
                 @enderror
                 <button class="mt-2 btn btn-primary btn-block" type="button"
                     onclick="getItems()">{{ __('Cek Data') }}</button>
+            </div>
+            <div class="form-group">
+                <label>{{ __('Harga Barang') }}<code>*</code></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency @error('price_items') is-invalid @enderror" id="price_items"
+                        type="text" name="price_items">
+                </div>
+                @error('price_items')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ __('Replace Harga Master Item') }}<code>*</code></label>
+                <div class="selectgroup w-100" id="price_replace">
+                    <label class="selectgroup-item">
+                        <input type="radio" name="price_replace" value="1" class="selectgroup-input">
+                        <span class="selectgroup-button">{{ __('Ya') }}</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="radio" name="price_replace" value="0" class="selectgroup-input" checked>
+                        <span class="selectgroup-button">{{ __('Tidak') }}</span>
+                    </label>
+                </div>
             </div>
             <div class="form-group">
                 <label>{{ __('Total Barang') }}<code>*</code></label>
@@ -131,6 +162,7 @@
                     </label>
                 </div>
             </div>
+            <hr>
             <div class="form-group">
                 <label>{{ __('Uang Muka (DP)') }}</label>
                 <div class="input-group">
@@ -217,5 +249,5 @@
 @include('pages.transaksi.pembelian.components.createSupplier')
 
 @section('script')
-<script src="{{ asset('pages/transaction/pembelian/createPembelian.js') }}"></script>
+<script src="{{ asset('pages/transaction/purchase/createPurchase.js') }}"></script>
 @endsection

@@ -167,18 +167,32 @@ function getItems() {
     });
 }
 
-$("#supplier").fireModal({
-    body: $("#modal-supplier"),
-    center: true,
-    title: "Tambah Data Supplier",
-    buttons: [
-        {
-            text: "Tambah",
-            submit: true,
-            class: "btn btn-primary btn-shadow",
-            handler: function() {}
+$("#items").on("select2:select", function(e) {
+    let data = e.params.data.id;
+    $.ajax({
+        url: "/get-price",
+        data: {
+            id: data
+        },
+        type: "GET",
+        success: function(data) {
+            console.log(data.price);
+            $("#price_items").val(data.price);
+        },
+        error: function(data) {
+            if (data.status == 401) {
+                swal({
+                    title: "Error",
+                    text:
+                        "Maaf anda telah logout secara otomatis silahkan melakukan login kembali",
+                    icon: "error",
+                    button: "Ok"
+                }).then(() => {
+                    location.reload();
+                });
+            }
         }
-    ]
+    });
 });
 
 function numberWithCommas(x) {

@@ -83,6 +83,23 @@
                     onclick="getItems()">{{ __('Cek Data') }}</button>
             </div>
             <div class="form-group">
+                <label>{{ __('Harga Barang') }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ __('Rp.') }}
+                        </div>
+                    </div>
+                    <input class="form-control currency @error('price_items') is-invalid @enderror" id="price_items"
+                        type="text" name="price_items">
+                </div>
+                @error('price_items')
+                <span class="text-danger" role="alert">
+                    {{ $message }}
+                </span>
+                @enderror
+            </div>
+            <div class="form-group">
                 <label>{{ __('Total Barang') }}<code>*</code></label>
                 <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" id="total"
                     required autofocus>
@@ -214,5 +231,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('pages/transaction/pembelian/createPembelian.js') }}"></script>
+<script src="{{ asset('pages/transaction/sales/createSales.js') }}"></script>
 @endsection

@@ -81,9 +81,10 @@ Route::group(['middleware' => 'supplier'], function () {
         'index', 'store', 'create', 'destroy'
     ]);
     // Transaksi Penjualan
-    Route::resource('sales', App\Http\Controllers\SalesController::class)->only([
-        'index', 'store', 'create', 'destroy'
+    Route::resource('sales', App\Http\Controllers\SalesController::class)->except([
+        'edit', 'update'
     ]);
+    Route::get('/get-price', [App\Http\Controllers\PublicController::class, 'getPrice']);
     // Penawaran
     Route::resource('bidding', App\Http\Controllers\BiddingController::class)->only([
         'index', 'store', 'create', 'destroy'
