@@ -28,6 +28,7 @@ class Transaction extends Model
         'tgl',
         'price',
         'total',
+        'c_price'
     ];
 
     public function relationItems()

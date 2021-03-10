@@ -59,12 +59,18 @@ class PurchaseController extends Controller
             'status' => 'required'
         ]);
 
+        // dd($req->price_items);
+        // dd($req->price_replace);
+
         // Null Safety
         $etc_price = $req->etc_price == null ? 0 :
             $this->PublicController->removeComma($req->etc_price);
         $ship_price = $req->ship_price == null ? 0 :
             $this->PublicController->removeComma($req->ship_price);
 
+        // Items Price
+
+        // Calculate Formula
         $datas = $this->PublicController->calculate(
             $req->total,
             $req->items,

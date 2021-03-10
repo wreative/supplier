@@ -23,6 +23,7 @@ class CreateTransaction extends Migration
             $table->foreignId('mar_id')->nullable();
             $table->date('tgl');
             $table->bigInteger('price');
+            $table->bigInteger('c_price')->nullable()->default(0);
             $table->bigInteger('total');
         });
     }
