@@ -51,7 +51,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>{{ __('Limit') }}<code>*</code></label>
+                <label>{{ __('Peringatan Kwantitas') }}<code>*</code></label>
                 <div class="input-group">
                     <input type="text" class="form-control @error('limit') is-invalid @enderror" name="limit" required>
                     <div class="input-group-prepend">

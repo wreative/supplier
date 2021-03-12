@@ -59,7 +59,7 @@ class ItemsController extends Controller
         $this->validate($req, [
             'code' => 'required',
             'name' => 'required',
-            'stock' => 'required|numeric|integer|min:1',
+            'stock' => 'required|numeric|integer|min:0',
             'limit' => 'required|numeric|integer|min:1',
             'units' => 'required',
             'price' => 'required',
