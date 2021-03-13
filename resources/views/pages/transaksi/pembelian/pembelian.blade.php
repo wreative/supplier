@@ -81,6 +81,19 @@
                         @endif
                     </td>
                     <td>
+                        {{-- <div class="dropdown d-inline">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                With Icon
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item has-icon" href="#"><i class="far fa-heart"></i> Action</a>
+                                <a class="dropdown-item has-icon" href="#"><i class="far fa-file"></i> Another
+                                    action</a>
+                                <a class="dropdown-item has-icon" href="#"><i class="far fa-clock"></i> Something else
+                                    here</a>
+                            </div>
+                        </div> --}}
                         <form id="del-data{{ $p->id }}" action="{{ route('purchase.destroy',$p->id) }}" method="POST"
                             class="d-inline">
                             @csrf
@@ -90,6 +103,16 @@
                                 data-confirm-yes="document.getElementById('del-data{{ $p->id }}').submit();"><i
                                     class="fas fa-trash"></i></button>
                         </form>
+                        <div class="dropdown d-inline">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {{ __('Status') }}
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0)">{{ __('Dipesan') }}</a>
+                                <a class="dropdown-item" href="javascript:void(0)">{{ __('Diterima') }}</a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @endforeach
