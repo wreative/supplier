@@ -14,6 +14,7 @@ const mix = require("laravel-mix");
 // CSS
 mix.styles(
     [
+        "resources/css/nprogress.css",
         "resources/css/bootstrap.min.css",
         "resources/css/daterangepicker.css",
         "resources/css/dataTables.bootstrap4.min.css",
@@ -30,6 +31,7 @@ mix.styles(
 // Javascript
 mix.scripts(
     [
+        "resources/js/nprogress.js",
         "resources/js/bootstrap.min.js",
         "resources/js/stisla.js",
         "resources/js/daterangepicker.js",
