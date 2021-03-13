@@ -71,7 +71,7 @@
                     onclick="getItems()">{{ __('Cek Data') }}</button>
             </div>
             <div class="form-group">
-                <label>{{ __('Harga Barang') }}<code>*</code></label>
+                <label>{{ __('Harga Pokok Barang') }}<code>*</code></label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -88,7 +88,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label class="form-label">{{ __('Replace Harga Master Item') }}<code>*</code></label>
+                <label class="form-label">{{ __('Ganti Harga Pada Master Barang') }}<code>*</code></label>
                 <div class="selectgroup w-100" id="price_replace">
                     <label class="selectgroup-item">
                         <input type="radio" name="price_replace" value="1" class="selectgroup-input">

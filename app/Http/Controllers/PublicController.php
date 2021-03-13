@@ -111,6 +111,7 @@ class PublicController extends Controller
             $req->ppn,
             $ship_price,
             $etc_price,
+            $this->removeComma($req->price_items),
             0
         );
         return Response()->json(['hasil' => $datas]);
@@ -146,7 +147,7 @@ class PublicController extends Controller
     }
 
     // Main Formula
-    public function calculate($total, $items, $discountNom, $discountPer, $dp, $ppn, $shipPrice, $etcPrice, $type)
+    public function calculate($total, $items, $discountNom, $discountPer, $dp, $ppn, $shipPrice, $etcPrice, $customPrice, $type)
     {
         // Initial
         $totalItems = (int)$total;
@@ -155,7 +156,7 @@ class PublicController extends Controller
         $itemsDetail = ItemsDetail::find($items);
         //TODO:change to price
         if ($type == '0') {
-            $itemsPrice = $itemsDetail->price;
+            $itemsPrice = $customPrice != 0 ? $customPrice : $itemsDetail->price;
         } else {
             $itemsPrice = $itemsDetail->sell_price;
         }

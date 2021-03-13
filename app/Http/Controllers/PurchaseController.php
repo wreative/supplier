@@ -59,27 +59,30 @@ class PurchaseController extends Controller
             'status' => 'required'
         ]);
 
-        // dd($req->price_items);
-        // dd($req->price_replace);
+        //Intial Variable
+        $idItems = $req->items;
 
         // Null Safety
         $etc_price = $req->etc_price == null ? 0 :
             $this->PublicController->removeComma($req->etc_price);
         $ship_price = $req->ship_price == null ? 0 :
             $this->PublicController->removeComma($req->ship_price);
+        $downPayment = $req->dp == null ? 0 : $req->dp;
 
-        // Items Price
+        // Custom Items Price
+        $customPrice = $req->price_replace == 1 ? $req->price_items : 0;
 
         // Calculate Formula
         $datas = $this->PublicController->calculate(
             $req->total,
-            $req->items,
+            $idItems,
             $req->dsc_nom,
             $req->dsc_per,
-            $req->dp,
+            $downPayment,
             $req->ppn,
             $ship_price,
             $etc_price,
+            $customPrice,
             0
         );
 
@@ -90,12 +93,13 @@ class PurchaseController extends Controller
         $count = $this->PublicController->countID('purchase');
 
         Transaction::create([
-            'items_id' => $req->items,
+            'items_id' => $idItems,
             'p_id' => $count,
             'sup_id' => $req->supplier,
             'total' => $req->total,
             'tgl' => $req->tgl,
             'price' => $datas[6],
+            'c_price' => $customPrice
         ]);
 
         Purchase::create([
@@ -112,8 +116,11 @@ class PurchaseController extends Controller
         ]);
 
         // Modify Stock Items
-        $items = Items::find($req->items);
+        $items = Items::find($idItems);
         $items->stock = $items->stock + $datas[3];
+        if ($req->price_replace == 1) {
+            $items->price = $this->PublicController->removeComma($req->price_items);
+        }
 
         // Saved Datas
         $items->save();

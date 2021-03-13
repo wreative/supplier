@@ -40,7 +40,8 @@ function getPrice() {
             dp: dp,
             ppn: ppn,
             ship_price: ship,
-            etc_price: etc
+            etc_price: etc,
+            price_items: $("#price_items").val()
         },
         type: "GET",
         success: function(data) {
@@ -123,7 +124,6 @@ function getItems() {
         },
         type: "GET",
         success: function(data) {
-            console.log(data);
             const wrapper = document.createElement("div");
             wrapper.innerHTML =
                 "<table class='table table-hover'><thead><tr><th scope='col'>Nama</th><th scope='col'>Detail</th></tr></thead><tbody><tr><th scope='row'>Kode</th><td>" +
@@ -182,16 +182,14 @@ $("#supplier").fireModal({
 });
 
 $("#items").on("select2:select", function(e) {
-    let data = e.params.data.id;
     $.ajax({
         url: "/get-price",
         data: {
-            id: data
+            id: e.params.data.id
         },
         type: "GET",
         success: function(data) {
-            console.log(data.price);
-            $("#price_items").val(data.price);
+            $("#price_items").val(numberWithCommas(data.price));
         },
         error: function(data) {
             if (data.status == 401) {
