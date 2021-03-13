@@ -128,13 +128,24 @@ class PublicController extends Controller
             return Response()->json(['status' => 'error']);
         }
 
+        // Null Safety
+        $etc_price = $req->etc_price == null ? 0 :
+            $this->removeComma($req->etc_price);
+        $ship_price = $req->ship_price == null ? 0 :
+            $this->removeComma($req->ship_price);
+        $dp = $req->dp == null ? 0 :
+            $req->dp;
+
         $datas = $this->calculate(
             $req->total,
             $req->items,
             $req->dsc_nom,
             $req->dsc_per,
-            $req->dp,
+            $dp,
             $req->ppn,
+            $ship_price,
+            $etc_price,
+            $this->removeComma($req->price_items),
             1
         );
         return Response()->json(['hasil' => $datas]);
@@ -158,7 +169,7 @@ class PublicController extends Controller
         if ($type == '0') {
             $itemsPrice = $customPrice != 0 ? $customPrice : $itemsDetail->price;
         } else {
-            $itemsPrice = $itemsDetail->sell_price;
+            $itemsPrice = $customPrice != 0 ? $customPrice : $itemsDetail->sell_price;
         }
 
         $dsc_nom = (int)$discountNom;
