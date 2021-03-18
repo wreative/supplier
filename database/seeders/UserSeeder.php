@@ -19,14 +19,14 @@ class UserSeeder extends Seeder
             [
                 'id' => '1',
                 'name' => 'Supplier',
-                'email' => 'supplier@gmail.com',
+                'username' => 'supplier',
                 'password' => Hash::make(1234567890),
                 'role_id' => '1'
             ],
             [
                 'id' => '2',
                 'name' => 'Almaas',
-                'email' => 'almaas@gmail.com',
+                'email' => 'almaas',
                 'password' => Hash::make(1234567890),
                 'role_id' => '2'
             ]

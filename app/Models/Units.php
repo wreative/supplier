@@ -26,9 +26,4 @@ class Units extends Model
     {
         return $this->hasOne('App\Models\Items', 'id', 'unit_id');
     }
-
-    public function relationItemsAlmaas()
-    {
-        return $this->hasOne('App\Models\ItemsAlmaas', 'id', 'unit_id');
-    }
 }

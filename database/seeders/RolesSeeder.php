@@ -17,11 +17,15 @@ class RolesSeeder extends Seeder
         DB::table('roles')->insert([
             [
                 'id' => '1',
-                'name' => 'Supplier',
+                'name' => 'General',
             ],
             [
                 'id' => '2',
-                'name' => 'Almaas'
+                'name' => 'Purchase'
+            ],
+            [
+                'id' => '3',
+                'name' => 'Sales'
             ]
         ]);
     }

@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Items;
-use App\Models\ItemsAlmaas;
 use App\Models\ItemsDetail;
-use App\Models\ItemsDetailAlmaas;
 use App\Models\Units;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -207,95 +205,6 @@ class ItemsController extends Controller
         // Saved Datas
         $items->save();
         return redirect()->route('items.index');
-    }
-
-    public function indexAlmaas()
-    {
-        $items = ItemsAlmaas::with('relationUnits', 'relationDetail')->get();
-        return view('pages.master.almaas.barang.barang', ['items' => $items]);
-    }
-
-    public function createAlmaas()
-    {
-        $units = Units::all();
-        return view('pages.master.almaas.barang.createBarang', ['units' => $units]);
-    }
-
-    public function storeAlmaas(Request $req)
-    {
-        $this->validate($req, [
-            'code' => 'required',
-            'name' => 'required',
-            'stock' => 'required|numeric|integer|min:1',
-            'units' => 'required',
-            'price_sell' => 'required',
-            'price_buy' => 'required'
-        ]);
-
-        $count = $this->PublicController->countID('al_items');
-
-        ItemsAlmaas::create([
-            'name' => $req->name,
-            'unit_id' => $req->units,
-            'stock' => $req->stock,
-            'code' => Str::upper($req->code),
-            'detail_id' => $count
-        ]);
-
-        ItemsDetailAlmaas::create([
-            'id' => $count,
-            'price_sell' => $this->PublicController->removeComma($req->price_sell),
-            'price_buy' => $this->PublicController->removeComma($req->price_buy),
-            'info' => $req->info,
-        ]);
-
-        return redirect()->route('masterItemsAlmaas');
-    }
-
-    public function deleteAlmaas($id)
-    {
-        $items = ItemsAlmaas::find($id);
-        $itemsDetail = ItemsDetailAlmaas::find($items->detail_id);
-
-        $items->delete();
-        $itemsDetail->delete();
-        return redirect()->route('masterItemsAlmaas');
-    }
-
-    public function editAlmaas($id)
-    {
-        $items = ItemsAlmaas::with('relationUnits', 'relationDetail')->find($id);
-        $units = Units::all();
-        return view('pages.master.almaas.barang.updateBarang', ['items' => $items, 'units' => $units]);
-    }
-
-    public function updateAlmaas($id, Request $req)
-    {
-        $this->validate($req, [
-            'name' => 'required',
-            'stock' => 'required|numeric|integer|min:1',
-            'units' => 'required',
-            'price_sell' => 'required',
-            'price_buy' => 'required'
-        ]);
-
-        $items = ItemsAlmaas::find($id);
-        $itemsDetail = ItemsDetailAlmaas::find($items->detail_id);
-
-        // Stored Items
-        $items->name = $req->name;
-        $items->stock = $req->stock;
-        $items->unit_id = $req->units;
-
-        // Stored Items Detail
-        $itemsDetail->price_sell = $this->PublicController->removeComma($req->price_sell);
-        $itemsDetail->price_buy = $this->PublicController->removeComma($req->price_buy);
-        $itemsDetail->info = $req->info;
-
-        // Saved Datas
-        $items->save();
-        $itemsDetail->save();
-        return redirect()->route('masterItemsAlmaas');
     }
 
     function checkPPN($price, $ppn)
