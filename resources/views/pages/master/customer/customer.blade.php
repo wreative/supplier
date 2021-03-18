@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('createCustomer') }}" class="btn btn-icon icon-left btn-primary">
+        <a href="{{ route('customer.create') }}" class="btn btn-icon icon-left btn-primary">
             <i class="far fa-edit"></i>{{ __(' Tambah Customer') }}</a>
     </div>
     <div class="card-body">
@@ -66,13 +66,17 @@
                         {{ __('Tidak ada') }}
                         @endif
                     <td>
-                        <a href="/customer/edit/{{ $c->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
+                        <a href="{{ route('customer.edit',$c->id) }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                        <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
-                            title="Delete"
-                            data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/customer/delete/{{ $c->id }}','_self')"><i
-                                class="fas fa-trash"></i></a>
+                        <form id="del-data{{ $c->id }}" action="{{ route('customer.destroy',$c->id) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-action mb-1 mt-1" data-toggle="tooltip" title="Delete"
+                                data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
+                                data-confirm-yes="document.getElementById('del-data{{ $c->id }}').submit();"><i
+                                    class="fas fa-trash"></i></button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

@@ -28,15 +28,9 @@ Route::group(['middleware' => 'supplier'], function () {
     ]);
 
     // Customer
-    Route::get('/customer', [App\Http\Controllers\CustomerController::class, 'index'])
-        ->name('masterCustomer');
-    Route::get('/customer/create', [App\Http\Controllers\CustomerController::class, 'create'])
-        ->name('createCustomer');
-    Route::post('/customer/store', [App\Http\Controllers\CustomerController::class, 'store'])
-        ->name('storeCustomer');
-    Route::get('/customer/edit/{id}', [App\Http\Controllers\CustomerController::class, 'edit']);
-    Route::put('/customer/update/{id}', [App\Http\Controllers\CustomerController::class, 'update']);
-    Route::get('/customer/delete/{id}', [App\Http\Controllers\CustomerController::class, 'delete']);
+    Route::resource('customer', App\Http\Controllers\CustomerController::class)->except([
+        'show'
+    ]);
 
     // Supplier
     Route::get('/supplier', [App\Http\Controllers\SupplierController::class, 'index'])

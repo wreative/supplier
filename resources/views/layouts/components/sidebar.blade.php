@@ -37,8 +37,10 @@
                 <a class="nav-link" href="{{ route('items.index') }}"><i class="fas fa-boxes"></i>
                     <span>{{ __('Barang') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'masterCustomer' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('masterCustomer') }}"><i class="fas fa-users"></i>
+            <li class="{{ Request::route()->getName() == 'customer.index' ? 'active' : (
+                Request::route()->getName() == 'customer.create' ? 'active' : (
+                    Request::route()->getName() == 'customer.edit' ? 'active' : '')) }}">
+                <a class="nav-link" href="{{ route('customer.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Customers') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'masterSupplier' ? 'active' : '' }}">

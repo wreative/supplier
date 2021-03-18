@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\CustomerDetail;
 use App\Http\Controllers\PublicController;
 use App\Models\Marketer;
+use Illuminate\Support\Facades\Redirect;
 
 class CustomerController extends Controller
 {
@@ -73,23 +74,28 @@ class CustomerController extends Controller
             'info' => $req->info
         ]);
 
-        return redirect()->route('masterCustomer');
+        return Redirect::route('customer.index');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $customer = Customer::find($id);
         $customerDetail = CustomerDetail::find($customer->detail_id);
 
         $customer->delete();
         $customerDetail->delete();
-        return redirect()->route('masterCustomer');
+        return Redirect::route('customer.index');
     }
 
     public function edit($id)
     {
-        $customer = Customer::with('relationDetail')->find($id);
-        return view('pages.master.customer.updateCustomer', ['customer' => $customer]);
+        $customer = Customer::with('relationDetail', 'relationMarketer')->find($id);
+        // dd($customer);
+        $sales = Marketer::all();
+        return view('pages.master.customer.updateCustomer', [
+            'customer' => $customer,
+            'sales' => $sales
+        ]);
     }
 
     public function update($id, Request $req)
@@ -125,6 +131,6 @@ class CustomerController extends Controller
         // Saved Datas
         $customer->save();
         $customerDetail->save();
-        return redirect()->route('masterCustomer');
+        return Redirect::route('customer.index');
     }
 }
