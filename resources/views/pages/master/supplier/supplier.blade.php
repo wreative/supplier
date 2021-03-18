@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('createSupplier') }}" class="btn btn-icon icon-left btn-primary">
+        <a href="{{ route('supplier.create') }}" class="btn btn-icon icon-left btn-primary">
             <i class="far fa-edit"></i>{{ __(' Tambah Supplier') }}</a>
     </div>
     <div class="card-body">
@@ -71,13 +71,17 @@
                         @endif
                     </td>
                     <td>
-                        <a href="/supplier/edit/{{ $s->id }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
+                        <a href="{{ route('supplier.edit',$s->id) }}" class="btn btn-primary btn-action mb-1 mt-1 mr-1"
                             data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                        <a class="btn btn-danger btn-action mb-1 mt-1" style="cursor: pointer" data-toggle="tooltip"
-                            title="Delete"
-                            data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
-                            data-confirm-yes="window.open('/supplier/delete/{{ $s->id }}','_self')"><i
-                                class="fas fa-trash"></i></a>
+                        <form id="del-data{{ $s->id }}" action="{{ route('supplier.destroy',$s->id) }}" method="POST"
+                            class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-action mb-1 mt-1" data-toggle="tooltip" title="Delete"
+                                data-confirm="Apakah Anda Yakin?|Aksi ini tidak dapat dikembalikan. Apakah ingin melanjutkan?"
+                                data-confirm-yes="document.getElementById('del-data{{ $s->id }}').submit();"><i
+                                    class="fas fa-trash"></i></button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

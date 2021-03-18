@@ -7,6 +7,7 @@ use App\Http\Controllers\PublicController;
 use App\Models\Supplier;
 use App\Models\SupplierDetail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
 
 class SupplierController extends Controller
 {
@@ -82,18 +83,18 @@ class SupplierController extends Controller
             'info' => $req->info
         ]);
 
-        return $req->code == null ? redirect()->route('purchase.create')
-            : redirect()->route('masterSupplier');
+        return $req->code == null ? Redirect::route('purchase.create')
+            : Redirect::route('supplier.index');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $supplier = Supplier::find($id);
         $supplierDetail = SupplierDetail::find($supplier->detail_id);
 
         $supplier->delete();
         $supplierDetail->delete();
-        return redirect()->route('masterSupplier');
+        return Redirect::route('supplier.index');
     }
 
     public function edit($id)
@@ -135,7 +136,7 @@ class SupplierController extends Controller
         // Saved Datas
         $supplier->save();
         $supplierDetail->save();
-        return redirect()->route('masterSupplier');
+        return Redirect::route('supplier.index');
     }
 
     function generateCode()

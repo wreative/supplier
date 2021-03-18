@@ -31,18 +31,10 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::resource('customer', App\Http\Controllers\CustomerController::class)->except([
         'show'
     ]);
-
     // Supplier
-    Route::get('/supplier', [App\Http\Controllers\SupplierController::class, 'index'])
-        ->name('masterSupplier');
-    Route::get('/supplier/create', [App\Http\Controllers\SupplierController::class, 'create'])
-        ->name('createSupplier');
-    Route::post('/supplier/store', [App\Http\Controllers\SupplierController::class, 'store'])
-        ->name('storeSupplier');
-    Route::get('/supplier/edit/{id}', [App\Http\Controllers\SupplierController::class, 'edit']);
-    Route::put('/supplier/update/{id}', [App\Http\Controllers\SupplierController::class, 'update']);
-    Route::get('/supplier/delete/{id}', [App\Http\Controllers\SupplierController::class, 'delete']);
-
+    Route::resource('supplier', App\Http\Controllers\SupplierController::class)->except([
+        'show'
+    ]);
     // Marketer
     Route::get('/marketer', [App\Http\Controllers\MarketerController::class, 'index'])
         ->name('masterMarketer');

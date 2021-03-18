@@ -43,8 +43,10 @@
                 <a class="nav-link" href="{{ route('customer.index') }}"><i class="fas fa-users"></i>
                     <span>{{ __('Customers') }}</span></a>
             </li>
-            <li class="{{ Request::route()->getName() == 'masterSupplier' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('masterSupplier') }}"><i class="fas fa-people-carry"></i>
+            <li class="{{ Request::route()->getName() == 'supplier.index' ? 'active' : (
+                Request::route()->getName() == 'supplier.create' ? 'active' : (
+                    Request::route()->getName() == 'supplier.edit' ? 'active' : '')) }}">
+                <a class="nav-link" href="{{ route('supplier.index') }}"><i class="fas fa-people-carry"></i>
                     <span>{{ __('Supplier') }}</span></a>
             </li>
             <li class="{{ Request::route()->getName() == 'masterMarketer' ? 'active' : '' }}">
