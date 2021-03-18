@@ -17,71 +17,86 @@
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
-            <div class="form-group">
-                <label>{{ __('Nama') }}<code>*</code></label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required
-                    autofocus>
-                @error('name')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Stock') }}<code>*</code></label>
-                <input type="text" class="form-control @error('stock') is-invalid @enderror" name="stock" required
-                    autofocus>
-                @error('stock')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Units') }}<code>*</code></label>
-                <select class="custom-select @error('units') is-invalid @enderror" name="units" required>
-                    @foreach ($units as $u)
-                    <option value="{{ $u->id }}">{{ $u->name }}</option>
-                    @endforeach
-                </select>
-                @error('units')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Peringatan Kwantitas') }}<code>*</code></label>
-                <div class="input-group">
-                    <input type="text" class="form-control @error('limit') is-invalid @enderror" name="limit" required>
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Stok') }}
-                        </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Nama') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" required
+                            autofocus>
+                        @error('name')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                 </div>
-                @error('limit')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Harga Pokok') }}<code>*</code></label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
-                        </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Stock') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('stock') is-invalid @enderror" name="stock"
+                            required autofocus>
+                        @error('stock')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
-                    <input class="form-control currency @error('price') is-invalid @enderror" id="price" type="text"
-                        name="price">
                 </div>
-                @error('price')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Units') }}<code>*</code></label>
+                        <select class="custom-select @error('units') is-invalid @enderror" name="units" required>
+                            @foreach ($units as $u)
+                            <option value="{{ $u->id }}">{{ $u->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('units')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Peringatan Kwantitas') }}<code>*</code></label>
+                        <div class="input-group">
+                            <input type="text" class="form-control @error('limit') is-invalid @enderror" name="limit"
+                                required>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Stok') }}
+                                </div>
+                            </div>
+                        </div>
+                        @error('limit')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Harga Pokok') }}<code>*</code></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('price') is-invalid @enderror" id="price"
+                                type="text" name="price">
+                        </div>
+                        @error('price')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label class="form-label">{{ __('Include PPN') }}<code>*</code></label>

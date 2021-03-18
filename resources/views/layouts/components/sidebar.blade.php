@@ -31,7 +31,6 @@
                 <a class="nav-link" href="{{ route('units.index') }}"><i class="fas fa-tags"></i>
                     <span>{{ __('Satuan') }}</span></a>
             </li>
-            @if (Auth::user()->role_id == '1')
             <li class="{{ Request::route()->getName() == 'items.index' ? 'active' : (
                     Request::route()->getName() == 'items.create' ? 'active' : (
                         Request::route()->getName() == 'items.edit' ? 'active' : '')) }}">
@@ -61,12 +60,6 @@
                 <a class="nav-link" href="{{ route('sales.index') }}"><i class="fas fa-exchange-alt"></i>
                     <span>{{ __('Penjualan') }}</span></a>
             </li>
-            @elseif(Auth::user()->role_id == '2')
-            <li class="{{ Request::route()->getName() == 'masterItemsAlmaas' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('masterItemsAlmaas') }}"><i class="fas fa-boxes"></i>
-                    <span>{{ __('Barang') }}</span></a>
-            </li>
-            @endif
             <li class="menu-header">{{ __('Lainnya') }}</li>
             <li class="{{ Request::route()->getName() == 'report.index' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('report.index') }}"><i class="fas fa-file-alt"></i>
