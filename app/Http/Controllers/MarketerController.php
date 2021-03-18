@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Marketer;
+use Illuminate\Support\Facades\Redirect;
 
 class MarketerController extends Controller
 {
@@ -50,15 +51,15 @@ class MarketerController extends Controller
             'tlp' => $req->tlp,
         ]);
 
-        return redirect()->route('masterMarketer');
+        return Redirect::route('marketer.index');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $sales = Marketer::find($id);
 
         $sales->delete();
-        return redirect()->route('masterMarketer');
+        return Redirect::route('marketer.index');
     }
 
     public function edit($id)
@@ -84,6 +85,6 @@ class MarketerController extends Controller
 
         // Saved Datas
         $sales->save();
-        return redirect()->route('masterMarketer');
+        return Redirect::route('marketer.index');
     }
 }

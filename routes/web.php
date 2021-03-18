@@ -36,15 +36,9 @@ Route::group(['middleware' => 'supplier'], function () {
         'show'
     ]);
     // Marketer
-    Route::get('/marketer', [App\Http\Controllers\MarketerController::class, 'index'])
-        ->name('masterMarketer');
-    Route::get('/marketer/create', [App\Http\Controllers\MarketerController::class, 'create'])
-        ->name('createMarketer');
-    Route::post('/marketer/store', [App\Http\Controllers\MarketerController::class, 'store'])
-        ->name('storeMarketer');
-    Route::get('/marketer/edit/{id}', [App\Http\Controllers\MarketerController::class, 'edit']);
-    Route::put('/marketer/update/{id}', [App\Http\Controllers\MarketerController::class, 'update']);
-    Route::get('/marketer/delete/{id}', [App\Http\Controllers\MarketerController::class, 'delete']);
+    Route::resource('marketer', App\Http\Controllers\MarketerController::class)->except([
+        'show'
+    ]);
 
     // Check Data
     Route::get('/check-include', [App\Http\Controllers\PublicController::class, 'checkInclude'])
