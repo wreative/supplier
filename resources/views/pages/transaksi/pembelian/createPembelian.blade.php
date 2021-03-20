@@ -17,39 +17,47 @@
         @csrf
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
-            <div class="form-group">
-                <label>{{ __('Tanggal') }}<code>*</code></label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <i class="far fa-calendar"></i>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Tanggal') }}<code>*</code></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="far fa-calendar"></i>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control datepicker @error('tgl') is-invalid @enderror"
+                                name="tgl" required>
+                            @error('tgl')
+                            <span class="text-danger" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                     </div>
-                    <input type="text" class="form-control datepicker @error('tgl') is-invalid @enderror" name="tgl"
-                        required>
-                    @error('tgl')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
                 </div>
-            </div>
-            <div class="form-group">
-                <label>{{ __('Supplier') }}<code>*</code></label>
-                <select class="form-control select2 @error('supplier') is-invalid @enderror" name="supplier" required>
-                    @foreach ($supplier as $s)
-                    <option value="{{ $s->id }}">
-                        {{ $s->name." - ".$s->code }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('supplier')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-                <button class="mt-2 btn btn-primary btn-block" id="supplier"
-                    type="button">{{ __('Tambah Supplier') }}</button>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Supplier') }}<code>*</code></label>
+                        <select class="form-control select2 @error('supplier') is-invalid @enderror" name="supplier"
+                            style="width: 50%" required>
+                            @foreach ($supplier as $s)
+                            <option value="{{ $s->id }}">
+                                {{ $s->name." - ".$s->code }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('supplier')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                        <button class="btn mt-1 btn-block btn-icon  icon-left btn-primary" id="supplier" type="button">
+                            <i class="fa fa-plus"></i>{{ __(' Tambah Supplier') }}
+                        </button>
+                    </div>
+                </div>
             </div>
             <h2 class="section-title mb-3">{{ __('Barang') }}</h2>
             <div class="form-group">
@@ -250,4 +258,9 @@
 
 @section('script')
 <script src="{{ asset('pages/transaction/purchase/createPurchase.js') }}"></script>
+<script>
+    $( "#dropdown" ).select2({
+    theme: "bootstrap"
+});
+</script>
 @endsection

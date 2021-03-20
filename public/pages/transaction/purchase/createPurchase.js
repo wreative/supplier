@@ -171,6 +171,7 @@ $("#supplier").fireModal({
     body: $("#modal-supplier"),
     center: true,
     title: "Tambah Data Supplier",
+    size: "modal-lg",
     buttons: [
         {
             text: "Tambah",
