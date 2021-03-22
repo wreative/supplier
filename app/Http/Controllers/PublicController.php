@@ -252,7 +252,8 @@ class PublicController extends Controller
         $itemDetail = $datas->relationDetail;
         // TODO:PR PPN PRICE
         $ppn = $itemDetail->ppn_price == $itemDetail->price ? 0 : $itemDetail->ppn_price;
-        return Response()->json(['items' => $datas, 'ppn' => $ppn]);
+        $profit = $itemDetail->profit == null ? 0 : $itemDetail->profit;
+        return Response()->json(['items' => $datas, 'ppn' => $ppn, 'profit' => $profit]);
     }
 
     // Bidding

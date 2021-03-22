@@ -26,6 +26,7 @@
                     <th>{{ __('No Transaksi') }}</th>
                     <th>{{ __('Kode Barang') }}</th>
                     <th>{{ __('Status') }}</th>
+                    <th>{{ __('Pembayaran') }}</th>
                     <th>{{ __('Total') }}</th>
                     <th>{{ __('Harga Diskon') }}</th>
                     <th>{{ __('Diskon') }}</th>
@@ -50,8 +51,13 @@
                     <td>{{ $p->relationPurchase->code }}</td>
                     <td>{{ $p->relationItems->code }}</td>
                     <td>
-                        <span class="badge badge-info">
+                        <span class="badge badge-{{ $p->relationPurchase->status == 'Dipesan' ? 'info' : 'success' }}">
                             {{ $p->relationPurchase->status }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge badge-{{ $p->relationPurchase->pay == 'Tempo' ? 'danger' : 'success' }}">
+                            {{ $p->relationPurchase->pay }}
                         </span>
                     </td>
                     <td>{{ $p->total.__(" Items") }}</td>

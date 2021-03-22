@@ -28,7 +28,8 @@ class Purchase extends Model
         'ppn',
         'etc_price',
         'ship_price',
-        'status'
+        'status',
+        'pay'
     ];
 
     public function relationTransaction()

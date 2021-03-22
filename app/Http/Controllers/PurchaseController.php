@@ -9,6 +9,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use App\Models\Units;
+use Illuminate\Support\Facades\Validator;
 
 class PurchaseController extends Controller
 {
@@ -51,7 +52,7 @@ class PurchaseController extends Controller
 
     public function store(Request $req)
     {
-        $this->validate($req, [
+        Validator::make($req->all(), [
             'code' => 'required',
             'items' => 'required',
             'total' => 'required|numeric|integer|min:1',
@@ -102,7 +103,8 @@ class PurchaseController extends Controller
             'total' => $req->total,
             'tgl' => $req->tgl,
             'price' => $datas[6],
-            'c_price' => $customPrice
+            'c_price' => $customPrice,
+            'pay_id' => $req->payment_method
         ]);
 
         Purchase::create([
@@ -115,7 +117,9 @@ class PurchaseController extends Controller
             'ppn' => $req->ppn,
             'status' => $status,
             'etc_price' => $datas[10],
-            'ship_price' => $datas[9]
+            'ship_price' => $datas[9],
+            'pay' => $this->PublicController->removeComma($req->payment) >= $datas[6] ?
+                "Dibayar" : "Tempo"
         ]);
 
         // Modify Stock Items

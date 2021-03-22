@@ -139,7 +139,7 @@ function getItems() {
                 "</td></tr><tr><th scope='row'>PPN 10%</th><td>Rp." +
                 numberWithCommas(data.ppn) +
                 "</td></tr><tr><th scope='row'>Keuntungan</th><td>" +
-                data.items.relation_detail.profit +
+                data.profit +
                 "%" +
                 "</td></tr><tr><th scope='row'>Harga Jual</th><td>Rp." +
                 numberWithCommas(data.items.relation_detail.sell_price) +

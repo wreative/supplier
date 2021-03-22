@@ -283,7 +283,7 @@
                                 </div>
                             </div>
                             <input class="form-control currency @error('payment') is-invalid @enderror" type="text"
-                                name="payment">
+                                name="payment" required>
                         </div>
                         @error('payment')
                         <span class="text-danger" role="alert">
@@ -295,8 +295,8 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label>{{ __('Metode Pembayaran') }}<code>*</code></label>
-                        <select class="form-control @error('payment_method') is-invalid @enderror"
-                            name="payment_method">
+                        <select class="form-control @error('payment_method') is-invalid @enderror" name="payment_method"
+                            required>
                             @foreach ($payment as $p)
                             <option value="{{ $p->id }}">
                                 {{ $p->name }}
@@ -317,7 +317,7 @@
     <ul class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
         <li class="mfb-component__wrap">
             <!-- the main menu button -->
-            <a onclick="document.getElementById('addPurchase').submit()" id="addPurchase" data-mfb-label="Tambah"
+            <a onclick="document.getElementById('addPurchase').submit()" data-mfb-label="Tambah"
                 class="mfb-component__button--main">
                 <!-- the main button icon visibile by default -->
                 <i class="mfb-component__main-icon--resting fa fa-plus"></i>
