@@ -15,6 +15,7 @@ const mix = require("laravel-mix");
 mix.styles(
     [
         "resources/css/nprogress.css",
+        "resources/css/mfb.min.css",
         "resources/css/select2.min.css",
         "resources/css/select2-bootstrap.min.css",
         "resources/css/bootstrap.min.css",

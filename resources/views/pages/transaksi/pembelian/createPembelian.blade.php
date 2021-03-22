@@ -12,9 +12,9 @@
 <p class="section-lead">
     {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan.') }}
 </p>
-<div class="card">
-    <form method="POST" action="{{ route('purchase.store') }}">
-        @csrf
+<form method="POST" action="{{ route('purchase.store') }}" id="addPurchase">
+    @csrf
+    <div class="card">
         <input type="hidden" value="{{ $code }}" name="code">
         <div class="card-body">
             <div class="row">
@@ -60,101 +60,115 @@
                 </div>
             </div>
             <h2 class="section-title mb-3">{{ __('Barang') }}</h2>
-            <div class="form-group">
-                <label>{{ __('Nama Barang') }}<code>*</code></label>
-                <select class="form-control select2 @error('items') is-invalid @enderror" name="items" id="items"
-                    required>
-                    @foreach ($items as $i)
-                    <option value="{{ $i->id }}">
-                        {{ $i->name }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('items')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-                <button class="mt-2 btn btn-primary btn-block" type="button"
-                    onclick="getItems()">{{ __('Cek Data') }}</button>
-            </div>
-            <div class="form-group">
-                <label>{{ __('Harga Pokok Barang') }}<code>*</code></label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Nama Barang') }}<code>*</code></label>
+                        <select class="form-control select2 @error('items') is-invalid @enderror" name="items"
+                            id="items" required>
+                            @foreach ($items as $i)
+                            <option value="{{ $i->id }}">
+                                {{ $i->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('items')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                        <button class="mt-2 btn btn-primary btn-block" type="button"
+                            onclick="getItems()">{{ __('Cek Data') }}</button>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Harga Pokok Barang') }}<code>*</code></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('price_items') is-invalid @enderror"
+                                id="price_items" type="text" name="price_items">
+                        </div>
+                        @error('price_items')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Ganti Harga Pada Master Barang') }}<code>*</code></label>
+                        <div class="selectgroup w-100" id="price_replace">
+                            <label class="selectgroup-item">
+                                <input type="radio" name="price_replace" value="1" class="selectgroup-input">
+                                <span class="selectgroup-button">{{ __('Ya') }}</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" name="price_replace" value="0" class="selectgroup-input" checked>
+                                <span class="selectgroup-button">{{ __('Tidak') }}</span>
+                            </label>
                         </div>
                     </div>
-                    <input class="form-control currency @error('price_items') is-invalid @enderror" id="price_items"
-                        type="text" name="price_items">
-                </div>
-                @error('price_items')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('Ganti Harga Pada Master Barang') }}<code>*</code></label>
-                <div class="selectgroup w-100" id="price_replace">
-                    <label class="selectgroup-item">
-                        <input type="radio" name="price_replace" value="1" class="selectgroup-input">
-                        <span class="selectgroup-button">{{ __('Ya') }}</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="price_replace" value="0" class="selectgroup-input" checked>
-                        <span class="selectgroup-button">{{ __('Tidak') }}</span>
-                    </label>
                 </div>
             </div>
-            <div class="form-group">
-                <label>{{ __('Total Barang') }}<code>*</code></label>
-                <input type="text" class="form-control @error('total') is-invalid @enderror" name="total" id="total"
-                    required autofocus>
-                @error('total')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label>{{ __('Discount Per Item (Nominal)') }}</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                {{ __('Rp.') }}
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Total Barang') }}<code>*</code></label>
+                        <input type="text" class="form-control @error('total') is-invalid @enderror" name="total"
+                            id="total" required autofocus>
+                        @error('total')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Discount Per Item (Nominal)') }}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('dsc_nom') is-invalid @enderror" id="dsc_nom"
+                                type="text" name="dsc_nom">
+                        </div>
+                        <span class="text-primary" role="alert">
+                            {{ __('Prioritas') }}
+                        </span>
+                        @error('dsc_nom')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Discount Per Item (Persen)') }}</label>
+                        <div class="input-group">
+                            <input class="form-control @error('dsc_per') is-invalid @enderror" type="text"
+                                name="dsc_per" id="dsc_per" max="100">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('%') }}
+                                </div>
                             </div>
                         </div>
-                        <input class="form-control currency @error('dsc_nom') is-invalid @enderror" id="dsc_nom"
-                            type="text" name="dsc_nom">
+                        @error('dsc_per')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
-                    <span class="text-primary" role="alert">
-                        {{ __('Prioritas') }}
-                    </span>
-                    @error('dsc_nom')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
-                </div>
-                <div class="form-group col-md-6">
-                    <label>{{ __('Discount Per Item (Persen)') }}</label>
-                    <div class="input-group">
-                        <input class="form-control @error('dsc_per') is-invalid @enderror" type="text" name="dsc_per"
-                            id="dsc_per" max="100">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                {{ __('%') }}
-                            </div>
-                        </div>
-                    </div>
-                    @error('dsc_per')
-                    <span class="text-danger" role="alert">
-                        {{ $message }}
-                    </span>
-                    @enderror
                 </div>
             </div>
             <div class="form-group">
@@ -171,56 +185,64 @@
                 </div>
             </div>
             <hr>
-            <div class="form-group">
-                <label>{{ __('Uang Muka (DP)') }}</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
+            <div class="form-row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Uang Muka (DP)') }}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('dp') is-invalid @enderror" id="dp" type="text"
+                                name="dp">
                         </div>
+                        @error('dp')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
-                    <input class="form-control currency @error('dp') is-invalid @enderror" id="dp" type="text"
-                        name="dp">
                 </div>
-                @error('dp')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Biaya Kirim') }}</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Biaya Kirim') }}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('ship_price') is-invalid @enderror"
+                                id="ship_price" type="text" name="ship_price">
                         </div>
+                        @error('ship_price')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
-                    <input class="form-control currency @error('ship_price') is-invalid @enderror" id="ship_price"
-                        type="text" name="ship_price">
                 </div>
-                @error('ship_price')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('Biaya Lain') }}</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            {{ __('Rp.') }}
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Biaya Lain') }}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('etc_price') is-invalid @enderror" id="etc_price"
+                                type="text" name="etc_price">
                         </div>
+                        @error('etc_price')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
-                    <input class="form-control currency @error('etc_price') is-invalid @enderror" id="etc_price"
-                        type="text" name="etc_price">
                 </div>
-                @error('etc_price')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
             </div>
             <div class="form-group">
                 <label class="form-label">{{ __('Status') }}<code>*</code></label>
@@ -246,16 +268,74 @@
                 @enderror
             </div>
         </div>
-        <div class="card-footer text-right">
-            <button class="btn btn-primary mr-1" type="button" onclick="getPrice()">{{ __('Cek Harga') }}</button>
-            <button class="btn btn-primary mr-1" type="submit">{{ __('Tambah') }}</button>
+    </div>
+    <h2 class="section-title">{{ __('Pembayaran') }}</h2>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Jumlah') }}<code>*</code></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control currency @error('payment') is-invalid @enderror" type="text"
+                                name="payment">
+                        </div>
+                        @error('payment')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Metode Pembayaran') }}<code>*</code></label>
+                        <select class="form-control @error('payment_method') is-invalid @enderror"
+                            name="payment_method">
+                            <option value="1" selected>{{ __('Tunai') }}</option>
+                            <option value="2">{{ __('Transfer Bank') }}</option>
+                            <option value="3">{{ __('Non Tunai') }}</option>
+                            <option value="4">{{ __('Lainnya') }}</option>
+                        </select>
+                        @error('payment_method')
+                        <span class="text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
-</div>
+    </div>
+    {{-- Button --}}
+    <ul class="mfb-component--br mfb-zoomin" data-mfb-toggle="hover">
+        <li class="mfb-component__wrap">
+            <!-- the main menu button -->
+            <a onclick="document.getElementById('addPurchase').submit()" id="addPurchase" data-mfb-label="Tambah"
+                class="mfb-component__button--main">
+                <!-- the main button icon visibile by default -->
+                <i class="mfb-component__main-icon--resting fa fa-plus"></i>
+                <!-- the main button icon visibile when the user is hovering/interacting with the menu -->
+                <i class="mfb-component__main-icon--active fa fa-plus"></i>
+            </a>
+            <ul class="mfb-component__list">
+                <!-- a child button, repeat as many times as needed -->
+                <li>
+                    <a onclick="getPrice()" data-mfb-label="{{ __('Cek Harga') }}" class="mfb-component__button--child">
+                        <i class="mfb-component__child-icon fa fa-check"></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</form>
 @endsection
-
 @include('pages.transaksi.pembelian.components.createSupplier')
-
 @section('script')
 <script src="{{ asset('pages/transaction/purchase/createPurchase.js') }}"></script>
 <script>

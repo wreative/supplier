@@ -15,7 +15,7 @@
         </div>
         <div class="col-sm">
             <div class="form-group">
-                <label>{{ __('No Telepon') }}<code>*</code></label>
+                <label>{{ __('No Telepon') }}</label>
                 <input type="text" class="form-control tlp @error('tlp') is-invalid @enderror" name="tlp" required>
                 @error('tlp')
                 <span class="text-danger" role="alert">
