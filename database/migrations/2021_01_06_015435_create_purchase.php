@@ -24,6 +24,7 @@ class CreatePurchase extends Migration
             $table->bigInteger('etc_price')->nullable();
             $table->bigInteger('ship_price')->nullable();
             $table->enum('status', ['Dipesan', 'Diterima']);
+            $table->enum('pay', ['Tempo', 'Dibayar']);
         });
     }
 

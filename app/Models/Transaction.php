@@ -28,7 +28,8 @@ class Transaction extends Model
         'tgl',
         'price',
         'total',
-        'c_price'
+        'c_price',
+        'pay_id'
     ];
 
     public function relationItems()
@@ -59,5 +60,10 @@ class Transaction extends Model
     public function relationSupplier()
     {
         return $this->belongsTo('App\Models\Supplier', 'sup_id', 'id');
+    }
+
+    public function relationPayment()
+    {
+        return $this->belongsTo('App\Models\Payment', 'pay_id', 'id');
     }
 }

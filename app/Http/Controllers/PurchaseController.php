@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Items;
+use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Transaction;
@@ -41,8 +42,10 @@ class PurchaseController extends Controller
         $items = Items::all();
         $supplier = Supplier::all();
         $units = Units::all();
+        $payment = Payment::all();
         return view('pages.transaksi.pembelian.createPembelian', [
-            'code' => $code, 'items' => $items, 'supplier' => $supplier, 'units' => $units
+            'code' => $code, 'items' => $items, 'supplier' => $supplier,
+            'units' => $units, 'payment' => $payment
         ]);
     }
 

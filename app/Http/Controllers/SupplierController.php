@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PublicController;
 use App\Models\Supplier;
 use App\Models\SupplierDetail;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 
 class SupplierController extends Controller
@@ -38,7 +37,8 @@ class SupplierController extends Controller
 
         $supplier = Supplier::all();
         return view('pages.master.supplier.createSupplier', [
-            'code' => $this->generateCode(), 'supplier' => $supplier
+            'code' => $this->generateCode(),
+            'supplier' => $supplier
         ]);
     }
 

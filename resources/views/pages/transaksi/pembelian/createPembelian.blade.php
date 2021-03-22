@@ -297,10 +297,11 @@
                         <label>{{ __('Metode Pembayaran') }}<code>*</code></label>
                         <select class="form-control @error('payment_method') is-invalid @enderror"
                             name="payment_method">
-                            <option value="1" selected>{{ __('Tunai') }}</option>
-                            <option value="2">{{ __('Transfer Bank') }}</option>
-                            <option value="3">{{ __('Non Tunai') }}</option>
-                            <option value="4">{{ __('Lainnya') }}</option>
+                            @foreach ($payment as $p)
+                            <option value="{{ $p->id }}">
+                                {{ $p->name }}
+                            </option>
+                            @endforeach
                         </select>
                         @error('payment_method')
                         <span class="text-danger" role="alert">

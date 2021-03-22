@@ -25,6 +25,7 @@ class CreateTransaction extends Migration
             $table->bigInteger('price');
             $table->bigInteger('c_price')->nullable()->default(0);
             $table->bigInteger('total');
+            $table->foreignId('pay_id');
         });
     }
 
