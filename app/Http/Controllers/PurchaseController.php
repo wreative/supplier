@@ -61,7 +61,7 @@ class PurchaseController extends Controller
             'tgl' => 'required|date',
             'supplier' => 'required',
             'status' => 'required'
-        ]);
+        ])->validate();
 
         //Intial Variable
         $idItems = $req->items;

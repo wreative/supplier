@@ -15,5 +15,7 @@ return [
 
     'title' => 'Supplier BatuBeling',
     'brand' => 'SBB',
-    'edit' => 'Simpan Perubahan'
+    'edit' => 'Simpan Perubahan',
+    'add' => 'Tambah Data',
+    'check' => 'Cek Harga'
 ];
