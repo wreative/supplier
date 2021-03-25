@@ -104,11 +104,12 @@
                                         {{ __(' Hapus') }}
                                     </a>
                                 </form>
-                                <a class="dropdown-item has-icon" href="javascript:void(0)">
-                                    <i class="far fa-handshake"></i>{{ __(' Terima Pembayaran') }}
+                                <a class="dropdown-item has-icon" onclick="getPayment({{ $p->id }})"
+                                    style="cursor: pointer">
+                                    <i class="far fa-money-bill-alt"></i>{{ __(' Lihat Pembayaran') }}
                                 </a>
                                 <a class="dropdown-item has-icon" href="javascript:void(0)">
-                                    <i class="far fa-handshake"></i>{{ __(' Sudah Diterima') }}
+                                    <i class="far fa-handshake"></i>{{ __(' Ubah Status') }}
                                 </a>
                             </div>
                         </div>
@@ -123,4 +124,5 @@
 @endsection
 @section('script')
 <script src="{{ asset('pages/transaction/transaction.js') }}"></script>
+<script src="{{ asset('pages/transaction/purchase/createPurchase.js') }}"></script>
 @endsection

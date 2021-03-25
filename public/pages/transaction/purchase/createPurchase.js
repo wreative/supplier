@@ -167,6 +167,45 @@ function getItems() {
     });
 }
 
+function getPayment($id) {
+    $.ajax({
+        url: "/payment/" + $id,
+        type: "GET",
+        success: function(data) {
+            console.log(data);
+            $("#toggle").modal("show");
+            $("#toggle").fireModal({
+                title: "Modal with Buttons",
+                center: true,
+                body: "Modal body text goes here.",
+                size: "modal-lg",
+                buttons: [
+                    {
+                        text: "Click, me!",
+                        class: "btn btn-primary btn-shadow",
+                        handler: function(modal) {
+                            alert("Hello, you clicked me!");
+                        }
+                    }
+                ]
+            });
+        },
+        error: function(data) {
+            if (data.status == 401) {
+                swal({
+                    title: "Error",
+                    text:
+                        "Maaf anda telah logout secara otomatis silahkan melakukan login kembali",
+                    icon: "error",
+                    button: "Ok"
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        }
+    });
+}
+
 $("#supplier").fireModal({
     body: $("#modal-supplier"),
     center: true,

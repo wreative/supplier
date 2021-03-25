@@ -158,4 +158,17 @@ class PurchaseController extends Controller
         $array = array($dsc, $dscNom, $dscPer);
         return json_encode($array);
     }
+
+    public function status(Request $req)
+    {
+        // dd($req->all());
+    }
+
+    public function payment(Request $req)
+    {
+        return Response()->json([
+            'payment' => Transaction::with('relationPurchase', 'relationPayment')
+                ->find($req->id)
+        ]);
+    }
 }

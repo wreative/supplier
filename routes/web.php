@@ -60,6 +60,10 @@ Route::group(['middleware' => 'supplier'], function () {
     Route::resource('purchase', App\Http\Controllers\PurchaseController::class)->only([
         'index', 'store', 'create', 'destroy'
     ]);
+    Route::get('/status/{id}', [App\Http\Controllers\PurchaseController::class, 'status'])
+        ->name('purchase.status');
+    Route::get('/payment/{id}', [App\Http\Controllers\PurchaseController::class, 'payment'])
+        ->name('purchase.payment');
     // Transaksi Penjualan
     Route::resource('sales', App\Http\Controllers\SalesController::class)->except([
         'edit', 'update'
