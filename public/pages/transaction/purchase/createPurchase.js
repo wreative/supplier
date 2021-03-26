@@ -172,22 +172,46 @@ function getPayment($id) {
         url: "/payment/" + $id,
         type: "GET",
         success: function(data) {
-            console.log(data);
-            $("#toggle").modal("show");
-            $("#toggle").fireModal({
-                title: "Modal with Buttons",
-                center: true,
-                body: "Modal body text goes here.",
-                size: "modal-lg",
-                buttons: [
-                    {
-                        text: "Click, me!",
-                        class: "btn btn-primary btn-shadow",
-                        handler: function(modal) {
-                            alert("Hello, you clicked me!");
-                        }
-                    }
-                ]
+            console.log(data.payment);
+
+            // $("#toggle").fireModal({
+            //     title: "Modal with Buttons",
+            //     center: true,
+            //     body: "Modal body text goes here.",
+            //     size: "modal-lg",
+            //     buttons: [
+            //         {
+            //             text: "Click, me!",
+            //             class: "btn btn-primary btn-shadow",
+            //             handler: function(modal) {
+            //                 alert("Hello, you clicked me!");
+            //             }
+            //         }
+            //     ]
+            // });
+            // $("#modal-4").fireModal({
+            //     footerClass: "bg-whitesmoke",
+            //     body:
+            //         "Watashi askdaskdjaskasjkdaskdjkasdjkasjk;dasjkl;djkl;asdjkl Add the <code>bg-whitesmoke</code> class to the <code>footerClass</code> option.",
+            //     buttons: [
+            //         {
+            //             text: "No Action!",
+            //             class: "btn btn-primary btn-shadow",
+            //             handler: function(modal) {}
+            //         }
+            //     ]
+            // });
+            // $("#modal-4").modal("show");
+            // $("#modal-4").trigger("click");
+            swal({
+                title: "Cek Pembayaran",
+                text:
+                    "Pembayaran untuk code " +
+                    data.payment.relation_purchase.code +
+                    " menggunakan " +
+                    data.payment.relation_payment.name,
+                icon: "info",
+                button: "Tutup"
             });
         },
         error: function(data) {

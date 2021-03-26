@@ -121,8 +121,9 @@
         @endif
     </div>
 </div>
+<button class="btn btn-primary d-none" id="modal-4"></button>
 @endsection
 @section('script')
-<script src="{{ asset('pages/transaction/transaction.js') }}"></script>
 <script src="{{ asset('pages/transaction/purchase/createPurchase.js') }}"></script>
+<script src="{{ asset('pages/transaction/transaction.js') }}"></script>
 @endsection
