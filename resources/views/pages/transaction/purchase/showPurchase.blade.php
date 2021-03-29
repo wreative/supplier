@@ -312,6 +312,13 @@
 <script>
     $(document).ready(function () {
     new Clipboard('.cbcopy');
+    $(".cbcopy").click(function() {
+  iziToast.success({
+    title: 'Sukses',
+    message: 'Copy data berhasil',
+    position: 'topRight'
+  });
+});
 });
 </script>
 @endsection

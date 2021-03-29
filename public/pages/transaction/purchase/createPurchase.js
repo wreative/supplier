@@ -203,14 +203,14 @@ function getPayment($id) {
             // });
             // $("#modal-4").modal("show");
             // $("#modal-4").trigger("click");
-            swal({
-                title: data.payment.relation_purchase.code,
-                text:
-                    "Pembayaran menggunakan " +
-                    data.payment.relation_payment.name,
-                icon: "info",
-                button: "Tutup"
-            });
+            // swal({
+            //     title: data.payment.relation_purchase.code,
+            //     text:
+            //         "Pembayaran menggunakan " +
+            //         data.payment.relation_payment.name,
+            //     icon: "info",
+            //     button: "Tutup"
+            // });
         },
         error: function(data) {
             if (data.status == 401) {
