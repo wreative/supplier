@@ -204,11 +204,9 @@ function getPayment($id) {
             // $("#modal-4").modal("show");
             // $("#modal-4").trigger("click");
             swal({
-                title: "Cek Pembayaran",
+                title: data.payment.relation_purchase.code,
                 text:
-                    "Pembayaran untuk code " +
-                    data.payment.relation_purchase.code +
-                    " menggunakan " +
+                    "Pembayaran menggunakan " +
                     data.payment.relation_payment.name,
                 icon: "info",
                 button: "Tutup"
@@ -226,6 +224,49 @@ function getPayment($id) {
                     location.reload();
                 });
             }
+        }
+    });
+}
+
+function changeStatus($id) {
+    swal("Ubah status pembelian?", {
+        buttons: {
+            cancel: "Tidak jadi",
+            received: {
+                text: "Diterima"
+            },
+            ordered: {
+                text: "Dipesan"
+            }
+        }
+    }).then(value => {
+        switch (value) {
+            case "ordered":
+                swal({
+                    title: "Sukses",
+                    text: "Status telah diganti menjadi dipesan",
+                    icon: "success",
+                    button: "Ok",
+                    closeOnClickOutside: false
+                }).then(() => {
+                    location.href = "/status/" + $id + "/" + 0;
+                });
+                break;
+
+            case "received":
+                swal({
+                    title: "Sukses",
+                    text: "Status telah diganti menjadi diterima",
+                    icon: "success",
+                    button: "Ok",
+                    closeOnClickOutside: false
+                }).then(() => {
+                    location.href = "/status/" + $id + "/" + 1;
+                });
+                break;
+
+            default:
+                swal("Info", "Status tidak akan dirubah", "info");
         }
     });
 }

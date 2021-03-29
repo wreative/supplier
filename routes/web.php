@@ -57,10 +57,10 @@ Route::group(['middleware' => 'supplier'], function () {
         ->name('checkItems');
 
     // Transaksi Pembelian
-    Route::resource('purchase', App\Http\Controllers\PurchaseController::class)->only([
-        'index', 'store', 'create', 'destroy'
+    Route::resource('purchase', App\Http\Controllers\PurchaseController::class)->except([
+        'edit', 'update'
     ]);
-    Route::get('/status/{id}', [App\Http\Controllers\PurchaseController::class, 'status'])
+    Route::get('/status/{id}/{category}', [App\Http\Controllers\PurchaseController::class, 'status'])
         ->name('purchase.status');
     Route::get('/payment/{id}', [App\Http\Controllers\PurchaseController::class, 'payment'])
         ->name('purchase.payment');

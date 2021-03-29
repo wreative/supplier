@@ -8,54 +8,46 @@
 @endsection
 
 @section('content')
-<h2 class="section-title">{{ $code }}</h2>
+{{ $transaction }}
+<h2 class="section-title">{{ $transaction->relationPurchase->code }}</h2>
 <p class="section-lead">
-    {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan.') }}
+    {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan. Dibuat pada tanggal ').
+    date("d-M-Y", strtotime($transaction->tgl)) }}
 </p>
 <form method="POST" action="{{ route('purchase.store') }}" id="addPurchase">
     @csrf
-    <div class="card">
-        <input type="hidden" value="{{ $code }}" name="code">
+    <div class="card card-primary">
         <div class="card-body">
+            <h2 class="section-title mt-0">{{ __('Supplier') }}</h2>
             <div class="row">
                 <div class="col-sm">
                     <div class="form-group">
-                        <label>{{ __('Tanggal') }}<code>*</code></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="far fa-calendar"></i>
-                                </div>
+                        <label>{{ __('Nama') }}</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="name_supplier"
+                                value="{{ $transaction->relationSupplier->name }}" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button"
+                                    data-clipboard-target="#name_supplier" data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
                             </div>
-                            <input type="text" class="form-control datepicker @error('tgl') is-invalid @enderror"
-                                name="tgl" required>
-                            @error('tgl')
-                            <span class="text-danger" role="alert">
-                                {{ $message }}
-                            </span>
-                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="col-sm">
                     <div class="form-group">
-                        <label>{{ __('Supplier') }}<code>*</code></label>
-                        <select class="form-control select2 @error('supplier') is-invalid @enderror" name="supplier"
-                            style="width: 50%" required>
-                            @foreach ($supplier as $s)
-                            <option value="{{ $s->id }}">
-                                {{ $s->name." - ".$s->code }}
-                            </option>
-                            @endforeach
-                        </select>
-                        @error('supplier')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                        <button class="btn mt-1 btn-block btn-icon  icon-left btn-primary" id="supplier" type="button">
-                            <i class="fa fa-plus"></i>{{ __(' Tambah Supplier') }}
-                        </button>
+                        <label>{{ __('Kode') }}</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="code_supplier"
+                                value="{{ $transaction->relationSupplier->code }}" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button"
+                                    data-clipboard-target="#code_supplier" data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,14 +56,14 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label>{{ __('Nama Barang') }}<code>*</code></label>
-                        <select class="form-control select2 @error('items') is-invalid @enderror" name="items"
+                        {{-- <select class="form-control select2 @error('items') is-invalid @enderror" name="items"
                             id="items" required>
                             @foreach ($items as $i)
                             <option value="{{ $i->id }}">
-                                {{ $i->name }}
-                            </option>
-                            @endforeach
-                        </select>
+                        {{ $i->name }}
+                        </option>
+                        @endforeach
+                        </select> --}}
                         @error('items')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -295,14 +287,14 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label>{{ __('Metode Pembayaran') }}<code>*</code></label>
-                        <select class="form-control @error('payment_method') is-invalid @enderror" name="payment_method"
+                        {{-- <select class="form-control @error('payment_method') is-invalid @enderror" name="payment_method"
                             required>
                             @foreach ($payment as $p)
                             <option value="{{ $p->id }}">
-                                {{ $p->name }}
-                            </option>
-                            @endforeach
-                        </select>
+                        {{ $p->name }}
+                        </option>
+                        @endforeach
+                        </select> --}}
                         @error('payment_method')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -313,15 +305,13 @@
             </div>
         </div>
     </div>
-    @include('pages.transaksi.components.floatingButton', ['form' => 'addPurchase'])
+    @include('pages.transaction.components.floatingButton', ['form' => 'addPurchase'])
 </form>
 @endsection
-@include('pages.transaksi.pembelian.components.createSupplier')
 @section('script')
-<script src="{{ asset('pages/transaction/purchase/createPurchase.js') }}"></script>
 <script>
-    $( "#dropdown" ).select2({
-    theme: "bootstrap"
+    $(document).ready(function () {
+    new Clipboard('.cbcopy');
 });
 </script>
 @endsection

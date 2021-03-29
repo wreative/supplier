@@ -104,13 +104,17 @@
                                         {{ __(' Hapus') }}
                                     </a>
                                 </form>
-                                <a class="dropdown-item has-icon" onclick="getPayment({{ $p->id }})"
+                                <a class="dropdown-item has-icon" href="{{ route('purchase.show',$p->id) }}">
+                                    <i class="far fa-eye"></i>{{ __(' Lihat Detail') }}
+                                </a>
+                                {{-- <a class="dropdown-item has-icon" onclick="getPayment({{ $p->id }})"
+                                style="cursor: pointer">
+                                <i class="far fa-money-bill-alt"></i>{{ __(' Lihat Pembayaran') }}
+                                </a>
+                                <a class="dropdown-item has-icon" onclick="changeStatus({{ $p->id }})"
                                     style="cursor: pointer">
-                                    <i class="far fa-money-bill-alt"></i>{{ __(' Lihat Pembayaran') }}
-                                </a>
-                                <a class="dropdown-item has-icon" href="javascript:void(0)">
                                     <i class="far fa-handshake"></i>{{ __(' Ubah Status') }}
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </td>

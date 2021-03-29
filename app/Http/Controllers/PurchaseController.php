@@ -9,6 +9,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use App\Models\Units;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class PurchaseController extends Controller
@@ -34,7 +35,7 @@ class PurchaseController extends Controller
         $purchase = Transaction::with('relationItems', 'relationSupplier', 'relationPurchase')
             ->whereNull('s_id')->get();
         $count = Purchase::count();
-        return view('pages.transaksi.pembelian.pembelian', ['purchase' => $purchase, 'count' => $count]);
+        return view('pages.transaction.purchase.indexPurchase', ['purchase' => $purchase, 'count' => $count]);
     }
 
     public function create()
@@ -44,7 +45,7 @@ class PurchaseController extends Controller
         $supplier = Supplier::all();
         $units = Units::all();
         $payment = Payment::all();
-        return view('pages.transaksi.pembelian.createPembelian', [
+        return view('pages.transaction.purchase.createPurchase', [
             'code' => $code, 'items' => $items, 'supplier' => $supplier,
             'units' => $units, 'payment' => $payment
         ]);
@@ -132,7 +133,7 @@ class PurchaseController extends Controller
         // Saved Datas
         $items->save();
 
-        return redirect()->route('purchase.index');
+        return Redirect::route('purchase.index');
     }
 
     public function destroy($id)
@@ -150,7 +151,7 @@ class PurchaseController extends Controller
         $purchase->delete();
         $transaction->delete();
 
-        return redirect()->route('purchase.index');
+        return Redirect::route('purchase.index');
     }
 
     function createJSON($dsc, $dscNom, $dscPer)
@@ -159,9 +160,26 @@ class PurchaseController extends Controller
         return json_encode($array);
     }
 
+    public function show($id)
+    {
+        $transaction = Transaction::with('relationItems', 'relationSupplier', 'relationPurchase')
+            ->find($id);
+        return view('pages.transaction.purchase.showPurchase', ['transaction' => $transaction]);
+    }
+
     public function status(Request $req)
     {
-        // dd($req->all());
+        $purchase = Purchase::find($req->id);
+        dd($req->all());
+        if ($req->category == 0) {
+            $purchase->status = "Dipesan";
+            Redirect::route('purchase.index');
+        } else if ($req->category == 1) {
+            $purchase->status = "Diterima";
+            Redirect::route('purchase.index');
+        } else {
+            dd("ERROR");
+        }
     }
 
     public function payment(Request $req)
