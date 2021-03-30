@@ -235,7 +235,7 @@ class PublicController extends Controller
         $ppn = $req->ppn;
 
 
-        if ($profit >= 100) {
+        if ($profit > 100) {
             return Response()->json(['status' => 'error']);
         } else if ($ppn == 1) {
             $include = $price + ($price * 10 / 100);

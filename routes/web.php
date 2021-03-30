@@ -58,7 +58,7 @@ Route::group(['middleware' => 'supplier'], function () {
 
     // Transaksi Pembelian
     Route::resource('purchase', App\Http\Controllers\PurchaseController::class)->except([
-        'edit', 'update'
+        'edit'
     ]);
     Route::get('/status/{id}/{category}', [App\Http\Controllers\PurchaseController::class, 'status'])
         ->name('purchase.status');

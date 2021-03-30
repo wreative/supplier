@@ -57,16 +57,17 @@
             </li>
             <li class="menu-header">{{ __('Transaksi') }}</li>
             <li class="dropdown {{ Request::route()->getName() == 'purchase.index' ? 'active' : (
-                Request::route()->getName() == 'purchase.create' ? 'active' : '') }}">
+                Request::route()->getName() == 'purchase.create' ? 'active' : (
+                    Request::route()->getName() == 'purchase.show' ? 'active' : '')) }}">
                 <a href="javascript:void(0)" class="nav-link has-dropdown"><i
                         class="fas fa-exchange-alt"></i><span>{{ __('Pembelian') }}</span></a>
                 <ul class="dropdown-menu" style="display: none;">
-                    <li class="{{ Request::route()->getName() == 'purchase.index' ? 'active' : (
-                        Request::route()->getName() == 'purchase.create' ? 'active' : '') }}">
+                    <li class="{{ Request::route()->getName() == 'purchase.index' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Daftar Pembelian') }}</a>
                     </li>
-                    <li><a class="nav-link" href="{{ route('purchase.create') }}">{{ __('Tambah Pembelian') }}</a></li>
-                    <li><a class="nav-link" href="dashboard-ecommerce.html">{{ __('Retur Pembelian') }}</a></li>
+                    <li class="{{ Request::route()->getName() == 'purchase.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('purchase.create') }}">{{ __('Tambah Pembelian') }}</a>
+                    </li>
                 </ul>
             </li>
             <li class="{{ Request::route()->getName() == 'sales.index' ? 'active' : (

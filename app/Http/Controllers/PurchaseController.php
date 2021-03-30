@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Items;
+use App\Models\ItemsDetail;
 use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\Supplier;
@@ -66,6 +67,7 @@ class PurchaseController extends Controller
 
         //Intial Variable
         $idItems = $req->items;
+        $payment = $this->PublicController->removeComma($req->payment);
 
         // Null Safety
         $etc_price = $req->etc_price == null ? 0 :
@@ -119,8 +121,9 @@ class PurchaseController extends Controller
             'status' => $status,
             'etc_price' => $datas[10],
             'ship_price' => $datas[9],
-            'pay' => $this->PublicController->removeComma($req->payment) >= $datas[6] ?
-                "Dibayar" : "Tempo"
+            'pay' => $payment >= $datas[6] ?
+                "Dibayar" : "Tempo",
+            'payment' => $payment
         ]);
 
         // Modify Stock Items
@@ -164,7 +167,12 @@ class PurchaseController extends Controller
     {
         $transaction = Transaction::with('relationItems', 'relationSupplier', 'relationPurchase')
             ->find($id);
-        return view('pages.transaction.purchase.showPurchase', ['transaction' => $transaction]);
+        $payment = Payment::all();
+        $detailItems = ItemsDetail::find($transaction->relationItems->detail_id);
+        // dd($detailItems);
+        return view('pages.transaction.purchase.showPurchase', [
+            'transaction' => $transaction, 'payment' => $payment, 'detailItems' => $detailItems
+        ]);
     }
 
     public function status(Request $req)

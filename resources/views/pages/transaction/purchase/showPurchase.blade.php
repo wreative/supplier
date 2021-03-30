@@ -1,14 +1,13 @@
 @extends('layouts.default')
-@section('title', __('pages.title').__(' | Tambah Pembelian'))
-@section('titleContent', __('Tambah Pembelian'))
+@section('title', __('pages.title').__(' | Detail Pembelian'))
+@section('titleContent', __('Detail Pembelian'))
 @section('breadcrumb', __('Transaksi'))
 @section('morebreadcrumb')
 <div class="breadcrumb-item active">{{ __('Pembelian') }}</div>
-<div class="breadcrumb-item active">{{ __('Tambah') }}</div>
+<div class="breadcrumb-item active">{{ __('Detail') }}</div>
 @endsection
 
 @section('content')
-{{ $transaction }}
 <h2 class="section-title">{{ $transaction->relationPurchase->code }}</h2>
 <p class="section-lead">
     {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan. Dibuat pada tanggal ').
@@ -23,7 +22,7 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label>{{ __('Nama') }}</label>
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <input type="text" class="form-control" id="name_supplier"
                                 value="{{ $transaction->relationSupplier->name }}" readonly>
                             <div class="input-group-append">
@@ -38,7 +37,7 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label>{{ __('Kode') }}</label>
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <input type="text" class="form-control" id="code_supplier"
                                 value="{{ $transaction->relationSupplier->code }}" readonly>
                             <div class="input-group-append">
@@ -55,22 +54,18 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="form-group">
-                        <label>{{ __('Nama Barang') }}<code>*</code></label>
-                        {{-- <select class="form-control select2 @error('items') is-invalid @enderror" name="items"
-                            id="items" required>
-                            @foreach ($items as $i)
-                            <option value="{{ $i->id }}">
-                        {{ $i->name }}
-                        </option>
-                        @endforeach
-                        </select> --}}
-                        @error('items')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                        <button class="mt-2 btn btn-primary btn-block" type="button"
-                            onclick="getItems()">{{ __('Cek Data') }}</button>
+                        <label>{{ __('Barang') }}</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="items"
+                                value="{{ $transaction->relationItems->code.__(' - ').$transaction->relationItems->name }}"
+                                readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#items"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm">
@@ -82,26 +77,27 @@
                                     {{ __('Rp.') }}
                                 </div>
                             </div>
-                            <input class="form-control currency @error('price_items') is-invalid @enderror"
-                                id="price_items" type="text" name="price_items">
+                            <input class="form-control" id="price" value="{{ number_format($detailItems->price) }}"
+                                type="text" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#price"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
                         </div>
-                        @error('price_items')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
                     </div>
                 </div>
                 <div class="col-sm">
                     <div class="form-group">
-                        <label class="form-label">{{ __('Ganti Harga Pada Master Barang') }}<code>*</code></label>
-                        <div class="selectgroup w-100" id="price_replace">
+                        <label class="form-label">{{ __('Ganti Harga Pada Master Barang') }}</label>
+                        <div class="selectgroup w-100">
                             <label class="selectgroup-item">
-                                <input type="radio" name="price_replace" value="1" class="selectgroup-input">
+                                <input type="radio" value="1" class="selectgroup-input" disabled>
                                 <span class="selectgroup-button">{{ __('Ya') }}</span>
                             </label>
                             <label class="selectgroup-item">
-                                <input type="radio" name="price_replace" value="0" class="selectgroup-input" checked>
+                                <input type="radio" value="0" class="selectgroup-input" checked disabled>
                                 <span class="selectgroup-button">{{ __('Tidak') }}</span>
                             </label>
                         </div>
@@ -111,14 +107,17 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="form-group">
-                        <label>{{ __('Total Barang') }}<code>*</code></label>
-                        <input type="text" class="form-control @error('total') is-invalid @enderror" name="total"
-                            id="total" required autofocus>
-                        @error('total')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
+                        <label>{{ __('Total Barang') }}</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="total" value="{{ $transaction->total }}"
+                                readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#total"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm">
@@ -130,50 +129,92 @@
                                     {{ __('Rp.') }}
                                 </div>
                             </div>
-                            <input class="form-control currency @error('dsc_nom') is-invalid @enderror" id="dsc_nom"
-                                type="text" name="dsc_nom">
+                            <input class="form-control" id="nom"
+                                value="{{ json_decode($transaction->relationPurchase->dsc)[1] }}" type="text" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#nom"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
                         </div>
-                        <span class="text-primary" role="alert">
-                            {{ __('Prioritas') }}
-                        </span>
-                        @error('dsc_nom')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
                     </div>
                 </div>
                 <div class="col-sm">
                     <div class="form-group">
                         <label>{{ __('Discount Per Item (Persen)') }}</label>
                         <div class="input-group">
-                            <input class="form-control @error('dsc_per') is-invalid @enderror" type="text"
-                                name="dsc_per" id="dsc_per" max="100">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    {{ __('%') }}
-                                </div>
+                            <input class="form-control" id="percent"
+                                value="{{ json_decode($transaction->relationPurchase->dsc)[2].__('%') }}" type="text"
+                                readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#percent"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
                             </div>
                         </div>
-                        @error('dsc_per')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Harga Diskon') }}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control" id="price_dsc"
+                                value="{{ number_format(json_decode($transaction->relationPurchase->dsc)[0]) }}"
+                                type="text" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#price_dsc"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('Include PPN') }}<code>*</code></label>
-                <div class="selectgroup w-100" id="ppn">
-                    <label class="selectgroup-item">
-                        <input type="radio" name="ppn" value="1" class="selectgroup-input" checked>
-                        <span class="selectgroup-button">{{ __('Ya') }}</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="ppn" value="0" class="selectgroup-input">
-                        <span class="selectgroup-button">{{ __('Tidak') }}</span>
-                    </label>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label>{{ __('Pajak') }}<code>*</code></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ __('Rp.') }}
+                                </div>
+                            </div>
+                            <input class="form-control" id="tax"
+                                value="{{ number_format($transaction->relationPurchase->tax) }}" type="text" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#tax"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Include PPN') }}</label>
+                        <div class="selectgroup w-100" id="ppn">
+                            <label class="selectgroup-item">
+                                <input type="radio" class="selectgroup-input" disabled
+                                    {{ $transaction->relationPurchase->ppn == 1 ? 'checked' : '' }}>
+                                <span class="selectgroup-button">{{ __('Ya') }}</span>
+                            </label>
+                            <label class="selectgroup-item">
+                                <input type="radio" class="selectgroup-input" disabled
+                                    {{ $transaction->relationPurchase->ppn == 0 ? 'checked' : '' }}>
+                                <span class="selectgroup-button">{{ __('Tidak') }}</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -187,14 +228,15 @@
                                     {{ __('Rp.') }}
                                 </div>
                             </div>
-                            <input class="form-control currency @error('dp') is-invalid @enderror" id="dp" type="text"
-                                name="dp">
+                            <input type="text" class="form-control currency" id="dp"
+                                value="{{ $transaction->relationPurchase->dp }}" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#dp"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
                         </div>
-                        @error('dp')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
                     </div>
                 </div>
                 <div class="col-sm">
@@ -206,14 +248,15 @@
                                     {{ __('Rp.') }}
                                 </div>
                             </div>
-                            <input class="form-control currency @error('ship_price') is-invalid @enderror"
-                                id="ship_price" type="text" name="ship_price">
+                            <input type="text" class="form-control currency" id="ship_price"
+                                value="{{ $transaction->relationPurchase->ship_price }}" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#ship_price"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
                         </div>
-                        @error('ship_price')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
                     </div>
                 </div>
                 <div class="col-sm">
@@ -225,14 +268,15 @@
                                     {{ __('Rp.') }}
                                 </div>
                             </div>
-                            <input class="form-control currency @error('etc_price') is-invalid @enderror" id="etc_price"
-                                type="text" name="etc_price">
+                            <input type="text" class="form-control currency" id="etc_price"
+                                value="{{ $transaction->relationPurchase->etc_price }}" readonly>
+                            <div class="input-group-append">
+                                <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#etc_price"
+                                    data-toggle="tooltip" title="Copy Data">
+                                    <i class="far fa-clipboard"></i>
+                                </button>
+                            </div>
                         </div>
-                        @error('etc_price')
-                        <span class="text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
                     </div>
                 </div>
             </div>
@@ -240,11 +284,13 @@
                 <label class="form-label">{{ __('Status') }}<code>*</code></label>
                 <div class="selectgroup w-100">
                     <label class="selectgroup-item">
-                        <input type="radio" name="status" value="0" class="selectgroup-input">
+                        <input type="radio" name="status" value="0" class="selectgroup-input"
+                            {{ $transaction->relationPurchase->status == 'Dipesan' ? 'checked' : '' }}>
                         <span class="selectgroup-button">{{ __('Dipesan') }}</span>
                     </label>
                     <label class="selectgroup-item">
-                        <input type="radio" name="status" value="1" class="selectgroup-input" checked>
+                        <input type="radio" name="status" value="1" class="selectgroup-input"
+                            {{ $transaction->relationPurchase->status == 'Diterima' ? 'checked' : '' }}>
                         <span class="selectgroup-button">{{ __('Diterima') }}</span>
                     </label>
                 </div>
@@ -252,12 +298,13 @@
             <div class="form-group">
                 <label>{{ __('Keterangan') }}</label>
                 <textarea type="text" class="form-control @error('info') is-invalid @enderror" name="info" cols="150"
-                    rows="10" style="height: 77px;"></textarea>
-                @error('info')
-                <span class="text-danger" role="alert">
-                    {{ $message }}
-                </span>
-                @enderror
+                    rows="10" style="height: 77px;" readonly>
+                    @if ($transaction->relationPurchase->info != null)
+                    {{ $transaction->relationPurchase->info }}
+                    @else
+                    {{ __('Kosong') }}
+                    @endif
+                </textarea>
             </div>
         </div>
     </div>
@@ -274,8 +321,9 @@
                                     {{ __('Rp.') }}
                                 </div>
                             </div>
-                            <input class="form-control currency @error('payment') is-invalid @enderror" type="text"
-                                name="payment" required>
+                            <input class="form-control currency @error('payment') is-invalid @enderror"
+                                value="{{ $transaction->relationPurchase->payment }}" type="text" name="payment"
+                                required>
                         </div>
                         @error('payment')
                         <span class="text-danger" role="alert">
@@ -287,14 +335,14 @@
                 <div class="col-sm">
                     <div class="form-group">
                         <label>{{ __('Metode Pembayaran') }}<code>*</code></label>
-                        {{-- <select class="form-control @error('payment_method') is-invalid @enderror" name="payment_method"
+                        <select class="form-control @error('payment_method') is-invalid @enderror" name="payment_method"
                             required>
                             @foreach ($payment as $p)
-                            <option value="{{ $p->id }}">
-                        {{ $p->name }}
-                        </option>
-                        @endforeach
-                        </select> --}}
+                            <option value="{{ $p->id }}" {{ $transaction->pay_id == $p->id ? 'selected' : '' }}>
+                                {{ $p->name }}
+                            </option>
+                            @endforeach
+                        </select>
                         @error('payment_method')
                         <span class="text-danger" role="alert">
                             {{ $message }}
@@ -307,18 +355,4 @@
     </div>
     @include('pages.transaction.components.floatingButton', ['form' => 'addPurchase'])
 </form>
-@endsection
-@section('script')
-<script>
-    $(document).ready(function () {
-    new Clipboard('.cbcopy');
-    $(".cbcopy").click(function() {
-  iziToast.success({
-    title: 'Sukses',
-    message: 'Copy data berhasil',
-    position: 'topRight'
-  });
-});
-});
-</script>
 @endsection

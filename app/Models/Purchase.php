@@ -29,7 +29,8 @@ class Purchase extends Model
         'etc_price',
         'ship_price',
         'status',
-        'pay'
+        'pay',
+        'payment'
     ];
 
     public function relationTransaction()
