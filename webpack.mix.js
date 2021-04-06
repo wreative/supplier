@@ -28,7 +28,7 @@ mix.styles(
         "resources/css/components.css"
     ],
     "public/assets.css"
-);
+).version();
 
 // Javascript
 mix.scripts(
@@ -56,4 +56,4 @@ mix.scripts(
         "resources/js/scripts.js"
     ],
     "public/assets.js"
-);
+).version();

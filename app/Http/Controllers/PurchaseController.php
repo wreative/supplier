@@ -175,6 +175,21 @@ class PurchaseController extends Controller
         ]);
     }
 
+    public function update(Request $req, $id)
+    {
+        // dd($req->all());
+        $transaction = Transaction::with('relationPurchase')->find($id);
+        $transaction->relationPurchase->status = $req->status == 0 ? 'Dipesan' : 'Diterima';
+        $transaction->relationPurchase->pay = $this->PublicController->removeComma($req->payment) >=
+            $transaction->price ? "Dibayar" : "Tempo";
+        $transaction->relationPurchase->payment = $req->payment;
+        $transaction->pay_id = $req->payment_method;
+        $transaction->save();
+        $transaction->relationPurchase->save();
+
+        return Redirect::route('purchase.index');
+    }
+
     public function status(Request $req)
     {
         $purchase = Purchase::find($req->id);

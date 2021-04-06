@@ -13,8 +13,10 @@
     {{ __('Kode transaksi yang berisi kode unik untuk setiap transaksi pembelian yang dilakukan. Dibuat pada tanggal ').
     date("d-M-Y", strtotime($transaction->tgl)) }}
 </p>
-<form method="POST" action="{{ route('purchase.store') }}" id="addPurchase">
+<form method="POST" action="{{ route('purchase.update',$transaction->id) }}" id="addPurchase">
     @csrf
+    @method('PUT')
+    <input value="{{ $transaction->id }}" name="id" type="hidden">
     <div class="card card-primary">
         <div class="card-body">
             <h2 class="section-title mt-0">{{ __('Supplier') }}</h2>
@@ -355,4 +357,27 @@
     </div>
     @include('pages.transaction.components.floatingButton', ['form' => 'addPurchase'])
 </form>
+@endsection
+@section('script')
+<script>
+    $(".currency")
+    .toArray()
+    .forEach(function(field) {
+        new Cleave(field, {
+            numeral: true,
+            numeralDecimalMark: ".",
+            delimiter: ","
+        });
+    });
+    $(document).on("ready", function() {
+    new Clipboard(".cbcopy");
+    $(".cbcopy").on("click", function() {
+        iziToast.success({
+            title: "Sukses",
+            message: "Copy data berhasil",
+            position: "topRight"
+        });
+    });
+});
+</script>
 @endsection

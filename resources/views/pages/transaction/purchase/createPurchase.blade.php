@@ -313,7 +313,7 @@
             </div>
         </div>
     </div>
-    @include('pages.transaction.components.floatingButton', ['form' => 'addPurchase'])
+    @include('pages.transaction.components.floatingButton', ['form' => 'addPurchase','check'=>'check'])
 </form>
 @endsection
 @include('pages.transaction.purchase.components.createSupplier')

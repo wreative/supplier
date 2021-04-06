@@ -339,14 +339,3 @@
         chat.onShow.call(this, append_element);
     };
 })(jQuery, this, 0);
-
-$(document).on("ready", function() {
-    new Clipboard(".cbcopy");
-    $(".cbcopy").on("click", function() {
-        iziToast.success({
-            title: "Sukses",
-            message: "Copy data berhasil",
-            position: "topRight"
-        });
-    });
-});
