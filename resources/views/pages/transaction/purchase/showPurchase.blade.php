@@ -131,8 +131,8 @@
                                     {{ __('Rp.') }}
                                 </div>
                             </div>
-                            <input class="form-control" id="nom"
-                                value="{{ json_decode($transaction->relationPurchase->dsc)[1] }}" type="text" readonly>
+                            <input class="form-control" id="nom" value="{{ $transaction->relationPurchase->dsc }}"
+                                type="text" readonly>
                             <div class="input-group-append">
                                 <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#nom"
                                     data-toggle="tooltip" title="Copy Data">
@@ -147,8 +147,7 @@
                         <label>{{ __('Discount Per Item (Persen)') }}</label>
                         <div class="input-group">
                             <input class="form-control" id="percent"
-                                value="{{ json_decode($transaction->relationPurchase->dsc)[2].__('%') }}" type="text"
-                                readonly>
+                                value="{{ $transaction->relationPurchase->dsc_per.__('%') }}" type="text" readonly>
                             <div class="input-group-append">
                                 <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#percent"
                                     data-toggle="tooltip" title="Copy Data">
@@ -168,8 +167,8 @@
                                 </div>
                             </div>
                             <input class="form-control" id="price_dsc"
-                                value="{{ number_format(json_decode($transaction->relationPurchase->dsc)[0]) }}"
-                                type="text" readonly>
+                                value="{{ number_format($transaction->relationPurchase->dsc_nom) }}" type="text"
+                                readonly>
                             <div class="input-group-append">
                                 <button class="btn cbcopy btn-primary" type="button" data-clipboard-target="#price_dsc"
                                     data-toggle="tooltip" title="Copy Data">
@@ -369,15 +368,5 @@
             delimiter: ","
         });
     });
-    $(document).on("ready", function() {
-    new Clipboard(".cbcopy");
-    $(".cbcopy").on("click", function() {
-        iziToast.success({
-            title: "Sukses",
-            message: "Copy data berhasil",
-            position: "topRight"
-        });
-    });
-});
 </script>
 @endsection

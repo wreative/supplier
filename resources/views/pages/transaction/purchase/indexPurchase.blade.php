@@ -61,9 +61,12 @@
                         </span>
                     </td>
                     <td>{{ $p->total.__(" Items") }}</td>
-                    <td>{{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[0]) }}</td>
-                    <td>
+                    <td>{{ __('Rp.').number_format($p->relationPurchase->dsc) }}</td>
+                    {{-- <td>
                         {{ __('Rp.').number_format(json_decode($p->relationPurchase->dsc)[1])." / ".json_decode($p->relationPurchase->dsc)[2].__('%') }}
+                    </td> --}}
+                    <td>
+                        {{ __('Rp.').number_format($p->relationPurchase->dsc_nom)." / ".$p->relationPurchase->dsc_per.__('%') }}
                     </td>
                     <td>{{ __('Rp.').number_format($p->relationPurchase->tax) }}</td>
                     <td>

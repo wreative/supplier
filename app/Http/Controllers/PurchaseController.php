@@ -94,7 +94,7 @@ class PurchaseController extends Controller
         );
 
         $status = $req->status == '1' ? 'Diterima' : 'Dipesan';
-        $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
+        // $discount = $this->createJSON($datas[2], $datas[7], $datas[8]);
         // $codeSupplier = Str::substr(Supplier::find($req->supplier)->code, 3, 5);
         // $code = Str::replaceLast('SUP', $codeSupplier, $req->code);
         $count = $this->PublicController->countID('purchase');
@@ -113,7 +113,9 @@ class PurchaseController extends Controller
         Purchase::create([
             'id' => $count,
             'code' => $req->code,
-            'dsc' => $discount,
+            'dsc' => $this->PublicController->removeComma($datas[2]),
+            'dsc_nom' => $datas[7],
+            'dsc_per' => $datas[8],
             'info' => $req->info,
             'dp' => $datas[5],
             'tax' => $datas[4],

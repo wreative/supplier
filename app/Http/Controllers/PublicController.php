@@ -172,7 +172,7 @@ class PublicController extends Controller
             $itemsPrice = $customPrice != 0 ? $customPrice : $itemsDetail->sell_price;
         }
 
-        $dsc_nom = (int)$discountNom;
+        $dsc_nom = $this->removeComma($discountNom);
         $dsc_per = (int)$discountPer;
         $downPayment = $this->removeComma($dp);
 

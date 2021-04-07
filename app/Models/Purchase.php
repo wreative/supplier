@@ -22,6 +22,8 @@ class Purchase extends Model
         'id',
         'code',
         'dsc',
+        'dsc_nom',
+        'dsc_per',
         'info',
         'dp',
         'tax',

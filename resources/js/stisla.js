@@ -339,3 +339,22 @@
         chat.onShow.call(this, append_element);
     };
 })(jQuery, this, 0);
+
+$(window).on("load", function() {
+    var clipboard = new ClipboardJS(".cbcopy");
+    clipboard.on("success", function(e) {
+        iziToast.success({
+            title: "Sukses",
+            message: "Copy data berhasil",
+            position: "topRight"
+        });
+    });
+
+    clipboard.on("error", function(e) {
+        iziToast.error({
+            title: "Gagal",
+            message: "Copy data tidak berhasil",
+            position: "topRight"
+        });
+    });
+});
