@@ -22,13 +22,6 @@ class UserSeeder extends Seeder
                 'username' => 'supplier',
                 'password' => Hash::make(1234567890),
                 'role_id' => '1'
-            ],
-            [
-                'id' => '2',
-                'name' => 'Almaas',
-                'email' => 'almaas',
-                'password' => Hash::make(1234567890),
-                'role_id' => '2'
             ]
         ]);
     }
