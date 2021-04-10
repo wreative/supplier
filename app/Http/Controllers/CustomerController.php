@@ -30,37 +30,39 @@ class CustomerController extends Controller
     public function index()
     {
         $customer = Customer::with('relationDetail', 'relationMarketer')->get();
-        return view('pages.master.customer.customer', ['customer' => $customer]);
+        return view('pages.data.customer.indexCustomer', ['customer' => $customer]);
     }
 
     public function create()
     {
-        $code = "C-" . str_pad($this->PublicController->getRandom('customer'), 5, '0', STR_PAD_LEFT);
         $customer = Customer::all();
-        $sales = Marketer::all();
-        return view('pages.master.customer.createCustomer', ['code' => $code, 'customer' => $customer, 'sales' => $sales]);
+        $marketer = Marketer::all();
+        return view('pages.data.customer.createCustomer', [
+            'code' => $this->generateCode(), 'customer' => $customer, 'marketer' => $marketer
+        ]);
     }
 
     public function store(Request $req)
     {
         $this->validate($req, [
-            'code' => 'required',
+            // 'code' => 'required',
             'name' => 'required',
             'tlp' => 'required',
             'city' => 'required',
             'province' => 'required',
-            'pos' => 'required'
+            'pos' => 'required',
         ]);
 
         $count = $this->PublicController->countID('customer');
+        $code = $req->code == null ? $this->generateCode() : $req->code;
 
         Customer::create([
             'name' => $req->name,
-            'code' => $req->code,
+            'code' => $code,
             'address' => $this->PublicController->createJSON($req->city, $req->province, $req->pos),
             'tlp' => $req->tlp,
             'detail_id' => $count,
-            'sales_id' => $req->sales
+            'sales_id' => $req->marketer
         ]);
 
         CustomerDetail::create([
@@ -74,7 +76,8 @@ class CustomerController extends Controller
             'info' => $req->info
         ]);
 
-        return Redirect::route('customer.index');
+        return $req->code == null ? Redirect::route('sales.create')
+            : Redirect::route('customer.index');
     }
 
     public function destroy($id)
@@ -91,10 +94,10 @@ class CustomerController extends Controller
     {
         $customer = Customer::with('relationDetail', 'relationMarketer')->find($id);
         // dd($customer);
-        $sales = Marketer::all();
-        return view('pages.master.customer.updateCustomer', [
+        $marketer = Marketer::all();
+        return view('pages.data.customer.updateCustomer', [
             'customer' => $customer,
-            'sales' => $sales
+            'marketer' => $marketer
         ]);
     }
 
@@ -105,7 +108,8 @@ class CustomerController extends Controller
             'tlp' => 'required',
             'city' => 'required',
             'province' => 'required',
-            'pos' => 'required'
+            'pos' => 'required',
+            'marketer' => 'required'
         ]);
 
         $customer = Customer::find($id);
@@ -117,7 +121,7 @@ class CustomerController extends Controller
         $customer->code = $req->code;
         $customer->address = $this->PublicController->createJSON($req->city, $req->province, $req->pos);
         $customer->tlp = $req->tlp;
-        $customer->sales_id = $req->sales;
+        $customer->sales_id = $req->marketer;
 
         // Stored Customer Detail
         $customerDetail->email = $req->email;
@@ -132,5 +136,11 @@ class CustomerController extends Controller
         $customer->save();
         $customerDetail->save();
         return Redirect::route('customer.index');
+    }
+
+    function generateCode()
+    {
+        $code = "C-" . str_pad($this->PublicController->getRandom('customer'), 5, '0', STR_PAD_LEFT);
+        return $code;
     }
 }

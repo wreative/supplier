@@ -16,13 +16,17 @@ class CreateSales extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->json('dsc');
+            $table->bigInteger('dsc');
+            $table->bigInteger('dsc_nom');
+            $table->bigInteger('dsc_per');
             $table->string('info')->nullable();
             $table->bigInteger('dp');
             $table->bigInteger('tax');
             $table->boolean('ppn');
             $table->bigInteger('etc_price')->nullable();
             $table->bigInteger('ship_price')->nullable();
+            $table->enum('pay', ['Tempo', 'Dibayar']);
+            $table->bigInteger('payment');
         });
     }
 

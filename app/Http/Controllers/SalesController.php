@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Items;
 use App\Models\Marketer;
 use App\Models\Customer;
+use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\Sales;
 use App\Models\Supplier;
@@ -36,7 +37,7 @@ class SalesController extends Controller
         $sales = Transaction::with('relationItems', 'relationSales', 'relationCustomer', 'relationMarketer')
             ->whereNull('p_id')->get();
         $count = Sales::count();
-        return view('pages.transaksi.penjualan.penjualan', ['sales' => $sales, 'count' => $count]);
+        return view('pages.transaction.sales.indexSales', ['sales' => $sales, 'count' => $count]);
     }
 
     public function create()
@@ -46,9 +47,10 @@ class SalesController extends Controller
         $items = Items::all();
         $customer = Customer::all();
         $marketer = Marketer::all();
-        return view('pages.transaksi.penjualan.createPenjualan', [
+        $payment = Payment::all();
+        return view('pages.transaction.sales.createSales', [
             'code' => $code, 'units' => $units, 'items' => $items,
-            'customer' => $customer, 'marketer' => $marketer
+            'customer' => $customer, 'marketer' => $marketer, 'payment' => $payment
         ]);
     }
 

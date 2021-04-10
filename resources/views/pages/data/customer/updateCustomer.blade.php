@@ -76,10 +76,11 @@
                     </div>
                     <div class="form-group">
                         <label>{{ __('Sales') }}<code>*</code></label>
-                        <select class="form-control select2 @error('sales') is-invalid @enderror" name="sales" required>
-                            @foreach ($sales as $s)
-                            <option value="{{ $s->id }}" {{ $customer->sales_id == $s->id ? 'selected' : '' }}>
-                                {{ $s->name." - ".$s->code }}
+                        <select class="form-control select2 @error('marketer') is-invalid @enderror" name="marketer"
+                            required>
+                            @foreach ($marketer as $m)
+                            <option value="{{ $m->id }}" {{ $customer->sales_id == $m->id ? 'selected' : '' }}>
+                                {{ $m->name." - ".$m->code }}
                             </option>
                             @endforeach
                         </select>

@@ -63,17 +63,32 @@
                         class="fas fa-exchange-alt"></i><span>{{ __('Pembelian') }}</span></a>
                 <ul class="dropdown-menu" style="display: none;">
                     <li class="{{ Request::route()->getName() == 'purchase.index' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Daftar Pembelian') }}</a>
+                        <a class="nav-link" href="{{ route('purchase.index') }}">{{ __('Semua Pembelian') }}</a>
                     </li>
                     <li class="{{ Request::route()->getName() == 'purchase.create' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('purchase.create') }}">{{ __('Tambah Pembelian') }}</a>
                     </li>
                 </ul>
             </li>
-            <li class="{{ Request::route()->getName() == 'sales.index' ? 'active' : (
-                Request::route()->getName() == 'sales.create' ? 'active' : '') }}">
-                <a class="nav-link" href="{{ route('sales.index') }}"><i class="fas fa-exchange-alt"></i>
-                    <span>{{ __('Penjualan') }}</span></a>
+            <li class="dropdown {{ Request::route()->getName() == 'sales.index' ? 'active' : (
+                Request::route()->getName() == 'sales.create' ? 'active' : (
+                    Request::route()->getName() == 'sales.show' ? 'active' : '')) }}">
+                <a href="javascript:void(0)" class="nav-link has-dropdown"><i
+                        class="fas fa-exchange-alt"></i><span>{{ __('Penjualan') }}</span></a>
+                <ul class="dropdown-menu" style="display: none;">
+                    <li class="{{ Request::route()->getName() == 'sales.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('sales.index') }}">{{ __('Semua Penjualan') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'sales.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('sales.create') }}">{{ __('Tambah Penjualan') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'sales.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('sales.create') }}">{{ __('Daftar Penawaran') }}</a>
+                    </li>
+                    <li class="{{ Request::route()->getName() == 'sales.create' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('sales.create') }}">{{ __('Daftar Retur Jual') }}</a>
+                    </li>
+                </ul>
             </li>
             <li class="menu-header">{{ __('Lainnya') }}</li>
             <li class="{{ Request::route()->getName() == 'report.index' ? 'active' : '' }}">

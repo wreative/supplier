@@ -72,14 +72,15 @@
                     </div>
                     <div class="form-group">
                         <label>{{ __('Sales') }}<code>*</code></label>
-                        <select class="form-control select2 @error('sales') is-invalid @enderror" name="sales" required>
-                            @foreach ($sales as $s)
-                            <option value="{{ $s->id }}">
-                                {{ $s->name." - ".$s->code }}
+                        <select class="form-control select2 @error('marketer') is-invalid @enderror" name="marketer"
+                            required>
+                            @foreach ($marketer as $m)
+                            <option value="{{ $m->id }}">
+                                {{ $m->name." - ".$m->code }}
                             </option>
                             @endforeach
                         </select>
-                        @error('sales')
+                        @error('marketer')
                         <span class="text-danger" role="alert">
                             {{ $message }}
                         </span>

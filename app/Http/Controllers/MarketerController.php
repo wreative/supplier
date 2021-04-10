@@ -27,31 +27,35 @@ class MarketerController extends Controller
     public function index()
     {
         $sales = Marketer::all();
-        return view('pages.master.sales.sales', ['sales' => $sales]);
+        return view('pages.data.marketer.indexMarketer', ['sales' => $sales]);
     }
 
     public function create()
     {
-        $code = "SA-" . str_pad($this->PublicController->getRandom('marketer'), 5, '0', STR_PAD_LEFT);
         $sales = Marketer::all();
-        return view('pages.master.sales.createSales', ['code' => $code, 'sales' => $sales]);
+        return view('pages.data.marketer.indexMarketer', [
+            'code' => $this->generateCode(), 'sales' => $sales
+        ]);
     }
 
     public function store(Request $req)
     {
         $this->validate($req, [
-            'code' => 'required',
+            // 'code' => 'required',
             'name' => 'required',
             'tlp' => 'required',
         ]);
 
+        $code = $req->code == null ? $this->generateCode() : $req->code;
+
         Marketer::create([
             'name' => $req->name,
-            'code' => $req->code,
+            'code' => $code,
             'tlp' => $req->tlp,
         ]);
 
-        return Redirect::route('marketer.index');
+        return $req->code == null ? Redirect::route('sales.create')
+            : Redirect::route('marketer.index');
     }
 
     public function destroy($id)
@@ -65,7 +69,7 @@ class MarketerController extends Controller
     public function edit($id)
     {
         $sales = Marketer::find($id);
-        return view('pages.master.sales.updateSales', ['sales' => $sales]);
+        return view('pages.data.marketer.updateMarketer', ['sales' => $sales]);
     }
 
     public function update($id, Request $req)
@@ -86,5 +90,11 @@ class MarketerController extends Controller
         // Saved Datas
         $sales->save();
         return Redirect::route('marketer.index');
+    }
+
+    function generateCode()
+    {
+        $code = "SA-" . str_pad($this->PublicController->getRandom('marketer'), 5, '0', STR_PAD_LEFT);
+        return $code;
     }
 }

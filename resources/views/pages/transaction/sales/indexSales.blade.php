@@ -1,9 +1,8 @@
 @extends('layouts.default')
 @section('title', __('pages.title').__(' | Master Penjualan'))
 @section('titleContent', __('Penjualan'))
-@section('breadcrumb', __('Master'))
+@section('breadcrumb', __('Transaksi'))
 @section('morebreadcrumb')
-<div class="breadcrumb-item active">{{ __('Transaksi') }}</div>
 <div class="breadcrumb-item active">{{ __('Penjualan') }}</div>
 @endsection
 

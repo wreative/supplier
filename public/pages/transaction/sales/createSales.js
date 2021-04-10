@@ -167,6 +167,36 @@ function getItems() {
     });
 }
 
+$("#marketer").fireModal({
+    body: $("#modal-marketer"),
+    center: true,
+    title: "Tambah Data Sales",
+    size: "modal-lg",
+    buttons: [
+        {
+            text: "Tambah",
+            submit: true,
+            class: "btn btn-primary btn-shadow",
+            handler: function() {}
+        }
+    ]
+});
+
+$("#customer").fireModal({
+    body: $("#modal-customer"),
+    center: true,
+    title: "Tambah Data Customer",
+    size: "modal-lg",
+    buttons: [
+        {
+            text: "Tambah",
+            submit: true,
+            class: "btn btn-primary btn-shadow",
+            handler: function() {}
+        }
+    ]
+});
+
 $("#items").on("select2:select", function(e) {
     let data = e.params.data.id;
     $.ajax({
